@@ -6,11 +6,10 @@ import seaborn as sns
 
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
-cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
 ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
+pkl_path=os.path.join(ris_folder, 'analysis_df.pkl')
 df = pd.read_pickle(pkl_path)
 #colonne con distribuzioni a coda
 colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico','offshore', 'gdp','gdp_pro_capite', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']

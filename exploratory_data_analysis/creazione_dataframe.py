@@ -173,30 +173,41 @@ def etichettatura(valore, soglie, etichette):
     if valore >= soglie[-1]:
         return etichette[-1]
 
-#soglie e nome etichette per densita popolazione, solar power e gdp procapite
+#soglie e nome etichette per solar power e gdp procapite
 soglie_den=[50,350]
 soglie_solar=[3.5,4.5]
-soglie_gdp=[1036, 4045, 12535]
-#divido le soglie per il tasso di inflazione cumulato del dollaro usa nel periodo 17/20 pari a circa 5.5%
-#le soglie sono in dollari 2020, i miei dati sono riferiti al 2020 ma in dollari 2017
-infl=1.0549
-soglie_gdp=[elemento/infl for elemento in soglie_gdp]
-etichette=['XS','S','M','L']
-df['Densità_pop_etichetta']=df['Densità_pop'].apply(etichettatura, args=(soglie_den, etichette[1:]))
-for etic in etichette[1:]:
+etichette=['S','M','L']
+df['Densità_pop_etichetta']=df['Densità_pop'].apply(etichettatura, args=(soglie_den, etichette))
+for etic in etichette:
     leng=len(df[(df['Densità_pop_etichetta']==etic)])
     print(f'Ci sono {leng} isole con etichetta {etic} per la densità abitativa')
 print(' ')
-df['Solar_etichetta']=df['solar_pow'].apply(etichettatura, args=(soglie_solar, etichette[1:]))
-for etic in etichette[1:]:
+df['Solar_etichetta']=df['solar_pow'].apply(etichettatura, args=(soglie_solar, etichette))
+for etic in etichette:
     leng=len(df[(df['Solar_etichetta']==etic)])
     print(f'Ci sono {leng} isole con etichetta {etic} per la potenza solare')
 print(' ')
-df['GDP_procap_etichetta']=df['gdp_pro_capite'].apply(etichettatura, args=(soglie_gdp, etichette))
-for etic in etichette:
-    leng=len(df[(df['GDP_procap_etichetta']==etic)])
-    print(f'Ci sono {leng} isole con etichetta {etic} per il GDP pro capite')
+
+#etichette sviluppo economico
+soglie_gdp=[2518, 4455, 5498, 12467, 16360, 33560]
+#https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD?end=2022&locations=XD&most_recent_value_desc=false&start=1990
+#ppp 2021
+#https://ourworldindata.org/international-dollars
+#international dollars
+#https://blogs.worldbank.org/en/opendata/world-bank-country-classifications-by-income-level-for-2024-2025
+#world bank che non va bene
+#https://www.statista.com/statistics/256598/global-inflation-rate-compared-to-previous-year/
+#inflazione mondiale 17-21 10,7%
+infl=1.107
+soglie_gdp=[elemento/infl for elemento in soglie_gdp]
+etichette_gdp=['l','l-lm','lm','lm-lu','lm-lu-h','lu-h','h']
+df['GDP_procap_etichetta']=df['gdp_pro_capite'].apply(etichettatura, args=(soglie_gdp, etichette_gdp))
+for i in range(len(soglie_gdp)-1):
+    leng=len(df[(df['gdp_pro_capite']>=soglie_gdp[i]) & (df['gdp_pro_capite']<soglie_gdp[i+1])])
+    print(f'Ci sono {leng} isole con etichetta/e {etichette_gdp[i]} per il GDP pro capite')
 print(' ')
+
+#etichette vento
 soglie_wind_power=[100, 150, 200, 250, 300, 400]
 wind_classes=[1,2,3,4,5,6,7]
 soglie_wind_cubo=nuova_lista = [elemento / 1.225 for elemento in soglie_wind_power]
@@ -205,37 +216,43 @@ for classe in wind_classes:
     leng=len(df[(df['Wind_class']==classe)])
     print(f'Ci sono {leng} isole con classe di vento {classe}')
 print(' ')
+
+#isole senza superficie per le rinnovabili
 df['NO_res'] = np.where(df['superficie_res'] == 0, 1, 0)
 leng=len(df[(df['NO_res']==1)])
 print(f'Ci sono {leng} isole con senza superficie agibile per rinnovabili')
 
+#esportazione
 output_folder = os.path.join(cartella_corrente, 'risultati')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analisys_df.pkl')
+output_path = os.path.join(output_folder, 'analysis_df.pkl')
 df.to_pickle(output_path)
 
-#{'evi': [0, 0], 'eolico': [0, 0], 'gdp': [0, 0], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [24, 0]}
+#{'evi': [0, 0], 'eolico': [0, 0], 'gdp': [93, 0], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [24, 0]}
 #le isole non completamente coperte dal file sul solare sono 75
 #tutte le isole sono 3132
-#le isole con dati completi sono 2816
+#le isole con dati completi sono 2736
 #
-#Ci sono 1158 isole con etichetta S per la densità abitativa
-#Ci sono 1284 isole con etichetta M per la densità abitativa
-#Ci sono 374 isole con etichetta L per la densità abitativa
+#Ci sono 1149 isole con etichetta S per la densità abitativa
+#Ci sono 1248 isole con etichetta M per la densità abitativa
+#Ci sono 339 isole con etichetta L per la densità abitativa
 #
-#Ci sono 506 isole con etichetta S per la potenza solare
-#Ci sono 1906 isole con etichetta M per la potenza solare
-#Ci sono 404 isole con etichetta L per la potenza solare
+#Ci sono 501 isole con etichetta S per la potenza solare
+#Ci sono 1832 isole con etichetta M per la potenza solare
+#Ci sono 403 isole con etichetta L per la potenza solare
 #
-#Ci sono 232 isole con etichetta XS per il GDP pro capite
-#Ci sono 523 isole con etichetta S per il GDP pro capite
-#Ci sono 818 isole con etichetta M per il GDP pro capite
-#Ci sono 1243 isole con etichetta L per il GDP pro capite
+#Ci sono 297 isole con etichetta/e l per il GDP pro capite
+#Ci sono 106 isole con etichetta/e l-lm per il GDP pro capite
+#Ci sono 624 isole con etichetta/e lm per il GDP pro capite
+#Ci sono 128 isole con etichetta/e lm-lu per il GDP pro capite
+#Ci sono 500 isole con etichetta/e lm-lu-h per il GDP pro capite
 #
-#Ci sono 1035 isole con classe di vento 1
-#Ci sono 342 isole con classe di vento 2
+#Ci sono 1006 isole con classe di vento 1
+#Ci sono 341 isole con classe di vento 2
 #Ci sono 252 isole con classe di vento 3
-#Ci sono 204 isole con classe di vento 4
-#Ci sono 167 isole con classe di vento 5
-#Ci sono 271 isole con classe di vento 6
-#Ci sono 545 isole con classe di vento 7
+#Ci sono 195 isole con classe di vento 4
+#Ci sono 155 isole con classe di vento 5
+#Ci sono 265 isole con classe di vento 6
+#Ci sono 522 isole con classe di vento 7
+#
+#Ci sono 66 isole con senza superficie agibile per rinnovabili
