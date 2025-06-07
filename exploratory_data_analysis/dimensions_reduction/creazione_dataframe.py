@@ -4,7 +4,6 @@ import pickle
 import os
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import PowerTransformer
 
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
