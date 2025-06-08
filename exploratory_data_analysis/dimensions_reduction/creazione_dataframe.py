@@ -10,7 +10,7 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
 folder_path = os.path.join(cartella_corrente, "../raw/risultati")
-pkl_path = os.path.join(folder_path, "analysis_df.pkl")
+pkl_path = os.path.join(folder_path, "analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 
 # X: dataframe con le 3 variabili da unire
@@ -28,5 +28,5 @@ df=df.drop(columns=['hdd','cdd','prec','ele_max', 'gdp','Popolazione', 'urban_ar
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'risultati')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analysis_df.pkl')
+output_path = os.path.join(output_folder, 'analisys_df.pkl')
 df.to_pickle(output_path)

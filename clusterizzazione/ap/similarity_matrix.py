@@ -12,7 +12,6 @@ cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 #importo il dataframe e i vincoli
 pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/normalization/risultati/analysis_df.pkl")
 df = pd.read_pickle(pkl_path)
-df = df.reset_index(drop=True)
 
 pkl_path = os.path.join(cartella_corrente, 'preparazione', 'must_link.pkl')
 ml = pickle.load(open(pkl_path, 'rb'))

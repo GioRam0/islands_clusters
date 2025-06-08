@@ -228,10 +228,13 @@ df['NO_res'] = np.where(df['superficie_res'] == 0, 1, 0)
 leng=len(df[(df['NO_res']==1)])
 print(f'Ci sono {leng} isole con senza superficie agibile per rinnovabili')
 
+#resetto gli indici a causa degli elementi saltati
+df = df.reset_index(drop=True)
+
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'risultati')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analysis_df.pkl')
+output_path = os.path.join(output_folder, 'analisys_df.pkl')
 df.to_pickle(output_path)
 
 #{'evi': [0, 0], 'eolico': [0, 0], 'gdp': [93, 0], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [24, 0]}

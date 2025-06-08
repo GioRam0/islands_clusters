@@ -15,8 +15,6 @@ df = pd.read_pickle(pkl_path)
 pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/dimensions_reduction/risultati/analysis_df.pkl")
 df1 = pd.read_pickle(pkl_path)
 df['gdp_pop_urban_merged'] = df1['gdp_pop_urban_merged']
-#rimetto gli indici in ordine, alcuni sono stati eliminati
-df = df.reset_index(drop=True)
 
 #stima dei consumi energetici
 consumi={"l": 1226,
