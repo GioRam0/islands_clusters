@@ -9,7 +9,7 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/raw/risultati/analysis_df.pkl")
+pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/raw/risultati/analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 #importo la colonna che unifica gdp, popolazione e urbanizzazione
 pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/dimensions_reduction/risultati/analysis_df.pkl")

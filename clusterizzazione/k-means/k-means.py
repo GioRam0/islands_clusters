@@ -11,7 +11,7 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/risultati/analysis_df.pkl")
+pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/risultati/analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 colonne_norm=['evi', 'temp', 'prec', 'solar_pow']
 colonne_log=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico', 'offshore', 'gdp', 'gdp_pro_capite', 'geothermal_potential', 'hydro', 'urban_area', 'ele_max']

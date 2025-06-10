@@ -17,9 +17,9 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/normalization/risultati/analisys_df.pkl")
+pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/normalization/risultati/analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/dimensions_reduction/risultati/analisys_df.pkl")
+pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/dimensions_reduction/risultati/analisys_df.pkl")
 df2 = pd.read_pickle(pkl_path)
 
 colonne_da_includere=['solar_pow', 'eolico', 'offshore', 'geothermal_potential', 'hydro']
