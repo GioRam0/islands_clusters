@@ -12,7 +12,7 @@ cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/raw/risultati/analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 #importo la colonna che unifica gdp, popolazione e urbanizzazione
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analysis/dimensions_reduction/risultati/analysis_df.pkl")
+pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/dimensions_reduction/risultati/analisys_df.pkl")
 df1 = pd.read_pickle(pkl_path)
 df['gdp_pop_urban_merged'] = df1['gdp_pop_urban_merged']
 

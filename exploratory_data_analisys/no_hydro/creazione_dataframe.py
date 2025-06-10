@@ -8,7 +8,7 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
 folder_path = os.path.join(cartella_corrente, "../risultati")
-pkl_path = os.path.join(folder_path, "analysis_df.pkl")
+pkl_path = os.path.join(folder_path, "analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 
 #creo una colonna con una stima dei consumi complessivi considerando sviluppo economico e popolazione
@@ -50,7 +50,7 @@ df2=df2.drop(columns=['consumption'])
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'risultati')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analysis_df.pkl')
+output_path = os.path.join(output_folder, 'analisys_df.pkl')
 df1.to_pickle(output_path)
 output_path = os.path.join(output_folder, 'hydro_islands_df.pkl')
 df2.to_pickle(output_path)
