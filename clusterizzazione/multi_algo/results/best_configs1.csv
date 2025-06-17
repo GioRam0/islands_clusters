@@ -1,0 +1,2 @@
+algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
+Birch,"{'threshold': 0.5, 'branching_factor': 10}",0.24518333137592696,680.0695965239356,1.392405216003979,,5,"{""branching_factor"": 10, ""threshold"": 0.5}","('Birch', 5, '{""branching_factor"": 10, ""threshold"": 0.5}')"

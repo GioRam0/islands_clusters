@@ -22,8 +22,10 @@ print(f'varianza spiegata dalla prima componente {pca.explained_variance_ratio_}
 df['gdp_pop_urban_merged']=X_pca
 #varianza spiegata dalla prima componente [0.87127166]
 
+#considero superficie e superficie res in unico parametro
+df['superficie_res']=(df['superficie_res']/100)*df['IslandArea']
 #colonne non rilevanti per la clusterizzazione
-df=df.drop(columns=['hdd','cdd','prec','ele_max', 'gdp','Popolazione', 'urban_area', 'urban_area_rel'])
+df=df.drop(columns=['hdd','cdd','prec','ele_max', 'gdp','Popolazione', 'urban_area', 'urban_area_rel','IslandArea'])
 
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'risultati')

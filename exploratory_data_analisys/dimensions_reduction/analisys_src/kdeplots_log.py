@@ -12,7 +12,7 @@ ris_folder = os.path.join(cartella_corrente, "..", "risultati")
 pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
 df = pd.read_pickle(pkl_path)
 #colonne con distribuzioni a coda
-colonne_code=['IslandArea', 'Densità_pop', 'offshore', 'geothermal_potential', 'gdp_pop_urban_merged', 'hydro', 'solar_seas_ind']
+colonne_code=['superficie_res', 'Densità_pop', 'offshore', 'geothermal_potential', 'gdp_pop_urban_merged', 'hydro', 'solar_seas_ind']
 
 #creo ed esporto i kdeplot
 output_folder = os.path.join(ris_folder, "kde_plots")

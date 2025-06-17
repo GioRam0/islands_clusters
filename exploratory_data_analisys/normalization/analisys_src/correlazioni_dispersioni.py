@@ -31,7 +31,7 @@ plt.savefig(output_path)
 plt.close()
 
 #creo ed esporto i grafici a dipersione per alcune features
-colonne_dispersioni=['IslandArea', 'Densità_pop', 'eolico', 'gdp_pro_capite', 'temp', 'solar_pow', 'gdp_pop_urban_merged']
+colonne_dispersioni=['superficie_res', 'Densità_pop', 'eolico', 'gdp_pro_capite', 'temp', 'solar_pow', 'gdp_pop_urban_merged']
 plt.figure(figsize=(30, 30))
 sns.pairplot(df[colonne_dispersioni].select_dtypes(include='number'))
 output_path=os.path.join(output_folder,'pairplot_gdp.png')

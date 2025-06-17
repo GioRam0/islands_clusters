@@ -19,7 +19,7 @@ colonne_da_includere = [col for col in df.columns if col not in colonne_da_esclu
 descr=df[colonne_da_includere].select_dtypes(include='number').describe()
 
 #seleziono le features da me ritenute principali e calcolo l'importanza delle altre
-target_features=['IslandArea', 'solar_pow', 'eolico', 'gdp_pop_urban_merged']
+target_features=['superficie_res', 'solar_pow', 'eolico', 'gdp_pop_urban_merged']
 output_folder = os.path.join(ris_folder, "importanza")
 os.makedirs(output_folder, exist_ok=True)
 

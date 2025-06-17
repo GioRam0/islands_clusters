@@ -15,15 +15,12 @@ folder_path = os.path.join(cartella_corrente, "../dimensions_reduction/risultati
 pkl_path = os.path.join(folder_path, "analisys_df.pkl")
 df = pd.read_pickle(pkl_path)
 
-#il suo valore minimo è 3, lo porto a 0
-df['IslandArea'] = df['IslandArea']-3
-
 standscaler=StandardScaler(with_mean=False)
 #solar applico standardscaler
 df['solar_pow']=standscaler.fit_transform(df[['solar_pow']])
 
 #features cui applicare solo robustscaler
-robust_features = ['temp', 'superficie_res', 'eolico_std', 'evi']
+robust_features = ['temp', 'eolico_std', 'evi']
 robscaler=RobustScaler()
 for col in robust_features:
     df[col]=robscaler.fit_transform(df[[col]])
@@ -45,7 +42,7 @@ yeo_pipeline = Pipeline([
 df['eolico'] = yeo_pipeline.fit_transform(df[['eolico']])
 
 #features cui applicare log1p e robustscaler
-log_robust_features = ['IslandArea', 'Densità_pop', 'solar_seas_ind']
+log_robust_features = ['superficie_res', 'Densità_pop', 'solar_seas_ind']
 log_pipeline = Pipeline([
         ('log_transformer', FunctionTransformer(np.log1p, validate=True)),
         ('robust_scaler', robscaler)

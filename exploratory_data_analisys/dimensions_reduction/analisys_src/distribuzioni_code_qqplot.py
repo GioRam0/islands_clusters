@@ -14,7 +14,7 @@ pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
 output_folder = os.path.join(ris_folder, f"qq_plot_distri_coda")
 os.makedirs(output_folder, exist_ok=True)
 df = pd.read_pickle(pkl_path)
-colonne=['IslandArea', 'Densità_pop', 'eolico', 'offshore', 'gdp_pro_capite', 'geothermal_potential', 'gdp_pop_urban_merged', 'hydro', 'solar_seas_ind']
+colonne=['superficie_res', 'Densità_pop', 'eolico', 'offshore', 'gdp_pro_capite', 'geothermal_potential', 'gdp_pop_urban_merged', 'hydro', 'solar_seas_ind']
 distributions = {
     'Esponenziale': stats.expon,
     'Gamma': stats.gamma,

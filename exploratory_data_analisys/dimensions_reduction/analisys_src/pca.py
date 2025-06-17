@@ -33,6 +33,6 @@ for j in range(2,5):
     output_path = os.path.join(output_folder, f'analisys_df_{j}_components.pkl')
     df_pca.to_pickle(output_path)
 
-#Il modello spiega questa quota di varianza: [0.232874   0.14818397]
-#Il modello spiega questa quota di varianza: [0.232874   0.14818397 0.0994251 ]
-#Il modello spiega questa quota di varianza: [0.232874   0.14818397 0.0994251  0.0816914 ]
+#Il modello spiega questa quota di varianza: [0.25060653 0.13187527]
+#Il modello spiega questa quota di varianza: [0.25060653 0.13187527 0.09569526]
+#Il modello spiega questa quota di varianza: [0.25060653 0.13187527 0.09569526 0.08905047]
