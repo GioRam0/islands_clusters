@@ -1,0 +1,2 @@
+algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
+SpectralClustering,"{'affinity': 'rbf', 'assign_labels': 'discretize'}",0.3486932447662794,858.0183984685432,0.9362695023240803,42.0,5,"{""affinity"": ""rbf"", ""assign_labels"": ""discretize""}","('SpectralClustering', 5, '{""affinity"": ""rbf"", ""assign_labels"": ""discretize""}')"

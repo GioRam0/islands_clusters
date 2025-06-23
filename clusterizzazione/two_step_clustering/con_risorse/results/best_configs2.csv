@@ -1,0 +1,2 @@
+algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
+AgglomerativeClustering,"{'linkage': 'single', 'metric': 'euclidean'}",0.3978418012669666,211.73786854062422,0.7928036329787286,,6,"{""linkage"": ""single"", ""metric"": ""euclidean""}","('AgglomerativeClustering', 6, '{""linkage"": ""single"", ""metric"": ""euclidean""}')"
