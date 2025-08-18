@@ -11,7 +11,7 @@ exploratory_data_analisys/1-raw/results
 exploratory_data_analisys/2-dimensions_reduction/results
 exploratory_data_analisys/3-normalization/results
 
-clusterizzazione/multi_algo/results
+clusterizzazione/multi_algo
 clusterizzazione/pipeline_finale/hopkins_stats
 clusterizzazione/pipeline_finale/kdeplots
 clusterizzazione/pipeline_finale/optimal_clust
