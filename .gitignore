@@ -7,9 +7,9 @@ data/isole_escluse
 
 src_data/1-files/downloaded_files.pkl/
 
-exploratory_data_analisys/1-raw/risultati
-exploratory_data_analisys/2-dimensions_reduction/risultati
-exploratory_data_analisys/3-normalization/risultati
+exploratory_data_analisys/1-raw/results
+exploratory_data_analisys/2-dimensions_reduction/results
+exploratory_data_analisys/3-normalization/results
 
 clusterizzazione/multi_algo/results
 clusterizzazione/pipeline_finale/hopkins_stats
