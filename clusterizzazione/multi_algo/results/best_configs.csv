@@ -1,2 +1,0 @@
-algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
-KMeans,"{'init': 'k-means++', 'algorithm': 'lloyd'}",0.19827278303113446,705.5887464109506,1.3699622897927368,5055.0,7,"{""algorithm"": ""lloyd"", ""init"": ""k-means++""}","('KMeans', 7, '{""algorithm"": ""lloyd"", ""init"": ""k-means++""}')"
