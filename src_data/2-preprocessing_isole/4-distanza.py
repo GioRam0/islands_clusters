@@ -37,9 +37,7 @@ def buffer_isl(multi):
 #itero per le isole e creo i buffers
 print(f'{len(gdf)} isole totali')
 for k,(i,isl) in enumerate(gdf.iterrows(), 1):
-    if k%100==0:
-        print(f'{k} isole svolte')
-    if k==len(gdf):
+    if k%100==0 or k==len(gdf):
         print(f'{k} isole svolte')
     buffer=buffer_isl(gdf.loc[i,'geometry'])
     #controllo che l'isola non abbia sforato i confini del globo con l'operazione di buffer, in caso eseguo il buffer direttamente in wsg:4326
@@ -50,8 +48,8 @@ for k,(i,isl) in enumerate(gdf.iterrows(), 1):
 
 #creo l'oggetto idx per facilitare la ricerca delle intersezioni
 idx = index.Index()
-for i, geom in enumerate(gdf.geometry):
-    idx.insert(i, geom.bounds)
+for i, isl in gdf.iterrows():
+    idx.insert(i, isl.geometry.bounds)
 
 #importo le placche continentali
 percorso_file = os.path.join(cartella_progetto, "files", "continents.gpkg")
@@ -65,26 +63,23 @@ for k,(i,cont) in enumerate(gdf1.iterrows(),1):
     candidati=list(idx.intersection(cont.geometry.bounds))
     print(f'placca continentale {k}')
     print(f'isole da controllare: {len(candidati)}')
-    h=0
-    for cand in candidati:
-        if h%100==0:
+    for h, cand in enumerate(candidati, 1):
+        if h % 100 == 0 or h == (len(candidati)):
             print(f'{h} isole controllate')
-        if h==(len(candidati)-1):
-            print(f'{h+1} isole controllate')
-        h+=1
-        geom=gdf.loc[cand].geometry
+        geom = gdf.loc[cand].geometry
         rect = box(geom.bounds[0], geom.bounds[1], geom.bounds[2], geom.bounds[3])
         #prima controllo che il rettangolo contenente l'isola intersechi il continente, operazione piu semplice
         #se non si intersecano non controllo nemmeno l'interszione della geometria vera e propria
         if rect.intersects(cont.geometry):
+            #se intersecano elimino l'isola dal geodataframe e dall'indice
             if geom.intersects(cont.geometry):
-                j+=1
+                j += 1
                 idx.delete(cand, gdf.loc[cand].geometry.bounds)
-                gdf=gdf.drop(cand)
+                gdf = gdf.drop(cand)
 print(f'isole troppo vicine ai continenti: {j}')
 print(f'isole rimanenti dopo il filtro: {len(gdf)}')
 
-#importo le isole escluse per dimensioni eccessive
+#importo le isole escluse per dimensioni eccessive e ripeto il filtro
 percorso_file = os.path.join(cartella_progetto, "data/isole_escluse", "isole_grandi.gpkg")
 gdf1 = gp.read_file(percorso_file)
 #itero per queste isole
@@ -92,9 +87,7 @@ print(f'itero per le {len(gdf1)} isole escluse in quanto troppo grandi')
 #contatore isole escluse
 j=0
 for k,(i,isl) in enumerate(gdf1.iterrows(), 1):
-    if k%5==0:
-        print(f'{k} isole escluse controllate')
-    if k==(len(gdf1)):
+    if k%5==0 or k==len(gdf1):
         print(f'{k} isole escluse controllate')
     candidati=list(idx.intersection(isl.geometry.bounds))
     for cand in candidati:
@@ -106,7 +99,7 @@ for k,(i,isl) in enumerate(gdf1.iterrows(), 1):
 print(f'isole troppo vicine a queste isole escluse: {j}')
 print(f'isole rimanenti dopo il filtro: {len(gdf)}')
 
-#importo le isole escluse per popolazione eccessiva
+#importo le isole escluse per popolazione eccessiva e ripeto il filtro
 percorso_file = os.path.join(cartella_progetto, "data/isole_escluse", "isole_popolate.gpkg")
 gdf1 = gp.read_file(percorso_file)
 #itero per queste isole
@@ -114,9 +107,7 @@ print(f'itero per le {len(gdf1)} isole escluse in quanto troppo popolate')
 #contatore isole escluse
 j=0
 for k,(i,isl) in enumerate(gdf1.iterrows(), 1):
-    if k%10==0:
-        print(f'{k} isole escluse controllate')
-    if k==(len(gdf1)):
+    if k%10==0 or k==len(gdf1):
         print(f'{k} isole escluse controllate')
     candidati=list(idx.intersection(isl.geometry.bounds))
     for cand in candidati:

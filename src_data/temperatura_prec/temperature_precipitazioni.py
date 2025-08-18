@@ -95,6 +95,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             pickle.dump(prec_nodata, f)
     codice=isl.ALL_Uniq
     if codice not in temp:
+        #converto la geometry in una ee.Geometry
         multipoli=isl.geometry
         multip_list = [
             [list(vertice) for vertice in poligono.exterior.coords]
@@ -102,6 +103,8 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
         ]
         multip_geo = ee.Geometry.MultiPolygon(multip_list)
         collection=dataset.filterBounds(multip_geo)
+
+        #mappo le funzioni media sulla collection (sia per temperatura che per precipitazioni)
         temp_means = collection.map(mean_temp)
         mean_list1 = temp_means.aggregate_array("mean_temp").getInfo()
         if mean_list1==[]:

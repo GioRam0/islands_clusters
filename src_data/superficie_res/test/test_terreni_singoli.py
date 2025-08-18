@@ -36,7 +36,7 @@ for h in range(len(excluded_values)):
 #itero per le isole
 for k, (i, isl) in enumerate(gdf.iterrows(), 1):
     #per le isole grandi estraendo le singole geometrie i tempi si dilatano, con la maschera unica come nello script reale riesce ad andare
-    if (k-1)%10==0 and k<2950 and k>801 and k<818:
+    if (k-1)%10==0:
         print(f'{k-1} indice')
         print(f'{isl.IslandArea} area df')
         #geometeria dell'isola, conversione in ee.geometry e calcolo dell'area
@@ -76,7 +76,6 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             ee_geometry_terr_agibili=ee_geometry_original.difference(lc_geometry, ee.ErrorMargin(1))
             area1=ee_geometry_terr_agibili.dissolve().area().getInfo()
             gdf.loc[i,f'terreni {j}']=area1/area0
-
     else:
         gdf=gdf.drop(i)
 

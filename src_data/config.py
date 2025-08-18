@@ -23,6 +23,8 @@ FILES = {
     "1qsgUlsm59KkYEHF7TsxG6uTS238pbaow" : "PVOUT_10.tif" ,
     "1GTE2H6kvDdvoyWFfkp_w9k6kSQabsXEb" : "PVOUT_11.tif" ,
     "1ohBmGbiNdufaF_iB4NzUN45F4Vad3RZq" : "PVOUT_12.tif" ,
+    "1Ce3a25PpPx-riLMh42axtTzvVZkpCUR_" : "EC2019.tif",
+    "1UKec_gnsHnhGbo3xoLP3ncesw2V86B83" : "2019GDP.tif",
     "1yGvsjGSuHVJkaosxZWKzS-5Dm4CxElhz" : "adm2_gdp_percapita_no_continents.gpkg",
     "1oEDpwVb3dAGTlHuzooXkSuUWWVQYBY3A" : "hydro.gpkg",
     "1ZUEKfhvKRuxEF3TmUEfDpkABSr30tsJs" : ["eap","FixedFoundation.cpg"],

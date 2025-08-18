@@ -104,6 +104,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
                 scale = ele_clip.projection().nominalScale().getInfo()
                 ee_geometry=ee_geometry_original
                 if e_max>2000:
+                    #calcolo la maschera dei pixel con elevazione maggiore di 2000
                     ele_mask=ele_clip.gt(2000)
                     vectors_ele = ele_mask.selfMask().reduceToVectors(
                         geometry=ele_mask.geometry(),
@@ -174,7 +175,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             )
             #estraggo la geometria
             lc_geometry=vectors.union(ee.ErrorMargin(1)).geometry()
-            #per isole grandi calcolo l'area della parte eliminabile e la sottraggo all'area precedente, l'approssimazione per le isole grandi è meno rilevante 
+            #per isole grandi calcolo l'area della parte eliminabile e la sottraggo all'area precedente, l'approssimazione rispetto al metodo applicato successivamente per le isole grandi è meno rilevante 
             if isl.IslandArea>2000:
                 area_eliminabile=lc_geometry.area().getInfo()
                 area_finale=max(area-area_eliminabile,0)

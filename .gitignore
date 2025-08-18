@@ -1,9 +1,22 @@
 venv/
+
+files/
+
 data/isole_filtrate
 data/isole_escluse
-files/
-src/1-files/downloaded_files.pkl/
-varie/
+
+src_data/1-files/downloaded_files.pkl/
+
+exploratory_data_analisys/1-raw/risultati
+exploratory_data_analisys/2-dimensions_reduction/risultati
+exploratory_data_analisys/3-normalization/risultati
+
+clusterizzazione/multi_algo/results
+clusterizzazione/pipeline_finale/hopkins_stats
+clusterizzazione/pipeline_finale/kdeplots
+clusterizzazione/pipeline_finale/optimal_clust
+clusterizzazione/pipeline_finale/tsne_visualizations
+clusterizzazione/pipeline_finale/tsne_visualizations_colors
 
 __pycache__/
 **/.DS_Store

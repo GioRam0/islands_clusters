@@ -114,6 +114,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             cdd[codice]=np.nan
             cdd_nodata[codice]=1
         else:
+            #contatori degli hdd e cdd
             k1=0
             k2=0
             for i in range(len(mean_list)):

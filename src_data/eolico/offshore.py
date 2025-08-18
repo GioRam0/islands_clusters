@@ -244,6 +244,7 @@ def funzione(stringa):
                     rapporto=isl_pixels/total_pixels
                     offshore[codice]+=pot_isole*rapporto
 
+#stringhe dei nomi dei files .shp da analizzare
 shape_files=["eap\FixedFoundation.shp",
             "eap\FloatingFoundation.shp",          
             "eca\FixedFoundation.shp",

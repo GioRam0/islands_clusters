@@ -131,9 +131,7 @@ for name, algo in algorithms.items():
             n=max(labels+1)
             results_creation(name, n, labels)
 
-print(results)
-
-# Ordina i risultati per ciascuna metrica e mostra i primi 3 algoritmi per ciascuna
+# Ordina i risultati per ciascuna metrica e mostra i primi 5 algoritmi per ciascuna
 for metric in ["silhouette_score", "calinski_harabasz_score"]:
     print(f"\nTop 5 algorithms by {metric}:")
     print(results.sort_values(by=metric, ascending=False)[["algorithm", "n_clusters", "option", metric]].head(5))

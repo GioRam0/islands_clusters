@@ -42,14 +42,13 @@ dataset=dataset.filterDate("2016-07-01", "2020-06-30")
 dataset1=dataset1.filterDate("2016-07-01", "2020-06-30")
 
 #funzione per aggiungere una banda con cubo della velocita del vento, proporzionale alla sua potenza
-#nel caso in cui viene troppo lungo faccio prima la media sul poligono e poi la elevo alla 
 def wind_power(image):
     u = image.select('u_component_of_wind_10m')
     v = image.select('v_component_of_wind_10m')
     wind_speed = u.pow(2).add(v.pow(2)).sqrt()
     wind_power = wind_speed.pow(3).rename('wind_power')
     return image.addBands(wind_power)
-#funzione per calcolare la potenza media
+#funzione per calcolare la potenza media tra i vari pixel
 def mean_power(image):
     stats = image.reduceRegion(
         reducer=ee.Reducer.mean(),
@@ -63,11 +62,11 @@ def dev_std(collection):
     for i in range(1,13):
         #seleziono solo le immagini di un mese e calcolo la potenza media
         collection_month=collection.filter(ee.Filter.calendarRange(i, i, 'month'))
-        #calcolo la media del wind_power tra i vari pixel e li listo
+        #calcolo la media di wind_power per i vari giorni e li listo
         power_means_month=collection_month.map(mean_power)
         mean_list = power_means_month.aggregate_array("mean_power").getInfo()
         power_list.append(np.mean(mean_list))
-    #calcolo la devizione standard delle potenze medie mensili
+    #calcolo la deviazione standard delle potenze medie mensili
     deviazione_standard=np.std(power_list)
     return deviazione_standard
 
@@ -130,13 +129,14 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
         #clippo le immagini per il poligono e aggiungo banda wind_power
         collection=dataset.filterBounds(multip_geo)
         power_collection=collection.map(wind_power)
-        #calcolo la media del wind_power tra i vari pixel e li listo
+        #calcolo la media del wind_power per i vari giorni e li listo
         power_means=power_collection.map(mean_power)
         mean_list = power_means.aggregate_array("mean_power").getInfo()
+        #se il dataset contiene dati per l'isola calcolo la media giornalierae la deviazione standard e aggiorno i dizionari
         if len(mean_list)>0:
             eolico[codice]=np.mean(mean_list)
             eolico_nodata[codice]=0
-            std[codice]=dev_std(power_collection)
+            std[codice]=(dev_std(power_means))/(np.mean(mean_list))
         #se l'isola non è coperta in era5-land provo con era5
         else:
             #clippo le immagini per il poligono e aggiungo banda wind_power

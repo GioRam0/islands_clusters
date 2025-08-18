@@ -29,7 +29,7 @@ for k,(index_isl, isola) in enumerate(dfisl.iterrows(), 1):
         print(f'{k} isole svolte')
     multi=isola.geometry
     codice=isola.ALL_Uniq
-    #geometria con buffer presa dalláltro dataframe
+    #geometria con buffer presa dall'altro dataframe
     buffer=dfbuf[dfbuf['ALL_Uniq'] == codice].iloc[0]['geometry']
     for index_geo, punto_geo in dfgeo.iterrows(): #itero i punti geotermici
         punto=punto_geo.geometry

@@ -18,7 +18,7 @@ gdp_gf=gp.read_file(file_path)
 gdp_gf=gdp_gf[['2022','geometry']]
 #creo un elemento idx per per facilitare le iterazioni
 idx = index.Index()
-for k,(i, row) in enumerate(gdp_gf.iterrows(),1):
+for i, row in gdp_gf.iterrows():
     bbox = row.geometry.bounds
     idx.insert(i, bbox)
 
@@ -27,7 +27,7 @@ path_pop=os.path.join(cartella_progetto, "files", "popolazione.tif")
 src = rasterio.open(path_pop)
 
 #importo coordinate isole
-file_path=os.path.join(cartella_progetto, 'data/isole_filtrate/finali', 'isole_arro4.gpkg')
+file_path=os.path.join(cartella_progetto, 'data/isole_filtrate/finali', 'isole.gpkg')
 gdf = gp.read_file(file_path)
 
 #dizionario da riempire con i codici come chiavi e gdp delle isole o booleano come valori
@@ -37,7 +37,7 @@ gdp_nodata={}
 
 #funzione per calcolare la popolazione di una geometria
 def popolazione(geometria):
-    out_image, out_transform = rasterio.mask.mask(src, [mapping(geometria)], crop=True, all_touched=True)
+    out_image, _ = rasterio.mask.mask(src, [mapping(geometria)], crop=True, all_touched=True)
     no_data_value = src.nodata
     valid_pixels = out_image[out_image != no_data_value]
     #sommo i valori dei pixel all'interno del multipoligono ottenendo la popolazione dell'isola e aggiungo il valore al dataframe
@@ -53,7 +53,7 @@ for k,(ind,isl) in enumerate(gdf.iterrows(),1):
     if k%250==0 or k==len(gdf):
         print(f'{k} isole analizzate')
     isola=isl.geometry
-    #bounds dell'isola per trovare le zone otenzialmente intersecanti
+    #bounds dell'isola per trovare le zone potenzialmente intersecanti
     bbox_isola = isola.bounds
     candidati = list(idx.intersection(bbox_isola))
     for cand in candidati:
@@ -72,7 +72,7 @@ for k,(ind,isl) in enumerate(gdf.iterrows(),1):
         gdp_pro_capite[codice]=np.nan
         gdp[codice]=np.nan
         gdp_nodata[codice]=1
-    #se piu di una zona calcolo il pil procapite dell'isola come media ponderata delle zone
+    #se piu di una zona calcolo il pil procapite dell'isola come media ponderata delle zone intersecanti
     if h>1:
         pop_zone_isole=0
         gdp_pc_isola=0
@@ -82,6 +82,7 @@ for k,(ind,isl) in enumerate(gdf.iterrows(),1):
                 pop_zone_isole+=popolazione(zona)
                 gdp_pc_isola+=gdp_gf.loc[cand,'2022']*popolazione(zona)
         gdp_pro_capite[codice]=gdp_pc_isola/pop_zone_isole
+        #pil complessivo prodotto di quello procapite per la popolazione dell'isola
         gdp[codice]=(gdp_pc_isola/pop_zone_isole)*isl.Popolazione
         gdp_nodata[codice]=0
 

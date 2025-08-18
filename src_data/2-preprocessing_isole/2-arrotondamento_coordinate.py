@@ -12,7 +12,7 @@ cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_superficie", "isole.gpkg")
 gdf = gp.read_file(percorso_file)
 
-#funzione che arrotonda a due cifre decimali le coordinate dei vari punti
+#funzione che arrotonda le coordinate dei vari punti a un numero di cifre decimali pari al valore preso in input
 def arrotonda(poligono, cifra):
     vertici_arrotondati=[(round(x, cifra), round(y, cifra)) for x, y in poligono.exterior.coords]
     return(Polygon(vertici_arrotondati))
@@ -34,8 +34,8 @@ def poligono_semplificato(poligono, cifra):
 
 print(f'lunghezza del file: {len(gdf)}')
 #itero per le isole
-for k,(i,isl) in enumerate(gdf.iterrows(), 1):
-    if k%2000==0:
+for k,(i,isl) in enumerate(gdf.iterrows(), 0):
+    if k%2000==0 or k==len(gdf)-1:
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]
@@ -52,8 +52,8 @@ gdf.to_file(percorso_out, driver="GPKG")
 
 #ripeto con 3 e 2 cifre decimali
 print('ripeto per arrotondare a 3 cifre')
-for k,(i,isl) in enumerate(gdf.iterrows(), 1):
-    if k%2000==0:
+for k,(i,isl) in enumerate(gdf.iterrows(), 0):
+    if k%2000==0 or k==len(gdf)-1:
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]
@@ -69,8 +69,8 @@ percorso_out = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_super
 gdf.to_file(percorso_out, driver="GPKG")
 
 print('ripeto per arrotondare a 2 cifre')
-for k,(i,isl) in enumerate(gdf.iterrows(), 1):
-    if k%2000==0:
+for k,(i,isl) in enumerate(gdf.iterrows(), 0):
+    if k%2000==0 or k==len(gdf)-1:
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]

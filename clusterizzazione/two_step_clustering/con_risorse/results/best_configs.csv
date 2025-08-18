@@ -1,2 +1,0 @@
-algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
-SpectralClustering,"{'affinity': 'nearest_neighbors', 'assign_labels': 'kmeans', 'n_neighbors': 50}",0.39298064244083336,1076.5671834832792,0.9164661974355679,42.0,7,"{""affinity"": ""nearest_neighbors"", ""assign_labels"": ""kmeans"", ""n_neighbors"": 50}","('SpectralClustering', 7, '{""affinity"": ""nearest_neighbors"", ""assign_labels"": ""kmeans"", ""n_neighbors"": 50}')"

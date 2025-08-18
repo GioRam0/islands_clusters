@@ -30,12 +30,12 @@ maxy=bounds.exterior.coords[1][1]
 miny=bounds.exterior.coords[0][1]
 
 #importo dati isole
-percorso_file=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro4.gpkg")
+percorso_file=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole.gpkg")
 gdf = gp.read_file(percorso_file)
 
 #funzione che prende in input isola e raster e riporta il valore medio
 def media(multipoligono,sr):
-    out_image, out_transform = rasterio.mask.mask(sr, [mapping(multipoligono)], crop=True, all_touched=True)
+    out_image, _ = rasterio.mask.mask(sr, [mapping(multipoligono)], crop=True, all_touched=True)
     no_data_value = src.nodata
     valid_pixels = out_image[(out_image != no_data_value) & (out_image != 0)]
     mean = np.mean(valid_pixels)

@@ -25,7 +25,7 @@ project=config.proj
 ee.Authenticate()
 ee.Initialize(project=project)
 
-#lista dei files già scaricati
+#caricamento della lista dei files già scaricati
 file_pkl=os.path.join(cartella_progetto, "files", "downloaded_files.pkl")
 if os.path.exists(file_pkl):
     try:
@@ -50,14 +50,14 @@ os.makedirs(folder_out1, exist_ok=True)
 def download_file(file_id, file_name):
     url = "https://drive.google.com/uc?export=download"
     session = requests.Session()
-    #scelta della cartella output
-    if type(file_name)==type([]):
+    #scelta della cartella output in base al nome del file
+    if type(file_name)==type([]): #relativo ai file .shp degli impianti offshore
         folder_new = os.path.join(folder_out2, file_name[0])
         os.makedirs(folder_new, exist_ok=True)
         file_path = os.path.join(folder_new, file_name[1])
-    elif file_name.startswith("PVOUT_"):
+    elif file_name.startswith("PVOUT_"): #relativo ai file .tif dei dati mensili di produzione fotovoltaica
         file_path = os.path.join(folder_out1, file_name)
-    else:
+    else: #per tutti gli altri file
         file_path = os.path.join(folder_out, file_name)
     try:
         #download dei files

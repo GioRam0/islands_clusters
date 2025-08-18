@@ -35,7 +35,6 @@ if os.path.exists(output_path):
 else:
     countries={}
     #isole controllate manualmente per intersezioni non riconosciute
-    #da aggiornare
     countries[88882]=['Maldives']
     countries[89785]=['Bangladesh']
     countries[89792]=['Bangladesh']
@@ -74,7 +73,7 @@ def island_feature(feature):
     names = intersects.aggregate_array('ADM0_NAME')
     return feature.set({'intersecting_countries': names})
 
-#funzione da applicare a un dataframe, aggiunge al dizionario le liste di paesi intersecanti le isole
+#funzione da applicare a un dataframe, aggiunge al dizionario features le liste di paesi intersecanti le isole
 #mappa la funzione precedente su tutte le isole del dataframe invece che applicarla alle isole singolarmente
 def get_gdf_dict(df):
     #lista di features da riempire
@@ -129,7 +128,7 @@ a=0
 b=a+imp 
 while True:
     if b%40==0 or b==len(gdf1):
-        print(f'{b} isole fatte')
+        print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
     #esportazione
@@ -150,7 +149,7 @@ imp=10
 a=0
 b=a+imp
 while True:
-    print(f'{b} isole fatte')
+    print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
     #esportazione
@@ -171,7 +170,7 @@ imp=4
 a=0
 b=a+imp 
 while True:
-    print(f'{b} isole fatte')
+    print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
     #esportazione

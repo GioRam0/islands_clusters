@@ -1,2 +1,0 @@
-algorithm,options,silhouette_score,calinski_harabasz_score,davies_bouldin_score,random_state,n_clusters,options_str,config_key
-KMeans,"{'init': 'k-means++', 'algorithm': 'elkan'}",0.32785334270591115,1837.8372719854053,1.179195814645462,42.0,5,"{""algorithm"": ""elkan"", ""init"": ""k-means++""}","('KMeans', 5, '{""algorithm"": ""elkan"", ""init"": ""k-means++""}')"
