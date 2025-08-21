@@ -11,9 +11,9 @@ from sklearn.pipeline import Pipeline
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-folder_path = os.path.join(cartella_corrente, "../2-dimensions_reduction/risultati")
-pkl_path = os.path.join(folder_path, "analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+folder_path = os.path.join(cartella_corrente, "../2-dimensions_reduction/results")
+pkl_path = os.path.join(folder_path, "analisys_df.csv")
+df = pd.read_csv(pkl_path)
 
 standscaler=StandardScaler(with_mean=False)
 #solar applico standardscaler
@@ -26,7 +26,7 @@ for col in robust_features:
     df[col]=robscaler.fit_transform(df[[col]])
 
 #features cui applicare yeo-johnson e robustscaler
-yeo_features = ['gdp_cons_pop_urban_merged', 'gdp_pro_capite']
+yeo_features = ['gdp_cons_pop_urban_merged']
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
         ('robust_scaler', robscaler)
@@ -34,7 +34,7 @@ yeo_pipeline = Pipeline([
 for col in yeo_features:
     df[col] = yeo_pipeline.fit_transform(df[[col]])
 
-#eolico stessa cosa ma con standard scaler
+#eolico stessa cosa ma con standard scaler per non sottrarre la media
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
         ('standard_scaler', standscaler)
@@ -68,7 +68,11 @@ df['geothermal_potential'] = yeo_pipeline.fit_transform(df[['geothermal_potentia
 df.loc[zero_mask, 'geothermal_potential'] = 0
 
 #esportazione
-output_folder = os.path.join(cartella_corrente, 'risultati')
+output_folder = os.path.join(cartella_corrente, 'results')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analisys_df.pkl')
-df.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'analisys_df.csv')
+df.to_csv(output_path, index=False, encoding='utf-8')
+
+output_folder = os.path.join(cartella_corrente, '..')
+output_path = os.path.join(output_folder, 'df_final.csv')
+df.to_csv(output_path, index=False, encoding='utf-8')

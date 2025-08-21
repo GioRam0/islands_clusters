@@ -58,7 +58,7 @@ if os.path.exists(output_path):
 else:
     evi={}
     evi_nodata={}
-
+cont=0
 print(f'isole da svolgere: {len(gdf)}')
 #itero per le isole
 for k, (i, isl) in enumerate(gdf.iterrows(), 1):
@@ -74,6 +74,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             pickle.dump(evi_nodata, f)
     codice=isl.ALL_Uniq
     if codice not in evi:
+        cont+=1
         #semplifico le geometrie troppo grandi, eccessivo payload
         if isl.IslandArea>15000:
             simpli=isl.geometry.simplify(tolerance=0.005, preserve_topology=True)

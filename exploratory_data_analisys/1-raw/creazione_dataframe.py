@@ -19,9 +19,6 @@ pkl_folder=os.path.join(cartella_progetto, "data/dati_finali")
 
 #funzione che prende in input il nome del file, importa il dizionario e crea la colonna nel dataframe, da applicare ai vari files
 def create_dict(str):
-    if str=='solar_nodata':
-        nome=str[0:6]+'isola_non_completa'
-        df[nome]=float(0)
     df[str]=float(0)
     nome=str+'.pkl'
     percorso_pkl=os.path.join(pkl_folder1, nome)
@@ -38,11 +35,6 @@ eolico = create_dict("eolico")
 eolico_nodata=create_dict("eolico_nodata")
 eolico_std=create_dict("eolico_std")
 offshore=create_dict("offshore")
-
-pkl_folder1=os.path.join(pkl_folder, "gdp")
-gdp=create_dict("gdp")
-gdp_nodata=create_dict("gdp_nodata")
-gdp_procapite=create_dict("gdp_pro_capite")
 
 pkl_folder1=os.path.join(pkl_folder, "gdp_consumption_2019")
 gdp_2019=create_dict("gdp_2019")
@@ -84,16 +76,14 @@ ele_max=create_dict("ele_max")
 diz={}
 diz['evi']=[0,0]
 diz['eolico']=[0,0]
-diz['gdp']=[0,0]
+diz['gdp_2019']=[0,0]
+diz['consumption']=[0,0]
 diz['temp']=[0,0]
 diz['prec']=[0,0]
 diz['hdd']=[0,0]
 diz['cdd']=[0,0]
 diz['solar']=[0,0]
-diz['gdp_2019']=[0,0]
-diz['consumption']=[0,0]
-#contatore isole non interamente contenute nel file solare
-solar_non_complete=0
+
 #riempio le nuove colonne del dataframe
 for i,isl in df.iterrows():
     codice=isl.ALL_Uniq
@@ -111,13 +101,6 @@ for i,isl in df.iterrows():
         diz['eolico'][1]+=1
     df.loc[i,'eolico_std']=eolico_std[codice]
     df.loc[i,'offshore']=offshore[codice]
-    df.loc[i,'gdp']=gdp[codice]
-    df.loc[i,'gdp_pro_capite']=gdp_procapite[codice]
-    df.loc[i,'gdp_nodata']=gdp_nodata[codice]
-    if np.isnan(gdp[codice]) and gdp_nodata[codice]==0:
-        diz['gdp'][0]+=1
-    if (not np.isnan(gdp[codice])) and gdp_nodata[codice]==1:
-        diz['gdp'][1]+=1
     df.loc[i,'gdp_2019']=gdp_2019[codice]
     df.loc[i,'gdp_2019_nodata']=gdp_2019_nodata[codice]
     if np.isnan(gdp_2019[codice]) and gdp_2019_nodata[codice]==0:
@@ -133,7 +116,7 @@ for i,isl in df.iterrows():
     df.loc[i,'geothermal_potential']=geothermal_potential[codice]
     df.loc[i,'hydro']=hydro[codice]
     df.loc[i,'temp']=temp[codice]
-    df.loc[i,'temp_nodata']=temp[codice]
+    df.loc[i,'temp_nodata']=temp_nodata[codice]
     if np.isnan(temp[codice]) and temp_nodata[codice]==0:
         diz['temp'][0]+=1
     if (not np.isnan(temp[codice])) and temp_nodata[codice]==1:
@@ -158,31 +141,36 @@ for i,isl in df.iterrows():
         diz['cdd'][1]+=1
     df.loc[i,'solar_pow']=solar_pow[codice]
     df.loc[i,'solar_seas_ind']=solar_seas_ind[codice]
-    df.loc[i,'solar_nodata']=solar_nodata[codice][0]
-    if np.isnan(solar_pow[codice]) and solar_nodata[codice][0]==0:
-        diz['solar'][0]+=1
-    if (not np.isnan(solar_pow[codice])) and solar_nodata[codice][0]==1:
-        diz['solar'][1]+=1
-    df.loc[i,'solar_isola_non_completa']=solar_nodata[codice][1]
-    if solar_nodata[codice][1]==1:
-        solar_non_complete+=1
+    df.loc[i,'solar_nodata']=solar_nodata[codice]
+    if np.isnan(solar_pow[codice]) and solar_nodata[codice]==0:
+        diz['solar']+=1
+    if (not np.isnan(solar_pow[codice])) and solar_nodata[codice]==1:
+        diz['solar']+=1
     df.loc[i,'urban_area']=urban_area[codice]
     df.loc[i,'urban_area_rel']=urban_area_rel[codice]
     df.loc[i,'superficie_res']=superficie_res[codice]
     df.loc[i,'ele_max']=ele_max[codice]
+
 #stampo il dizionario che riporta le isole con non-corrispndenza tra valore nan e booleano nodata
 print(diz)
-print(f'le isole non completamente coperte dal file sul solare sono {solar_non_complete}')
-
-#elimino le colonne nodata e shape_leng, inutili a questo punto
-df = df.drop(columns=['evi_nodata', 'eolico_nodata', 'gdp_nodata', 'temp_nodata', 'prec_nodata', 'hdd_nodata', 'cdd_nodata', 'solar_nodata', 'solar_isola_non_completa', 'cons_nodata', 'gdp_2019_nodata'])
-df=df.drop(columns=['Shape_Leng'])
 
 #elimino le righe con dati non completi
 print(f"tutte le isole sono {len(df)}")
 df=df.dropna()
 print(f"le isole con dati completi sono {len(df)}")
 print(' ')
+
+#elimino le isole con valori gdp e consumption (le stesse 2 non consistenti, se non dovessero essere già state eliminate in quanto contenenti nan su altre colonne)
+indici_da_eliminare = df[df['gdp_2019_nodata'] == 1].index
+df = df.drop(indici_da_eliminare)
+indici_da_eliminare = df[df['consumption'] == 1].index
+df = df.drop(indici_da_eliminare)
+print(f"le isole con dati completi sono {len(df)}")
+print(' ')
+
+#elimino le colonne nodata e shape_leng, inutili a questo punto
+df = df.drop(columns=['evi_nodata', 'eolico_nodata',  'cons_nodata', 'gdp_2019_nodata', 'temp_nodata', 'prec_nodata', 'hdd_nodata', 'cdd_nodata', 'solar_nodata'])
+df=df.drop(columns=['Shape_Leng'])
 
 #definisco una funzione che crea delle etichette per una feature input
 def etichettatura(valore, soglie, etichette):
@@ -207,31 +195,6 @@ df['Solar_etichetta']=df['solar_pow'].apply(etichettatura, args=(soglie_solar, e
 for etic in etichette:
     leng=len(df[(df['Solar_etichetta']==etic)])
     print(f'Ci sono {leng} isole con etichetta {etic} per la potenza solare')
-print(' ')
-
-#etichette sviluppo economico
-soglie_gdp=[2518, 4455, 5498, 12467, 16360, 33560]
-#https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD?end=2022&locations=XD&most_recent_value_desc=false&start=1990
-#ppp 2021
-#https://ourworldindata.org/international-dollars
-#international dollars
-#https://blogs.worldbank.org/en/opendata/world-bank-country-classifications-by-income-level-for-2024-2025
-#world bank che non va bene
-#https://www.statista.com/statistics/256598/global-inflation-rate-compared-to-previous-year/
-#inflazione mondiale 17-21 10,7%
-infl=1.107
-soglie_gdp=[elemento/infl for elemento in soglie_gdp]
-etichette_gdp=['l','l-lm','lm','lm-um','lm-um-h','um-h','h']
-df['GDP_procap_etichetta']=df['gdp_pro_capite'].apply(etichettatura, args=(soglie_gdp, etichette_gdp))
-for i in range(len(soglie_gdp)):
-    if i==0:
-        leng=len(df[(df['gdp_pro_capite']<soglie_gdp[i])])
-    else:
-        leng=len(df[(df['gdp_pro_capite']>=soglie_gdp[i-1]) & (df['gdp_pro_capite']<soglie_gdp[i])])
-    print(f'Ci sono {leng} isole con etichetta/e {etichette_gdp[i]} per il GDP pro capite')
-    if i==len(soglie_gdp)-1:
-        leng=len(df[(df['gdp_pro_capite']>=soglie_gdp[i])])
-        print(f'Ci sono {leng} isole con etichetta/e {etichette_gdp[i+1]} per il GDP pro capite')
 print(' ')
 
 #etichette vento
@@ -263,43 +226,36 @@ print(f'Ci sono {leng} isole con senza superficie agibile per rinnovabili')
 df = df.reset_index(drop=True)
 
 #esportazione
-output_folder = os.path.join(cartella_corrente, 'risultati')
+output_folder = os.path.join(cartella_corrente, 'results')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analisys_df.pkl')
-df.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'analisys_df.csv')
+df.to_csv(output_path, index=False, encoding='utf-8')
 
-#{'evi': [0, 0], 'eolico': [0, 0], 'gdp': [91, 0], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [24, 0], 'gdp_2019': [0, 2], 'consumption': [0, 2]}
-#le isole non completamente coperte dal file sul solare sono 69
+#{'evi': [0, 0], 'eolico': [0, 0], 'gdp_2019': [0, 2], 'consumption': [0, 2], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [0, 0]}
 #tutte le isole sono 3134
-#le isole con dati completi sono 1941
+#le isole con dati completi sono 2012
 #
-#Ci sono 873 isole con etichetta S per la densità abitativa
-#Ci sono 850 isole con etichetta M per la densità abitativa
-#Ci sono 218 isole con etichetta L per la densità abitativa
+#le isole con dati completi sono 2012
 #
-#Ci sono 397 isole con etichetta S per la potenza solare
-#Ci sono 1332 isole con etichetta M per la potenza solare
-#Ci sono 212 isole con etichetta L per la potenza solare
+#Ci sono 885 isole con etichetta S per la densità abitativa
+#Ci sono 880 isole con etichetta M per la densità abitativa
+#Ci sono 247 isole con etichetta L per la densità abitativa
 #
-#Ci sono 93 isole con etichetta/e l per il GDP pro capite
-#Ci sono 211 isole con etichetta/e l-lm per il GDP pro capite
-#Ci sono 83 isole con etichetta/e lm per il GDP pro capite
-#Ci sono 519 isole con etichetta/e lm-um per il GDP pro capite
-#Ci sono 86 isole con etichetta/e lm-um-h per il GDP pro capite
-#Ci sono 375 isole con etichetta/e um-h per il GDP pro capite
-#Ci sono 574 isole con etichetta/e h per il GDP pro capite
+#Ci sono 404 isole con etichetta S per la potenza solare
+#Ci sono 1395 isole con etichetta M per la potenza solare
+#Ci sono 213 isole con etichetta L per la potenza solare
 #
-#Ci sono 832 isole con classe di vento 1
-#Ci sono 235 isole con classe di vento 2
-#Ci sono 167 isole con classe di vento 3
-#Ci sono 134 isole con classe di vento 4
-#Ci sono 111 isole con classe di vento 5
-#Ci sono 151 isole con classe di vento 6
-#Ci sono 311 isole con classe di vento 7
+#Ci sono 863 isole con classe di vento 1
+#Ci sono 234 isole con classe di vento 2
+#Ci sono 165 isole con classe di vento 3
+#Ci sono 143 isole con classe di vento 4
+#Ci sono 123 isole con classe di vento 5
+#Ci sono 159 isole con classe di vento 6
+#Ci sono 325 isole con classe di vento 7
 #
-#Ci sono 1156 isole con etichetta consumptions XS
-#Ci sono 440 isole con etichetta consumptions S
-#Ci sono 224 isole con etichetta consumptions M
-#Ci sono 121 isole con etichetta consumptions L
+#Ci sono 1214 isole con etichetta consumptions XS
+#Ci sono 448 isole con etichetta consumptions S
+#Ci sono 226 isole con etichetta consumptions M
+#Ci sono 124 isole con etichetta consumptions L
 #
 #Ci sono 43 isole con senza superficie agibile per rinnovabili

@@ -38,8 +38,8 @@ def media(multipoligono,sr):
     out_image, _ = rasterio.mask.mask(sr, [mapping(multipoligono)], crop=True, all_touched=True)
     no_data_value = src.nodata
     valid_pixels = out_image[(out_image != no_data_value) & (out_image != 0)]
-    mean = np.mean(valid_pixels)
-    return mean
+    lunghezza_np = np.count_nonzero(~np.isnan(valid_pixels))
+    return np.nanmean(valid_pixels) if lunghezza_np>0 else np.nan
 #funzione che prende in input l'isola e restituisce pvout medio annuale e il seasonality index come rapporto tra media mensile max e min
 def richiesta(multip):
     out=media(multip, src)
@@ -51,13 +51,11 @@ def richiesta(multip):
 
 pvout_mean={} #dizionario con codici come chiavi e insolazione media come valori
 pvout_ind={} #dizionario con codici come chiavi e i seasonality indexes delle medie mensili come valori
-#dizionario con codici come chiavi e lista di due binari come valori
-#il primo valore pari a 1 indica che l'isola si trova tutta fuori dai limiti 65, -60 e non si hanno dati
-#il secondo valore pari a 1 indica che almeno un punto si trova fuori dai limiti
 isola_out={}
+lista = [89794,273834,273876,278246,283571,284502]
 print(f'isole da analizzare:{len(gdf)}')
 for k,(i,isl) in enumerate(gdf.iterrows(),1):
-    if k%250==0 or k==len(gdf):
+    if k%10==0 or k==len(gdf):
         print(f'{k} isole analizzate')
     codice=isl.ALL_Uniq
     multi=isl.geometry
@@ -65,17 +63,15 @@ for k,(i,isl) in enumerate(gdf.iterrows(),1):
     if multi.disjoint(bounds):
         pvout_mean[codice]=np.nan
         pvout_ind[codice]=np.nan
-        isola_out[codice]=[1,1]
+        isola_out[codice]=1
     else:
         out,s_ind=richiesta(multi)
         pvout_mean[codice]=out
         pvout_ind[codice]=s_ind
-        #isola completamente dentro o parzialmente fuori
-        if multi.within(bounds):
-            isola_out[codice]=[0,0]
+        if np.isnan(out):
+            isola_out[codice]=1
         else:
-            isola_out[codice]=[0,1]
-
+            isola_out[codice]=0
 #esportazione
 percorso_folder_out = os.path.join(cartella_progetto, "data/dati_finali/solare")
 os.makedirs(percorso_folder_out, exist_ok=True)

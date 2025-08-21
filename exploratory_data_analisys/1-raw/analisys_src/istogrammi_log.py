@@ -8,11 +8,11 @@ import numpy as np
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne con distribuzioni a coda
-colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'offshore', 'gdp', 'gdp_2019', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']
+colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'offshore', 'gdp_2019', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']
 
 #creo ed esporto gli istogrammi
 output_folder = os.path.join(ris_folder, "istogrammi")
@@ -33,35 +33,6 @@ for col in df[colonne_code].select_dtypes(include='number').columns:
 
 #per gdp_pro_capite, consumptions, densita popolazione ed eolico faccio l'isogramma con colori diversi in base all'etichetta
 #dizionario con le etichette possibili e i colori che voglio loro associare nell'istogramma
-labels={'l':'gray','l-lm':'yellow','lm':'orange','lm-um':'red','lm-um-h':'green','um-h':'blue','h':'violet'}
-output_folder1 = os.path.join(output_folder, "logaritmi")
-os.makedirs(output_folder1, exist_ok=True)
-output_path = os.path.join(output_folder1, f"gdp_pro_capite_istogramma.png")
-plt.figure(figsize=(10, 15))
-df_log=df[['gdp_pro_capite','GDP_procap_etichetta']]
-df_log=df_log[df_log['gdp_pro_capite'] != 0]
-df_log['gdp_pro_capite']=np.log(df_log['gdp_pro_capite'])
-#imposto la larghezza delle varie colonne
-bin_width=(df_log['gdp_pro_capite'].max()-df_log['gdp_pro_capite'].min())/60
-#creo una lista con gli intervalli delle varie colonne
-min_val=df_log['gdp_pro_capite'].min()
-max_val=df_log['gdp_pro_capite'].max()
-#definisco valori minimi e massimi per comprendere massimo e minimo
-start_bin=np.floor(min_val / bin_width) * bin_width
-end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
-common_bins=np.arange(start_bin, end_bin, bin_width)
-#aggiungo le parti relative alle diverse etichette con colori diversi
-for label in labels:
-    data = df_log[df_log['GDP_procap_etichetta'] == label]['gdp_pro_capite']
-    if len(data)>0:
-        plt.hist(data, bins=common_bins, color=labels[label], label=label, edgecolor='black')
-plt.title(f'Istogramma del logaritmo di gdp_pro_capite')
-plt.xlabel('gdp_pro_capite')
-plt.ylabel('Frequenza')
-plt.tight_layout()
-plt.savefig(output_path)
-plt.close()
-
 labels={'S': 'green', 'M':'yellow', 'L': 'blue'}
 output_folder1 = os.path.join(output_folder, "logaritmi")
 os.makedirs(output_folder1, exist_ok=True)

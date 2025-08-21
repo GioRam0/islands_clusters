@@ -6,9 +6,9 @@ import os
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 
 #colonne numeriche per cui non serve calcolare statistiche
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']

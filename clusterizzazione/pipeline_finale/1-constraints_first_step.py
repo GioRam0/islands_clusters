@@ -2,16 +2,15 @@
 import numpy as np
 import os
 import pandas as pd
-import pickle
 
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente,"..","..")
 
 #importo il dataframe
-pkl_folder = os.path.join(cartella_progetto, "exploratory_data_analisys/1-raw/risultati")
-pkl_path = os.path.join(pkl_folder, "analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+csv_folder = os.path.join(cartella_progetto, "exploratory_data_analisys/1-raw/results")
+csv_path = os.path.join(csv_folder, "analisys_df.csv")
+df = pd.read_csv(csv_path)
 df['cannot'] = [set() for _ in range(len(df))]
 df['must'] = [set() for _ in range(len(df))]
 df['superficie_res_assoluta'] = df['IslandArea'] * (df['superficie_res']/100)
@@ -79,16 +78,16 @@ for i1, isl1 in df.iterrows():
 
 
 #importo dataframe normalizzato
-pkl_folder = os.path.join(cartella_progetto, "exploratory_data_analisys/3-normalization/risultati")
-pkl_path = os.path.join(pkl_folder, "analisys_df.pkl")
-df1 = pd.read_pickle(pkl_path)
+csv_folder = os.path.join(cartella_progetto, "exploratory_data_analisys/3-normalization/results")
+csv_path = os.path.join(csv_folder, "analisys_df.csv")
+df1 = pd.read_csv(csv_path)
 df1['cannot'] = df['cannot']
 df1['must'] = df['must']
 
 #esportazione
 output_folder = os.path.join(cartella_corrente, "dataframes")
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, "df_raw_constraints.pkl")
-df.to_pickle(output_path)
-output_path = os.path.join(output_folder, "df_norm_constraints.pkl")
-df1.to_pickle(output_path)
+output_path = os.path.join(output_folder, "df_raw_constraints.csv")
+df.to_csv(output_path, index=False, encoding='utf-8')
+output_path = os.path.join(output_folder, "df_norm_constraints.csv")
+df1.to_csv(output_path, index=False, encoding='utf-8')

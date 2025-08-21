@@ -1,3 +1,4 @@
+#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -12,8 +13,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/normalization/risultati/analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/3-normalization/risultati/analisys_df.csv")
+df = pd.read_csv(csv_path)
 df['Densità_pop']=2*df['Densità_pop']
 df['gdp_pop_urban_merged']=2*df['Densità_pop']
 

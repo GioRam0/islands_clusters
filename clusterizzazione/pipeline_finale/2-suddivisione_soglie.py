@@ -1,7 +1,6 @@
 #importo le librerie
 import os
 import pandas as pd
-import pickle
 import numpy as np
 import random
 import math
@@ -11,8 +10,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_corrente, 'dataframes', 'df_raw_constraints.pkl')
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, 'dataframes', 'df_raw_constraints.csv')
+df = pd.read_csv(csv_path)
 
 df['clusters_list']= [[] for _ in range(len(df))]
 df['clusters'] = -1
@@ -243,14 +242,14 @@ if (constraint(df, labels[0])) == (0, min):
 
 output_folder = os.path.join(cartella_corrente, 'dataframes')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'df_raw_first_step.pkl')
-df.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'df_raw_first_step.csv')
+df.to_csv(output_path, index=False, encoding='utf-8')
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_corrente, 'dataframes', 'df_norm_constraints.pkl')
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, 'dataframes', 'df_norm_constraints.csv')
+df = pd.read_csv(csv_path)
 df['clusters'] = labels[0]
 output_folder = os.path.join(cartella_corrente, 'dataframes')
 os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'df_norm_first_step.pkl')
-df.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'df_norm_first_step.csv')
+df.to_csv(output_path, index=False, encoding='utf-8')

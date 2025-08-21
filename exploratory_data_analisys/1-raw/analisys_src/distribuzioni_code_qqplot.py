@@ -8,16 +8,16 @@ import scipy.stats as stats
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 
 #cartella esportazione risultati
 output_folder = os.path.join(ris_folder, f"qq_plot_distri_coda")
 os.makedirs(output_folder, exist_ok=True)
 
 #colonne per cui realizzare i Q-Q plot
-colonne=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico', 'offshore', 'gdp', 'gdp_pro_capite', 'gdp_2019', 'consumption', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel', 'ele_max']
+colonne=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico', 'offshore', 'gdp_2019', 'consumption', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel', 'ele_max']
 #distribuzioni da confrontare
 distributions = {
     'Esponenziale': stats.expon,
@@ -42,17 +42,15 @@ for col in colonne:
     plt.savefig(output_path)
     plt.close()
 
-#isole con dati >0 per IslandArea: 1941
-#isole con dati >0 per Popolazione: 1941
-#isole con dati >0 per Densità_pop: 1941
-#isole con dati >0 per eolico: 1941
-#isole con dati >0 per offshore: 857
-#isole con dati >0 per gdp: 1941
-#isole con dati >0 per gdp_pro_capite: 1941
-#isole con dati >0 per gdp_2019: 1941
-#isole con dati >0 per consumption: 1941
-#isole con dati >0 per geothermal_potential: 282
-#isole con dati >0 per hydro: 745
-#isole con dati >0 per urban_area: 410
-#isole con dati >0 per urban_area_rel: 410
-#isole con dati >0 per ele_max: 1933
+#isole con dati >0 per IslandArea: 2012
+#isole con dati >0 per Popolazione: 2012
+#isole con dati >0 per Densità_pop: 2012
+#isole con dati >0 per eolico: 2012
+#isole con dati >0 per offshore: 899
+#isole con dati >0 per gdp_2019: 2012
+#isole con dati >0 per consumption: 2012
+#isole con dati >0 per geothermal_potential: 289
+#isole con dati >0 per hydro: 762
+#isole con dati >0 per urban_area: 434
+#isole con dati >0 per urban_area_rel: 434
+#isole con dati >0 per ele_max: 2003

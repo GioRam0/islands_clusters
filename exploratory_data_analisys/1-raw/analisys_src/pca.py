@@ -8,9 +8,9 @@ from sklearn.preprocessing import StandardScaler
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne numeriche non da analizzare
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
@@ -35,6 +35,7 @@ for j in range(2,5):
     print(f"Il modello spiega questa quota di varianza: {pca.explained_variance_ratio_}")
     output_path = os.path.join(output_folder, f'analisys_df_{j}_components.pkl')
     df_pca.to_pickle(output_path)
-#Il modello spiega questa quota di varianza: [0.24686133 0.20261989]
-#Il modello spiega questa quota di varianza: [0.24686133 0.20261989 0.08454733]
-#Il modello spiega questa quota di varianza: [0.24686133 0.20261989 0.08454733 0.06312879]
+
+#Il modello spiega questa quota di varianza: [0.24179813 0.19489437]
+#Il modello spiega questa quota di varianza: [0.24179813 0.19489437 0.09125106]
+#Il modello spiega questa quota di varianza: [0.24179813 0.19489437 0.09125106 0.06864923]

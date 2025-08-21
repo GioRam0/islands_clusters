@@ -44,7 +44,7 @@ os.makedirs(folder_out, exist_ok=True)
 folder_out1 = os.path.join(folder_out, "PVOUT_month")
 os.makedirs(folder_out1, exist_ok=True)
 folder_out2 = os.path.join(folder_out, "offshore")
-os.makedirs(folder_out1, exist_ok=True)
+os.makedirs(folder_out2, exist_ok=True)
 
 #funzione per scaricare i files
 def download_file(file_id, file_name):
@@ -89,6 +89,9 @@ def download_file(file_id, file_name):
             print(f"File scaricato con successo come: {file_name}")
         #aggiungo il file al dizionario dei files scaricati
         downloaded_files.append(file_id)
+        #aggiorno gli elementi scaricati
+        with open(file_pkl, "wb") as f:
+            pickle.dump(downloaded_files, f)
     except requests.exceptions.RequestException as e:
         print(f"Errore durante il download: {e}")
     except Exception as e:
@@ -103,7 +106,3 @@ if len(files)==len(downloaded_files):
     print('Tutti i files sono stati scaricati correttamente')
 else:
     print('Non tutti i files sono stati scaricati correttamente, rilanciare lo script.')
-
-#aggiorno gli elementi scaricati
-with open(file_pkl, "wb") as f:
-    pickle.dump(downloaded_files, f)

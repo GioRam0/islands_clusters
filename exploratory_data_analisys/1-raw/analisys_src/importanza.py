@@ -10,9 +10,9 @@ from sklearn.model_selection import train_test_split
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne numeriche non da analizzare
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
@@ -21,7 +21,7 @@ colonne_da_includere = [col for col in df.columns if col not in colonne_da_esclu
 descr=df[colonne_da_includere].select_dtypes(include='number').describe()
 
 #seleziono le features da me ritenute principali e calcolo l'importanza delle altre
-target_features=['IslandArea', 'Popolazione', 'solar_pow', 'eolico', 'gdp', 'consumption']
+target_features=['IslandArea', 'Popolazione', 'solar_pow', 'eolico', 'gdp_2019', 'consumption']
 output_folder = os.path.join(ris_folder, "importanza")
 os.makedirs(output_folder, exist_ok=True)
 

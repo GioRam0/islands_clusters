@@ -8,15 +8,15 @@ import numpy as np
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, "analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne numeriche per cui non serve fare gli istogrammi
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
 #colonne con etichetta e relativa colonna etichetta per cui costruisco istogrammi in modo diverso, suddivido in base al numero di etichette
 colonne_con_etichetta={"Densità_pop":"Densità_pop_etichetta","solar_pow":"Solar_etichetta", "consumption":"consumption_etichetta"}
-colonne_con_etichetta2={"gdp_pro_capite":"GDP_procap_etichetta", "eolico":"Wind_class"}
+colonne_con_etichetta2={"eolico":"Wind_class"}
 colonne_no_etichetta=[col for col in colonne_da_includere if (col not in colonne_con_etichetta and col not in colonne_con_etichetta2)]
 
 #creo ed esporto gli istogrammi

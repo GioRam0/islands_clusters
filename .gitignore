@@ -2,8 +2,7 @@ venv/
 
 files/
 
-data/isole_filtrate
-data/isole_escluse
+data/
 
 src_data/1-files/downloaded_files.pkl/
 

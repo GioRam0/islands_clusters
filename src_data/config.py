@@ -25,7 +25,6 @@ FILES = {
     "1ohBmGbiNdufaF_iB4NzUN45F4Vad3RZq" : "PVOUT_12.tif" ,
     "1Ce3a25PpPx-riLMh42axtTzvVZkpCUR_" : "EC2019.tif",
     "1UKec_gnsHnhGbo3xoLP3ncesw2V86B83" : "2019GDP.tif",
-    "1yGvsjGSuHVJkaosxZWKzS-5Dm4CxElhz" : "adm2_gdp_percapita_no_continents.gpkg",
     "1oEDpwVb3dAGTlHuzooXkSuUWWVQYBY3A" : "hydro.gpkg",
     "1ZUEKfhvKRuxEF3TmUEfDpkABSr30tsJs" : ["eap","FixedFoundation.cpg"],
     "1VM9i1Zjnbe0xgEX0yzFpfzD5-XhWX2lk" : ["eap","FixedFoundation.dbf"],

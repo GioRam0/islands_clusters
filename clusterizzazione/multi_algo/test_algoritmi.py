@@ -1,3 +1,4 @@
+#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -10,8 +11,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/normalization/risultati/analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/3-normalization/results/analisys_df.csv")
+df = pd.read_csv(csv_path)
 
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'GDP_procap_etichetta', 'Wind_class', 'NO_res', 'eolico_std', 'solar_seas_ind']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]

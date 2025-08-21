@@ -107,7 +107,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
         with open(output_path, "wb") as f:
             pickle.dump(std, f)
     codice=isl.ALL_Uniq
-    if codice not in eolico:
+    if codice not in eolico or k ==1:
         #semplifico le geometrie troppo grandi
         if isl.IslandArea>10000:
             simpli=isl.geometry.simplify(tolerance=0.005, preserve_topology=True)

@@ -8,9 +8,9 @@ import seaborn as sns
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne numeriche per cui non serve calcolare statistiche
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
@@ -33,7 +33,7 @@ plt.savefig(output_path)
 plt.close()
 
 #creo ed esporto i grafici a dipersione per alcune features
-colonne_dispersioni=['superficie_res', 'Densità_pop', 'eolico', 'gdp_pro_capite', 'temp', 'solar_pow', 'gdp_cons_pop_urban_merged']
+colonne_dispersioni=['superficie_res', 'Densità_pop', 'eolico', 'temp', 'solar_pow', 'gdp_cons_pop_urban_merged']
 plt.figure(figsize=(30, 30))
 sns.pairplot(df[colonne_dispersioni].select_dtypes(include='number'))
 output_path=os.path.join(output_folder,'pairplot_gdp.png')

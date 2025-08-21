@@ -9,9 +9,9 @@ import seaborn as sns
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne con distribuzioni a coda
 colonne_code=['superficie_res', 'Densità_pop', 'offshore', 'geothermal_potential', 'gdp_cons_pop_urban_merged', 'hydro', 'solar_seas_ind']
 

@@ -1,7 +1,6 @@
 #importo le librerie
 import os
 import pandas as pd
-import pickle
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -11,8 +10,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_corrente, 'dataframes/df_norm_first_step.pkl')
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, 'dataframes/df_norm_first_step.csv')
+df = pd.read_csv(csv_path)
 colonne = [["Densità_pop", "gdp_cons_pop_urban_merged", "eolico", "solar_pow", "superficie_res"],
             ["Densità_pop", "gdp_cons_pop_urban_merged", "eolico", "solar_pow", "superficie_res", "solar_seas_ind", "eolico_std"],
             ["Densità_pop", "gdp_cons_pop_urban_merged", "eolico", "solar_pow", "superficie_res", "solar_seas_ind", "eolico_std", "offshore"],

@@ -1,3 +1,4 @@
+#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -8,8 +9,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_corrente, "results/clustering_results.pkl")
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, "results/clustering_results.csv")
+df = pd.read_csv(csv_path)
 
 def extract_random_state(d):
     if isinstance(d, dict):
@@ -69,15 +70,11 @@ while True:
     if common_keys and common_keys1 and common_keys2 and common_keys3:
         break
 
-# Export the filtered DataFrames to separate pickle and CSV files
+#esportazione
 df_common = df_clean[df_clean['config_key'].isin(common_keys) & (df['random_state']==5055)]
 df_common1 = df_clean[df_clean['config_key'].isin(common_keys1)]
 df_common2 = df_clean[df_clean['config_key'].isin(common_keys2)]
 
-df_common.to_pickle(os.path.join(cartella_corrente, "results/best_configs.pkl"))
-df_common1.to_pickle(os.path.join(cartella_corrente, "results/best_configs1.pkl"))
-df_common2.to_pickle(os.path.join(cartella_corrente, "results/best_configs2.pkl"))
-
-df_common.to_csv(os.path.join(cartella_corrente, "results/best_configs.csv"), index=False)
-df_common1.to_csv(os.path.join(cartella_corrente, "results/best_configs1.csv"), index=False)
-df_common2.to_csv(os.path.join(cartella_corrente, "results/best_configs2.csv"), index=False)
+df_common.to_csv(os.path.join(cartella_corrente, "results/best_configs.csv"), index=False, encoding='utf-8')
+df_common1.to_csv(os.path.join(cartella_corrente, "results/best_configs1.csv"), index=False, encoding='utf-8')
+df_common2.to_csv(os.path.join(cartella_corrente, "results/best_configs2.csv"), index=False, encoding='utf-8')

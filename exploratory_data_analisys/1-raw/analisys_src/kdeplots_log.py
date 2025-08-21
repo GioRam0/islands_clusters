@@ -9,11 +9,11 @@ import seaborn as sns
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 #colonne con distribuzioni a coda
-colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico','offshore', 'gdp','gdp_pro_capite', 'gdp_2019', 'consumption', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']
+colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'eolico','offshore', 'gdp_2019', 'consumption', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']
 
 #creo ed esporto i kdeplot dopo aver applicato il logaritmo
 output_folder = os.path.join(ris_folder, "kde_plots")

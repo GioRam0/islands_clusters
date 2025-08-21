@@ -10,14 +10,14 @@ import scipy.stats as stats
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 output_folder = os.path.join(ris_folder, f"qq_plot_distri_coda")
 os.makedirs(output_folder, exist_ok=True)
-df = pd.read_pickle(pkl_path)
 
 #colonne per cui realizzare i Q-Q plot
-colonne=['superficie_res', 'Densità_pop', 'eolico', 'offshore', 'gdp_pro_capite', 'geothermal_potential', 'gdp_cons_pop_urban_merged', 'hydro', 'solar_seas_ind']
+colonne=['superficie_res', 'Densità_pop', 'eolico', 'offshore', 'geothermal_potential', 'gdp_cons_pop_urban_merged', 'hydro', 'solar_seas_ind']
 #distribuzioni da confrontare
 distributions = {
     'Esponenziale': stats.expon,

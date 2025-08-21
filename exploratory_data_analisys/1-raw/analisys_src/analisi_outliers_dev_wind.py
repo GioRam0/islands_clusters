@@ -6,9 +6,9 @@ import os
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "risultati")
-pkl_path=os.path.join(ris_folder, 'analisys_df.pkl')
-df = pd.read_pickle(pkl_path)
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df = pd.read_csv(csv_path)
 print('tutti i dati')
 print(f'dev_stand max {df["eolico_std"].mean()}')
 print(f'dev_stand min {df["eolico_std"].min()}')
@@ -23,41 +23,41 @@ for i in range(1,8):
     print(' ')
 
 #tutti i dati
-#dev_stand max 0.5354589806546662
-#dev_stand min 0.10980237977728456
-#dev_stand max 1.6383400504441301
+#dev_stand max 0.5361465847746759
+#dev_stand min 0.1100567912109582
+#dev_stand max 1.63834005044413
 #
 #classe 1
-#dev_stand media 0.6076684604522686
-#dev_stand min 0.10980237977728456
-#dev_stand max 1.6383400504441301
+#dev_stand media 0.6057289279808981
+#dev_stand min 0.1100567912109582
+#dev_stand max 1.63834005044413
 #
 #classe 2
-#dev_stand media 0.5538112216232856
-#dev_stand min 0.17784799743585541
+#dev_stand media 0.5592488494547584
+#dev_stand min 0.177010326997543
 #dev_stand max 1.02412836471747
 #
 #classe 3
-#dev_stand media 0.5246694607978909
-#dev_stand min 0.1585723110960928
-#dev_stand max 0.9071016464742411
+#dev_stand media 0.5229931827430727
+#dev_stand min 0.1583180566144543
+#dev_stand max 0.9071016464742412
 #
 #classe 4
-#dev_stand media 0.4959291833211582
-#dev_stand min 0.11890078650692582
-#dev_stand max 1.1392821313939934
+#dev_stand media 0.4981014445258339
+#dev_stand min 0.1189274893272428
+#dev_stand max 1.1389436876768102
 #
 #classe 5
-#dev_stand media 0.46854126675727187
+#dev_stand media 0.47014559669811523
 #dev_stand min 0.1881365352299327
 #dev_stand max 0.7839444819004479
-#
+# 
 #classe 6
-#dev_stand media 0.4688293853855267
-#dev_stand min 0.1371993201152755
+#dev_stand media 0.4688286434336779
+#dev_stand min 0.1355024539306727
 #dev_stand max 0.7921253807086825
 #
 #classe 7
-#dev_stand media 0.4073123396598149
-#dev_stand min 0.1241670440387318
-#dev_stand max 1.2487891501792525
+#dev_stand media 0.41607565700644694
+#dev_stand min 0.1240760362645335
+#dev_stand max 1.23988058708189

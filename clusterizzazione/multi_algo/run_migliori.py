@@ -1,3 +1,4 @@
+#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -12,18 +13,18 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/normalization/risultati/analisys_df.pkl")
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/3-normalization/results/analisys_df.csv")
+df = pd.read_csv(csv_path)
 
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'GDP_procap_etichetta', 'Wind_class', 'NO_res']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]
 
-pkl_path = os.path.join(cartella_corrente, 'results/best_configs.pkl')
-method1 = pd.read_pickle(pkl_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
-pkl_path = os.path.join(cartella_corrente, 'results/best_configs1.pkl')
-method2 = pd.read_pickle(pkl_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
-pkl_path = os.path.join(cartella_corrente, 'results/best_configs2.pkl')
-method3 = pd.read_pickle(pkl_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
+csv_path = os.path.join(cartella_corrente, 'results/best_configs.csv')
+method1 = pd.read_csv(csv_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
+csv_path = os.path.join(cartella_corrente, 'results/best_configs1.csv')
+method2 = pd.read_csv(csv_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
+csv_path = os.path.join(cartella_corrente, 'results/best_configs2.csv')
+method3 = pd.read_csv(csv_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
 
 methods=[method1, method2, method3]
 
@@ -154,13 +155,13 @@ def export(dataframe, method, name, columns):
 
 for method in colonne_clusters:
     export(df, method, 'normalized', colonne_includere)
-    pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/raw/risultati/analisys_df.pkl")
-    df1 = pd.read_pickle(pkl_path)
+    csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/1-raw/results/analisys_df.csv")
+    df1 = pd.read_csv(csv_path)
     colonne = [col for col in df1.columns if col not in colonne_escludere]
     df1[method] = df[method]
     export(df1, method, 'raw', colonne)
-    pkl_path = os.path.join(cartella_progetto, "exploratory_data_analisys/dimensions_reduction/risultati/analisys_df.pkl")
-    df2 = pd.read_pickle(pkl_path)
+    csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/2-dimensions_reduction/results/analisys_df.csv")
+    df2 = pd.read_csv(csv_path)
     colonne = [col for col in df2.columns if col not in colonne_escludere]
     df2[method] = df[method]
     export(df2, method, 'dimensions_reduction', colonne)

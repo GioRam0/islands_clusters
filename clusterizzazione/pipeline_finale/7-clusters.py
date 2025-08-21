@@ -1,8 +1,6 @@
 #importo le librerie
 import os
 import pandas as pd
-import pickle
-import numpy as np
 from sklearn.cluster import KMeans
 
 # cartella in cui si trova lo script
@@ -10,8 +8,8 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
 #importo il dataframe
-pkl_path = os.path.join(cartella_corrente, 'dataframes', 'df_norm_first_step.pkl')
-df = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, 'dataframes', 'df_norm_first_step.csv')
+df = pd.read_csv(csv_path)
 #aggiungo le colonne per i clusters finali
 df['clusters_finali'] = -1
 
@@ -89,14 +87,14 @@ for clust, methods in metodi.items():
 df = df.drop(columns=['cannot', 'must', 'clusters'])
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'dataframes')
-output_path = os.path.join(output_folder, 'df_norm_final.pkl')
-df.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'df_norm_final.csv')
+df.to_csv(output_path)
 
 #importo il dataframe raw, aggiungo la colonna clusters_finali, droppo quelle inutili ed esporto
-pkl_path = os.path.join(cartella_corrente, 'dataframes', 'df_raw_first_step.pkl')
-df1 = pd.read_pickle(pkl_path)
+csv_path = os.path.join(cartella_corrente, 'dataframes', 'df_raw_first_step.csv')
+df1 = pd.read_csv(csv_path, index=False, encoding='utf-8')
 df1['clusters_finali'] = df['clusters_finali']
 df1 = df1.drop(columns=['cannot', 'must', 'clusters', 'clusters_list'])
 output_folder = os.path.join(cartella_corrente, 'dataframes')
-output_path = os.path.join(output_folder, 'df_raw_final.pkl')
-df1.to_pickle(output_path)
+output_path = os.path.join(output_folder, 'df_raw_final.csv')
+df1.to_csv(output_path, index=False, encoding='utf-8')
