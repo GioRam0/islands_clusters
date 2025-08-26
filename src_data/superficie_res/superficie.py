@@ -45,7 +45,7 @@ lc_image = ee.Image(lc100_collection.sort('system:time_start', False).first())
 #valori corrispondenti ai terreni non agibili per impianti rinnovabili
 excluded_values = [0, 40, 50, 70, 80, 111, 112, 113, 114, 115, 116]
 #dataset sull'elevazione
-ele=ee.ImageCollection("JAXA/ALOS/AW3D30/V3_2")        
+ele=ee.ImageCollection("JAXA/ALOS/AW3D30/V4_1")       
         
 #itero per le isole
 print(f"{len(gdf)} isole da svolgere")

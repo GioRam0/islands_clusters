@@ -3,7 +3,6 @@ import geopandas as gp
 import numpy as np
 import pickle
 import os
-
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
