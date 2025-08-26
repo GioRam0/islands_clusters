@@ -223,7 +223,7 @@ print(f'Ci sono {leng} isole con senza superficie agibile per rinnovabili')
 
 #resetto gli indici a causa degli elementi eliminati
 df = df.reset_index(drop=True)
-print(bddbhc)
+
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'results')
 os.makedirs(output_folder, exist_ok=True)
