@@ -15,7 +15,7 @@ folder_path = os.path.join(cartella_corrente, "../2-dimensions_reduction/results
 pkl_path = os.path.join(folder_path, "analisys_df.csv")
 df = pd.read_csv(pkl_path)
 
-standscaler=StandardScaler(with_mean=False)
+standscaler=StandardScaler()
 #solar applico standardscaler
 df['solar_pow']=standscaler.fit_transform(df[['solar_pow']])
 
@@ -26,20 +26,13 @@ for col in robust_features:
     df[col]=robscaler.fit_transform(df[[col]])
 
 #features cui applicare yeo-johnson e robustscaler
-yeo_features = ['gdp_cons_pop_urban_merged']
+yeo_features = ['gdp_cons_pop_urban_merged', 'eolico']
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
         ('robust_scaler', robscaler)
     ])
 for col in yeo_features:
     df[col] = yeo_pipeline.fit_transform(df[[col]])
-
-#eolico stessa cosa ma con standard scaler per non sottrarre la media
-yeo_pipeline = Pipeline([
-        ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
-        ('standard_scaler', standscaler)
-    ])
-df['eolico'] = yeo_pipeline.fit_transform(df[['eolico']])
 
 #features cui applicare log1p e robustscaler
 log_robust_features = ['superficie_res', 'Densità_pop', 'solar_seas_ind']
@@ -50,14 +43,14 @@ log_pipeline = Pipeline([
 for col in log_robust_features:
     df[col] = log_pipeline.fit_transform(df[[col]])
 
-#applico standard scaler perche ho la possibilita di non sottrarre la media e lasciare gli zero a zero
-#features cui applicare log1p e standardscaler, solo sui valori diversi da zero in quanto molti
+#features cui applicare log1p e standardscaler senza sottrazione della media, solo sui valori diversi da zero in quanto molti
+standscaler=StandardScaler(with_mean=False)
 zeri_log=['offshore', 'hydro']
 for col in zeri_log:
     df[col] = np.log1p(df[col])
     df[col] = standscaler.fit_transform(df[[col]])
 
-#alla colonna geothermal applico yeo-johnson e robustscaler, ma solo sui valori diversi da zero
+#alla colonna geothermal applico yeo-johnson e standard scaler per non sottrarre la media, ma solo sui valori diversi da zero
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
         ('standard_scaler', standscaler)
