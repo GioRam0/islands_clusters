@@ -1,5 +1,7 @@
 venv/
 
+*.pkl
+
 files/
 
 data/
@@ -10,12 +12,8 @@ exploratory_data_analisys/1-raw/results
 exploratory_data_analisys/2-dimensions_reduction/results
 exploratory_data_analisys/3-normalization/results
 
-clusterizzazione/multi_algo/results
-clusterizzazione/pipeline_finale/hopkins_stats
-clusterizzazione/pipeline_finale/kdeplots
-clusterizzazione/pipeline_finale/optimal_clust
-clusterizzazione/pipeline_finale/tsne_visualizations
-clusterizzazione/pipeline_finale/tsne_visualizations_colors
+clustering/constrained
+clustering/pipeline_finale
 
 __pycache__/
 **/.DS_Store
