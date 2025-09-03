@@ -1,0 +1,106 @@
+Cluster 0 - Hopkins statistic (m = 10 ): 0.999949165648513
+Cluster 0 - Hopkins statistic (m = 50 ): 0.999958146090409
+Cluster 0 - Hopkins statistic (m = 100 ): 0.998827421056103
+Cluster 0 - Hopkins statistic (m = 200 ): 0.999216811624087
+Cluster 0 - Hopkins statistic (m = 300 ): 0.999928814099313
+Cluster 0 - Hopkins statistic (m = 400 ): 0.999687891014357
+Cluster 0 - Hopkins statistic (m = 500 ): 0.999692140687869
+
+Cluster 0 - Hopkins statistic (clustertend) (m = 10 ): 0.114491725863589
+Cluster 0 - Hopkins statistic (clustertend) (m = 50 ): 0.151698798972264
+Cluster 0 - Hopkins statistic (clustertend) (m = 100 ): 0.151349728566226
+Cluster 0 - Hopkins statistic (clustertend) (m = 200 ): 0.134519335740267
+Cluster 0 - Hopkins statistic (clustertend) (m = 300 ): 0.143866927677077
+Cluster 0 - Hopkins statistic (clustertend) (m = 400 ): 0.141006604900669
+Cluster 0 - Hopkins statistic (clustertend) (m = 500 ): 0.15002011355902
+
+Cluster 1 - Hopkins statistic (m = 10 ): 0.992427395049477
+Cluster 1 - Hopkins statistic (m = 50 ): 0.998377901491488
+Cluster 1 - Hopkins statistic (m = 100 ): 0.999460332759054
+Cluster 1 - Hopkins statistic (m = 200 ): 0.922741038686575
+
+Cluster 1 - Hopkins statistic (clustertend) (m = 10 ): 0.174707860466323
+Cluster 1 - Hopkins statistic (clustertend) (m = 50 ): 0.219364436745163
+Cluster 1 - Hopkins statistic (clustertend) (m = 100 ): 0.185168542029715
+Cluster 1 - Hopkins statistic (clustertend) (m = 200 ): 0.188537923870562
+
+Cluster 2 - Hopkins statistic (m = 10 ): 0.999843117005126
+Cluster 2 - Hopkins statistic (m = 50 ): 0.938576890123658
+Cluster 2 - Hopkins statistic (m = 98 ): 0.951504099964587
+
+Cluster 2 - Hopkins statistic (clustertend) (m = 10 ): 0.276693613526062
+Cluster 2 - Hopkins statistic (clustertend) (m = 50 ): 0.296543087068009
+Cluster 2 - Hopkins statistic (clustertend) (m = 98 ): 0.281116082025418
+
+Cluster 3 - Hopkins statistic (m = 10 ): 0.739361434111618
+Cluster 3 - Hopkins statistic (m = 33 ): 0.964719852712561
+
+Cluster 3 - Hopkins statistic (clustertend) (m = 10 ): 0.405938640513678
+Cluster 3 - Hopkins statistic (clustertend) (m = 33 ): 0.364261250689789
+
+Cluster 4 - Hopkins statistic (m = 10 ): 0.99997343720693
+Cluster 4 - Hopkins statistic (m = 50 ): 0.999978052831323
+Cluster 4 - Hopkins statistic (m = 100 ): 0.999823530158655
+Cluster 4 - Hopkins statistic (m = 200 ): 0.999851931815271
+Cluster 4 - Hopkins statistic (m = 300 ): 0.999875871700081
+Cluster 4 - Hopkins statistic (m = 400 ): 0.999898166644267
+Cluster 4 - Hopkins statistic (m = 500 ): 0.999894911717499
+
+Cluster 4 - Hopkins statistic (clustertend) (m = 10 ): 0.149856450373417
+Cluster 4 - Hopkins statistic (clustertend) (m = 50 ): 0.167825579081631
+Cluster 4 - Hopkins statistic (clustertend) (m = 100 ): 0.165916069328997
+Cluster 4 - Hopkins statistic (clustertend) (m = 200 ): 0.163533799218218
+Cluster 4 - Hopkins statistic (clustertend) (m = 300 ): 0.158573178787123
+Cluster 4 - Hopkins statistic (clustertend) (m = 400 ): 0.156076721475822
+Cluster 4 - Hopkins statistic (clustertend) (m = 500 ): 0.158832984952687
+
+Cluster 5 - Hopkins statistic (m = 10 ): 0.999973224562381
+Cluster 5 - Hopkins statistic (m = 50 ): 0.998444721502826
+Cluster 5 - Hopkins statistic (m = 100 ): 0.996488852428406
+
+Cluster 5 - Hopkins statistic (clustertend) (m = 10 ): 0.256993489231432
+Cluster 5 - Hopkins statistic (clustertend) (m = 50 ): 0.219864009090058
+Cluster 5 - Hopkins statistic (clustertend) (m = 100 ): 0.214889596260997
+
+Cluster 6 - Hopkins statistic (m = 10 ): 0.997742479287608
+Cluster 6 - Hopkins statistic (m = 50 ): 0.999412651838445
+Cluster 6 - Hopkins statistic (m = 91 ): 0.998932841776031
+
+Cluster 6 - Hopkins statistic (clustertend) (m = 10 ): 0.33185669339069
+Cluster 6 - Hopkins statistic (clustertend) (m = 50 ): 0.282077768695065
+Cluster 6 - Hopkins statistic (clustertend) (m = 91 ): 0.277878720069757
+
+Cluster 7 - Hopkins statistic (m = 10 ): 0.983001465220004
+Cluster 7 - Hopkins statistic (m = 50 ): 0.99802509310491
+Cluster 7 - Hopkins statistic (m = 59 ): 0.997511240434257
+
+Cluster 7 - Hopkins statistic (clustertend) (m = 10 ): 0.357476997087524
+Cluster 7 - Hopkins statistic (clustertend) (m = 50 ): 0.339157103741936
+Cluster 7 - Hopkins statistic (clustertend) (m = 59 ): 0.330863905011625
+
+Cluster 8 - Hopkins statistic (m = 10 ): 0.990342700408898
+Cluster 8 - Hopkins statistic (m = 50 ): 0.997311434369736
+Cluster 8 - Hopkins statistic (m = 100 ): 0.991243815501742
+
+Cluster 8 - Hopkins statistic (clustertend) (m = 10 ): 0.303930315754491
+Cluster 8 - Hopkins statistic (clustertend) (m = 50 ): 0.254333813811358
+Cluster 8 - Hopkins statistic (clustertend) (m = 100 ): 0.268335409734555
+
+Cluster 9 - Hopkins statistic (m = 10 ): 0.997029076918193
+Cluster 9 - Hopkins statistic (m = 47 ): 0.892727659904724
+
+Cluster 9 - Hopkins statistic (clustertend) (m = 10 ): 0.233562343371729
+Cluster 9 - Hopkins statistic (clustertend) (m = 47 ): 0.236472531239747
+
+Cluster 10 - Hopkins statistic (m = 10 ): 0.992400225375215
+Cluster 10 - Hopkins statistic (m = 30 ): 0.438832247358194
+
+Cluster 10 - Hopkins statistic (clustertend) (m = 10 ): 0.300543806608954
+Cluster 10 - Hopkins statistic (clustertend) (m = 30 ): 0.29470362860185
+
+Cluster 11 - Hopkins statistic (m = 10 ): 0.705769968878607
+Cluster 11 - Hopkins statistic (m = 25 ): 0.825121681864671
+
+Cluster 11 - Hopkins statistic (clustertend) (m = 10 ): 0.403495133881487
+Cluster 11 - Hopkins statistic (clustertend) (m = 25 ): 0.388147536301793
+
