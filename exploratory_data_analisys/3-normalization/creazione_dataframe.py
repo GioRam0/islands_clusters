@@ -11,8 +11,8 @@ from sklearn.pipeline import Pipeline
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-folder_path = os.path.join(cartella_corrente, "../2-dimensions_reduction/results")
-pkl_path = os.path.join(folder_path, "analisys_df.csv")
+folder_path = os.path.join(cartella_corrente, "..")
+pkl_path = os.path.join(folder_path, "df_dim_reduction.csv")
 df = pd.read_csv(pkl_path)
 
 standscaler=StandardScaler()
@@ -61,11 +61,6 @@ df['geothermal_potential'] = yeo_pipeline.fit_transform(df[['geothermal_potentia
 df.loc[zero_mask, 'geothermal_potential'] = 0
 
 #esportazione
-output_folder = os.path.join(cartella_corrente, 'results')
-os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analisys_df.csv')
-df.to_csv(output_path, index=False, encoding='utf-8')
-
 output_folder = os.path.join(cartella_corrente, '..')
-output_path = os.path.join(output_folder, 'df_final.csv')
+output_path = os.path.join(output_folder, 'df_norm.csv')
 df.to_csv(output_path, index=False, encoding='utf-8')

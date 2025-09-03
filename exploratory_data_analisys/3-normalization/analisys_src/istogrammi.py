@@ -8,8 +8,8 @@ import numpy as np
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_norm.csv')
 df = pd.read_csv(csv_path)
 #colonne numeriche per cui non serve fare gli istogrammi
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
@@ -21,6 +21,8 @@ colonne_no_etichetta=[col for col in colonne_da_includere if (col not in colonne
 colonne_zeri = ['offshore', 'hydro', 'geothermal_potential']
 
 #creo ed esporto gli istogrammi
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "istogrammi")
 os.makedirs(output_folder, exist_ok=True)
 for col in df[colonne_no_etichetta].select_dtypes(include='number').columns:
@@ -121,10 +123,10 @@ for col in colonne_con_etichetta2:
     start_bin=np.floor(min_val / bin_width) * bin_width
     end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
     common_bins=np.arange(start_bin, end_bin, bin_width)
-    for i in range(7):
-        data = df[(df[colonna_etichetta] == vento[i]) | (df[colonna_etichetta]==gdp_pc[i])][col]
+    for i in range(1,8):
+        data = df[(df[colonna_etichetta] == i)][col]
         if len(data)>0:
-            plt.hist(data, bins=common_bins, color=colors[i], label=i, edgecolor='black')
+            plt.hist(data, bins=common_bins, color=colors[i-1], label=i, edgecolor='black')
     plt.title(f'Istogramma di {col}')
     plt.xlabel(f"{col}")
     plt.ylabel('Frequenza')

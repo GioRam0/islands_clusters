@@ -225,9 +225,8 @@ print(f'Ci sono {leng} isole con senza superficie agibile per rinnovabili')
 df = df.reset_index(drop=True)
 
 #esportazione
-output_folder = os.path.join(cartella_corrente, 'results')
-os.makedirs(output_folder, exist_ok=True)
-output_path = os.path.join(output_folder, 'analisys_df.csv')
+output_folder = os.path.join(cartella_corrente, '..')
+output_path = os.path.join(output_folder, 'df_raw.csv')
 df.to_csv(output_path, index=False, encoding='utf-8')
 
 #{'evi': [0, 0], 'eolico': [0, 0], 'gdp_2019': [0, 2], 'consumption': [0, 2], 'temp': [0, 0], 'prec': [0, 0], 'hdd': [0, 0], 'cdd': [0, 0], 'solar': [0, 0]}

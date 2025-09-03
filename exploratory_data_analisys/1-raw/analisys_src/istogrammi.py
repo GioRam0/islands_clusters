@@ -8,8 +8,8 @@ import numpy as np
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_raw.csv')
 df = pd.read_csv(csv_path)
 #colonne numeriche per cui non serve fare gli istogrammi
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
@@ -20,6 +20,8 @@ colonne_con_etichetta2={"eolico":"Wind_class"}
 colonne_no_etichetta=[col for col in colonne_da_includere if (col not in colonne_con_etichetta and col not in colonne_con_etichetta2)]
 
 #creo ed esporto gli istogrammi
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "istogrammi")
 os.makedirs(output_folder, exist_ok=True)
 for col in df[colonne_no_etichetta].select_dtypes(include='number').columns:

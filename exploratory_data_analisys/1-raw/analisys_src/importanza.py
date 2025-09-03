@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_raw.csv')
 df = pd.read_csv(csv_path)
 #colonne numeriche non da analizzare
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
@@ -22,6 +22,8 @@ descr=df[colonne_da_includere].select_dtypes(include='number').describe()
 
 #seleziono le features da me ritenute principali e calcolo l'importanza delle altre
 target_features=['IslandArea', 'Popolazione', 'solar_pow', 'eolico', 'gdp_2019', 'consumption']
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "importanza")
 os.makedirs(output_folder, exist_ok=True)
 

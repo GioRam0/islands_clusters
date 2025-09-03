@@ -9,13 +9,15 @@ import seaborn as sns
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_dim_reduction.csv')
 df = pd.read_csv(csv_path)
 #colonne con distribuzioni a coda
 colonne_code=['superficie_res', 'Densità_pop', 'offshore', 'geothermal_potential', 'gdp_cons_pop_urban_merged', 'hydro', 'solar_seas_ind']
 
 #creo ed esporto i kdeplots
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "kde_plots")
 os.makedirs(output_folder, exist_ok=True)
 for col in df[colonne_code].select_dtypes(include='number').columns:

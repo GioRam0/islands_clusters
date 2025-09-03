@@ -8,13 +8,15 @@ import numpy as np
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_raw.csv')
 df = pd.read_csv(csv_path)
 #colonne con distribuzioni a coda
 colonne_code=['IslandArea', 'Popolazione', 'Densità_pop', 'offshore', 'gdp_2019', 'geothermal_potential', 'hydro', 'urban_area', 'urban_area_rel','ele_max']
 
 #creo ed esporto gli istogrammi
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "istogrammi")
 os.makedirs(output_folder, exist_ok=True)
 for col in df[colonne_code].select_dtypes(include='number').columns:

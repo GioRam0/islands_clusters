@@ -8,14 +8,16 @@ import seaborn as sns
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
-ris_folder = os.path.join(cartella_corrente, "..", "results")
-csv_path=os.path.join(ris_folder, 'analisys_df.csv')
+df_folder = os.path.join(cartella_corrente, "..", "..")
+csv_path=os.path.join(df_folder, 'df_raw.csv')
 df = pd.read_csv(csv_path)
 #colonne numeriche per cui non ha senso realizzare i KDE-plots
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
 
 #creo ed esporto i kdeplot
+ris_folder = os.path.join(cartella_corrente, "..", "results")
+os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, "kde_plots")
 os.makedirs(output_folder, exist_ok=True)
 for col in df[colonne_da_includere].select_dtypes(include='number').columns:
