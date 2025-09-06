@@ -14,7 +14,7 @@ exploratory_data_analisys/3-normalization/results
 
 clustering/multi_algo/results
 clustering/constrained/
-#!clustering/constrained/**/*.py
+!clustering/constrained/**/*.py
 clustering/pipeline_finale
 
 __pycache__/
