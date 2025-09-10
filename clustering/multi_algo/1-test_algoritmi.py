@@ -46,20 +46,14 @@ results = pd.DataFrame(columns=["algorithm", "n_clusters", "option", "silhouette
 
 def results_creation(name,n,labels,option=None):
     if n<200:
-        print(f"Results for {name}, {n} clusters, {option} option:")
         scores = []
         for metric_name, metric_func in evaluation_metrics.items():
             try:
                 score = metric_func(X, labels)
                 scores.append(score)
-                print(f"  {metric_name}: {score:.3f}")
             except Exception as e:
                 scores.append(None)
-                print(f"  {metric_name} {n} clusters: Error ({e})")
         results.loc[len(results)] = [name, n, option, scores[0], scores[1], scores[2]]
-    else:
-        print(f"Results for {name}, {n} clusters, {option} option:")
-        print('Too many clusters')
 #itero per gli algoritmi
 for name, algo in algorithms.items():
     print(f"Running {name}...")

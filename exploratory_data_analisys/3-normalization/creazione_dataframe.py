@@ -15,12 +15,8 @@ folder_path = os.path.join(cartella_corrente, "..")
 pkl_path = os.path.join(folder_path, "df_dim_reduction.csv")
 df = pd.read_csv(pkl_path)
 
-standscaler=StandardScaler()
-#solar applico standardscaler
-df['solar_pow']=standscaler.fit_transform(df[['solar_pow']])
-
 #features cui applicare solo robustscaler
-robust_features = ['temp', 'eolico_std', 'evi']
+robust_features = ['solar_pow','temp', 'eolico_std', 'evi']
 robscaler=RobustScaler()
 for col in robust_features:
     df[col]=robscaler.fit_transform(df[[col]])
@@ -43,22 +39,23 @@ log_pipeline = Pipeline([
 for col in log_robust_features:
     df[col] = log_pipeline.fit_transform(df[[col]])
 
-#features cui applicare log1p e standardscaler senza sottrazione della media, solo sui valori diversi da zero in quanto molti
-standscaler=StandardScaler(with_mean=False)
+#features cui applicare log1p e robustscaler senza sottrazione della media, solo sui valori diversi da zero in quanto molti
+standsclaer=StandardScaler(with_mean=False)
 zeri_log=['offshore', 'hydro']
 for col in zeri_log:
     df[col] = np.log1p(df[col])
-    df[col] = standscaler.fit_transform(df[[col]])
+    df[col] = robscaler.fit_transform(df[[col]])
 
 #alla colonna geothermal applico yeo-johnson e standard scaler per non sottrarre la media, ma solo sui valori diversi da zero
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
-        ('standard_scaler', standscaler)
+        ('standard_scaler', standsclaer)
     ])
 zero_mask = df['geothermal_potential'] <= 0
 df.loc[zero_mask, 'geothermal_potential'] = np.nan
 df['geothermal_potential'] = yeo_pipeline.fit_transform(df[['geothermal_potential']])
 df.loc[zero_mask, 'geothermal_potential'] = 0
+df['geothermal_potential'] = df['geothermal_potential']
 
 #esportazione
 output_folder = os.path.join(cartella_corrente, '..')

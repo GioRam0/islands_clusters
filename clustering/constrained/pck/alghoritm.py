@@ -51,7 +51,7 @@ for w in weights:
         else:
             violazioni[n_clust-5].append(violazione)
     plt.figure(figsize=(12, 10))
-    plt.plot(range(5,16), shilouette, marker='o')
+    plt.plot(range(5,26), shilouette, marker='o')
     plt.title(f'Elbow Method for Optimal K, w={w}')
     plt.xlabel('Number of clusters (k)')
     plt.ylabel(f'Shilouette_score PCKMeans')
@@ -65,7 +65,7 @@ for w in weights:
 for n in range(len(violazioni)):
     plt.figure(figsize=(12, 10))
     plt.plot(weights, violazioni[n], marker='o')
-    plt.title(f'vincoli violati per f{n+5} cluster')
+    plt.title(f'vincoli violati per {n+5} cluster')
     plt.xlabel('violation_weight (w)')
     plt.ylabel(f'violazioni totali')
     plt.grid(True)

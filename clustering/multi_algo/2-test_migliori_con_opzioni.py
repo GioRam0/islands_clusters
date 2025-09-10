@@ -35,7 +35,7 @@ X = df[colonne_includere].values
 
 print('Kmeans...')
 for n in range(5, 13):
-    print(n)
+    print(f'{n} cluster')
     for init in ['k-means++', 'random']:
         for algo in ['lloyd', 'elkan']:
             for state in [42, 123, 456, 789, 1011, 2022, 3033, 4044, 5055, 6066]:
@@ -59,7 +59,7 @@ for n in range(5, 13):
 
 print('BisectingKMeans...')
 for n in range(5, 13):
-    print(n)
+    print(f'{n} cluster')
     for init in ['k-means++', 'random']:
         for algo in ['lloyd', 'elkan']:
             for state in [42, 123, 456, 789, 1011, 2022, 3033, 4044, 5055, 6066]:
@@ -83,7 +83,7 @@ for n in range(5, 13):
 
 print('Birch...')
 for n in range(5, 13):
-    print(n)
+    print(f'{n} cluster')
     for threshold in [0.01,0.02,0.05,0.1,0.2,0.3,0.5, 1.0, 1.5,2,5,10]:
         for branching_factor in [10, 20, 30, 40, 50, 75, 100, 150, 200, 500]:
             options = {
@@ -106,7 +106,7 @@ for n in range(5, 13):
 
 print('AgglomerativeClustering...')
 for n in range(5, 50):
-    print(n)
+    print(f'{n} cluster')
     for linkage in ['ward', 'complete', 'average', 'single']:
         # 'ward' linkage only supports 'euclidean' affinity
         metric_list = ['euclidean'] if linkage == 'ward' else ['euclidean', 'l1', 'l2', 'manhattan', 'cosine']
@@ -133,15 +133,13 @@ for n in range(5, 50):
 
 print('SpectralClustering...')
 for n in range(5, 13):
-    print(n)
+    print(f'{n} cluster')
     for affinity in ['rbf', 'nearest_neighbors', 'cosine', 'linear', 'polynomial', 'poly', 'sigmoid']:
         print(affinity)
         # Only set n_neighbors for 'nearest_neighbors' affinity
         n_neighbors_list = [5, 10, 15, 20, 50, 100] if affinity == 'nearest_neighbors' else [None]
         for n_neighbors in n_neighbors_list:
-            print(n_neighbors)
             for assign_label in ['kmeans', 'discretize', 'cluster_qr']:
-                print(assign_label)
                 for state in [42, 123, 456, 789, 1011, 2022, 3033, 4044, 5055, 6066]:
                     options = {
                         'n_clusters': n,
