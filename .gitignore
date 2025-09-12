@@ -12,8 +12,6 @@ exploratory_data_analisys/1-raw/results
 exploratory_data_analisys/2-dimensions_reduction/results
 exploratory_data_analisys/3-normalization/results
 
-clustering/constrained/**/*.png
-clustering/constrained/**/*.csv
 clustering/pipeline_finale/first_step/dataframes
 clustering/pipeline_finale/first_step/kdeplots_cluster
 clustering/pipeline_finale/first_step/tsne_visualizations_colors
