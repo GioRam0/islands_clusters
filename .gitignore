@@ -15,7 +15,10 @@ exploratory_data_analisys/3-normalization/results
 clustering/multi_algo/results
 clustering/constrained/**/*.png
 clustering/constrained/**/*.csv
-clustering/pipeline_finale
+clustering/pipeline_finale/first_step/dataframes
+clustering/pipeline_finale/first_step/kdeplots_cluster
+clustering/pipeline_finale/first_step/tsne_visualization_colors
+clustering/pipeline_finale/second_step/results
 
 __pycache__/
 **/.DS_Store
