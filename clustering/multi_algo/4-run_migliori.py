@@ -105,7 +105,7 @@ for col in colonne_clusters:
 #esporto i risultati dei metodi validi
 colonne_clusters = [col for col in colonne_clusters if col not in metodi_non_validi]
 
-#funzione che prende in input il dataframe cui deve essere applicato, il metodo di clusterizzazione, il nome della cartella output e la lista di colonne del dataframe contenente i dati
+#funzione che prende in input il dataframe cui deve essere applicato, il metodo di clustering, il nome della cartella output e la lista di colonne del dataframe contenente i dati
 def export(dataframe, method, name, columns):
     #proiezione in due dimensioni
     pca = PCA(n_components=2)

@@ -39,17 +39,20 @@ log_pipeline = Pipeline([
 for col in log_robust_features:
     df[col] = log_pipeline.fit_transform(df[[col]])
 
-#features cui applicare log1p e robustscaler senza sottrazione della media, solo sui valori diversi da zero in quanto molti
-standsclaer=StandardScaler(with_mean=False)
+#features cui applicare log1p e robustscaler (la mediana è nulla), i valori nulli restano nulli
 zeri_log=['offshore', 'hydro']
+standscaler = StandardScaler(with_mean=False)
 for col in zeri_log:
+    zero_mask = df[col] <= 0
+    df.loc[zero_mask, col] = np.nan
     df[col] = np.log1p(df[col])
-    df[col] = robscaler.fit_transform(df[[col]])
-
+    df[col] = standscaler.fit_transform(df[[col]])
+    df.loc[zero_mask, col] = 0
+    
 #alla colonna geothermal applico yeo-johnson e standard scaler per non sottrarre la media, ma solo sui valori diversi da zero
 yeo_pipeline = Pipeline([
         ('yeojohnson', PowerTransformer(method='yeo-johnson', standardize= False)),
-        ('standard_scaler', standsclaer)
+        ('standard_scaler', standscaler)
     ])
 zero_mask = df['geothermal_potential'] <= 0
 df.loc[zero_mask, 'geothermal_potential'] = np.nan
