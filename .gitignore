@@ -8,9 +8,5 @@ data/
 
 src_data/1-files/downloaded_files.pkl/
 
-exploratory_data_analisys/1-raw/results
-exploratory_data_analisys/2-dimensions_reduction/results
-exploratory_data_analisys/3-normalization/results
-
 __pycache__/
 **/.DS_Store
