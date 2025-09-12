@@ -1,0 +1,13 @@
+Valore di m utilizzato: 25
+Media della statistica di Hopkins (libreria 'cluster'): 0.769571
+Media della statistica di Hopkins (libreria 'clustertend'): 0.384295
+
+Cluster 11 , elementi con hydro non nullo 12 , elementi con hydro nullo 14
+Media della statistica di Hopkins (libreria 'cluster'): 0.506775
+Media della statistica di Hopkins (libreria 'clustertend'): 0.372895
+
+Cluster 11 , elementi con hydro non nullo 12 , elementi con hydro nullo 14
+Elementi con geot non nullo 9 , elementi con geot nullo 17
+Media della statistica di Hopkins (libreria 'cluster'): 0.738813
+Media della statistica di Hopkins (libreria 'clustertend'): 0.401711
+

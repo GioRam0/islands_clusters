@@ -1,0 +1,45 @@
+Numero di isole nel cluster: 60
+Isole nel cluster con hydro > 0 : 40
+Isole nel cluster con geothermal_potential > 0 : 23
+Isole nel cluster con offshore > 0 : 48
+Isole nel cluster con Solar_etichetta == L : 8
+Isole nel cluster con Solar_etichetta == M : 32
+Isole nel cluster con Solar_etichetta == S : 20
+Isole nel cluster con Wind_class > 4 : 23
+Isole nel cluster con 2 < Wind_class < 5 : 13
+Isole nel cluster con Wind_class < 3 : 24
+
+Numero di isole nel sottocluster 0: 10
+Isole nel sottocluster con hydro > 0 : 10
+Isole nel sottocluster con geothermal_potential > 0 : 2
+Isole nel sottocluster con offshore > 0 : 10
+Isole nel sottocluster con Solar_etichetta == L : 0
+Isole nel sottocluster con Solar_etichetta == M : 0
+Isole nel sottocluster con Solar_etichetta == S : 10
+Isole nel sottocluster con Wind_class > 4 : 4
+Isole nel sottocluster con 2 < Wind_class < 5 : 4
+Isole nel sottocluster con Wind_class < 3 : 2
+
+Numero di isole nel sottocluster 1: 30
+Isole nel sottocluster con hydro > 0 : 30
+Isole nel sottocluster con geothermal_potential > 0 : 15
+Isole nel sottocluster con offshore > 0 : 22
+Isole nel sottocluster con Solar_etichetta == L : 4
+Isole nel sottocluster con Solar_etichetta == M : 24
+Isole nel sottocluster con Solar_etichetta == S : 2
+Isole nel sottocluster con Wind_class > 4 : 9
+Isole nel sottocluster con 2 < Wind_class < 5 : 5
+Isole nel sottocluster con Wind_class < 3 : 16
+
+Numero di isole nel sottocluster 2: 20
+Isole nel sottocluster con hydro > 0 : 0
+Isole nel sottocluster con geothermal_potential > 0 : 6
+Isole nel sottocluster con offshore > 0 : 16
+Isole nel sottocluster con Solar_etichetta == L : 4
+Isole nel sottocluster con Solar_etichetta == M : 8
+Isole nel sottocluster con Solar_etichetta == S : 8
+Isole nel sottocluster con Wind_class > 4 : 10
+Isole nel sottocluster con 2 < Wind_class < 5 : 4
+Isole nel sottocluster con Wind_class < 3 : 6
+
+% di varianza nel cluster spiegata dai sottocluster: 0.5931211981477408
