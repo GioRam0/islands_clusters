@@ -44,6 +44,9 @@ for clust, iper in iperparam.items():
     for i,isl in df1.iterrows():
         df.loc[i, 'cluster_finali'] = df1.loc[i,'cluster_finali']
 
+#creo una colonna con un id univoco dei cluster finali
+df["cluster_id"] = df["cluster"].astype(str) + "." + df["cluster_finali"].astype(str)
+
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'results/dataframes')
 os.makedirs(output_folder, exist_ok=True)
