@@ -23,7 +23,7 @@ cluster_means_norm = cluster_means.apply(
 )
 #plot della heatmap
 plt.figure(figsize=(10, 6))
-sns.heatmap(cluster_means_norm, cmap="viridis", annot=True, cbar=True)
+sns.heatmap(cluster_means_norm, cmap="viridis", cbar=True)
 plt.title("Heatmap delle medie per cluster (normalizzate per feature)")
 plt.ylabel("Feature")
 plt.xlabel("Cluster")
@@ -48,7 +48,7 @@ for cl in range(n_clust_first):
     subset = means_norm[means_norm['cluster'] == cl]
     subset = subset.set_index('cluster_finali')[colonne1]
     plt.figure(figsize=(10, 6))
-    sns.heatmap(subset, annot=True, vmin=0, vmax=1, cmap="viridis", cbar=True)
+    sns.heatmap(subset, vmin=0, vmax=1, cmap="viridis", cbar=True)
     plt.title(f"Heatmap medie normalizzate - Cluster padre {cl}")
     plt.ylabel("Feature")
     plt.xlabel("Cluster finali")
@@ -110,7 +110,6 @@ ax_heat = plt.subplot(gs[1])
 sns.heatmap(
     ordered_norm,
     cmap="viridis",
-    annot = True,
     cbar=True,
     ax=ax_heat,
     yticklabels=[f"{i[0]}.{i[1]}" for i in ordered.index]
