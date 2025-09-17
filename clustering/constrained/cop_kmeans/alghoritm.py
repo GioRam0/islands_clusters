@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.metrics import silhouette_score
-import sys
 #importo algoritmi di clustering
 from active_semi_clustering.semi_supervised.pairwise_constraints import COPKMeans
-#mi sa qua non serve
-sys.setrecursionlimit(2000)
 
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))

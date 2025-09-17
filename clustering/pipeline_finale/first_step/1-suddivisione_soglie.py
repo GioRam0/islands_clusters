@@ -2,8 +2,6 @@
 import os
 import pandas as pd
 import numpy as np
-import random
-import math
 
 # cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))

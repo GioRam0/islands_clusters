@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.metrics import silhouette_score
-import sys
 #importo algoritmi di clustering
 from active_semi_clustering.semi_supervised.pairwise_constraints import MKMeans
 
