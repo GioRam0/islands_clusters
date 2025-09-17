@@ -6,7 +6,5 @@ files/
 
 data/
 
-src_data/1-files/downloaded_files.pkl/
-
 __pycache__/
 **/.DS_Store
