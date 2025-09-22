@@ -157,9 +157,8 @@ def export(dataframe, method, name, columns):
             plt.figure(figsize=(8, 6))
             data = [dataframe[dataframe[method] == cluster_label][feature] for cluster_label in cluster_labels]
             plt.boxplot(data, vert=True, patch_artist=True)
-            plt.xlabel('Cluster')
-            plt.ylabel(feature)
-            plt.title(f'{feature} distribution by {method} clusters')
+            plt.xlabel('')
+            plt.ylabel('')
             plt.xticks(ticks=range(1, len(cluster_labels) + 1), labels=[f'Cluster {label}' for label in cluster_labels])
             plt.tight_layout()
             boxplot_folder = os.path.join(output_folder, 'boxplot')
