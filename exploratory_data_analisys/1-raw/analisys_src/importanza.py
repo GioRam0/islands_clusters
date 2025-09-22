@@ -44,6 +44,8 @@ for target_feature in target_features:
     }).sort_values(by='importance', ascending=False)
     plt.figure(figsize=(12, 10))
     sns.barplot(data=feat_importance_df, x='importance', y='feature', palette='viridis')
+    plt.xlabel('')
+    plt.ylabel('')
     plt.tight_layout()
     output_path=os.path.join(output_folder, f'{target_feature}_importance.png')
     plt.savefig(output_path)
