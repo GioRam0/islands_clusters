@@ -1,9 +1,7 @@
-#importo le librerie
 import pickle
 import os
 import pandas as pd
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo i vincoli
@@ -20,7 +18,7 @@ print(f"sono stati creati {len(cannot_densi)} cannot-link a causa di differenze 
 cont1 = (len(cannot_densi)*2)/2012
 print(f"un'isola mediamente ha {cont1} cannot-link a casua di differenze di densità abitativa")
 
-#unisco le due liste
+#unisco le due liste ed elimino le ripetizioni
 set_unito = set(cannot_cons) | set(cannot_densi)
 cannot = list(set_unito)
 print(f"sono stati creati {len(cannot)} cannot-link complessivi")

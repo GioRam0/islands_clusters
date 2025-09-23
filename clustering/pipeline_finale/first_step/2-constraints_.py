@@ -1,4 +1,3 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -9,6 +8,7 @@ cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 #importo il dataframe
 pkl_path = os.path.join(cartella_corrente, "dataframes", "df_raw_assegnazioni_iniziali.pkl")
 df = pd.read_pickle(pkl_path)
+#colonna da riempire con indici di isole estremamente simili
 df['must'] = [[] for _ in range(len(df))]
 
 #itero per le isole, assegno un vincolo must-link per le isole non assegnate con le isole in cluster compatibili e caratteristiche analoghe
@@ -19,6 +19,7 @@ for k,(i, isl) in enumerate(df.iterrows(),1):
     if isl.cluster != -1:
         continue
     dens_list, cons_list = isl.dens_cluster_list, isl.consumption_cluster_list
+    #filtro solo gli elementi compatibili con l'isola corrente e applico i vari criteri
     df1 = df[df['dens_cluster_list'].apply(lambda x: any(item in dens_list for item in x))]
     df1 = df1[df1['consumption_cluster_list'].apply(lambda x: any(item in cons_list for item in x))]
     if isl.hydro > isl.consumption:

@@ -1,9 +1,7 @@
-#importo le librerie
 import os
 import pandas as pd
 import numpy as np
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -11,15 +9,18 @@ cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/df_raw.csv")
 df = pd.read_csv(csv_path)
 
+#nuove colonne in cui inserire il numero del cluster cui l'elemento può essere assegnato per le due variabili considerate
 df['dens_cluster_list']= [[] for _ in range(len(df))]
 df['consumption_cluster_list']= [[] for _ in range(len(df))]
+#colonna con il numero del cluster assegnato
 df['cluster'] = -1
+#soglie suddivisione
 soglie_den=[50,350]
 soglie_consumption=[2*(10**6), 15*(10**6), 100*(10**6)]
 
 #assegno i possibili cluster per denista
 for i in range(len(soglie_den)+1):
-    #limiti classi di appartenenza, non zone cuscinetto
+    #limiti classi di appartenenza, escluse le zone cuscinetto
     lower = 0 if i == 0 else soglie_den[i-1]*1.1
     upper = np.inf if i == len(soglie_den) else soglie_den[i]*0.9
     df1 = df[(df['Densità_pop'] >= lower) & (df['Densità_pop'] <= upper)]
@@ -36,7 +37,7 @@ for i in range(len(soglie_den)+1):
             df.loc[ind, 'dens_cluster_list'].append(i+1)
 #assegno i possibili cluster per consumi
 for i in range(len(soglie_consumption)+1):
-    #limiti classi di appartenenza, non zone cuscinetto
+    #limiti classi di appartenenza, escluse zone cuscinetto
     lower = 0 if i == 0 else soglie_consumption[i-1]*1.1
     upper = np.inf if i == len(soglie_consumption) else soglie_consumption[i]*0.9
     df1 = df[(df['consumption'] >= lower) & (df['consumption'] <= upper)]

@@ -1,11 +1,9 @@
-#importo le librerie
 import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe normalizzato
@@ -43,7 +41,7 @@ means_norm = means.copy()
 means_norm[colonne1] = means[colonne1].apply(
     lambda x: (x - x.min()) / (x.max() - x.min()), axis=0
 )
-#itero per realizzare le verie heatmap
+#itero per realizzare le varie heatmap
 for cl in range(n_clust_first):
     subset = means_norm[means_norm['cluster'] == cl]
     subset = subset.set_index('cluster_finali')[colonne1]

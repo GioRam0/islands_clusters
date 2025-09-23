@@ -1,11 +1,9 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
 from sklearn.cluster import KMeans, BisectingKMeans, Birch, AgglomerativeClustering, SpectralClustering
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
@@ -16,6 +14,7 @@ df = pd.read_csv(csv_path)
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'consumption_etichetta', 'Wind_class', 'NO_res']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]
 
+#algortimi da provare
 algorithms = {
     "KMeans": KMeans,
     "BisectingKMeans": BisectingKMeans,
@@ -23,11 +22,13 @@ algorithms = {
     "AgglomerativeClustering": AgglomerativeClustering,
     "SpectralClustering": SpectralClustering
 }
+#metriche valutative
 evaluation_metrics = {
     "silhouette_score": silhouette_score,
     "calinski_harabasz_score": calinski_harabasz_score,
     "davies_bouldin_score": davies_bouldin_score
 }
+#dataframe in cui salvare i risultati
 columns = ['algorithm', 'options'] + list(evaluation_metrics.keys())
 results = pd.DataFrame(columns=columns)
 
@@ -172,7 +173,7 @@ for n in range(5, 13):
                     except Exception as e:
                         print(f"Error fitting SpectralClustering for options {options}: {e}")
 
-#esportazione
+#esportazione risultati
 output_dir = os.path.join(cartella_corrente, "results")
 os.makedirs(output_dir, exist_ok=True)
 results.to_pickle(os.path.join(output_dir, "clustering_results.pkl"))

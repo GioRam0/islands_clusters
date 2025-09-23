@@ -1,9 +1,7 @@
-#importo le librerie
 import pickle
 import os
 import pandas as pd
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -15,11 +13,13 @@ df = pd.read_csv(csv_path)
 cl_densi = []
 cl_cons = []
 
+#itero per le isole
 for k,(ind,isl) in enumerate(df.iterrows(),0):
     if k%100==0:
         print(k)
     den = isl.Densità_pop
     cons = (isl.consumption)/1000000
+    #itero per le isole successive (evito ripetizioni), dai confronti dei valori aggiungo o meno la tupla con gli indici delle isole alla lista di vincoli
     for k1,(ind1,isl1) in enumerate(df.iloc[k+1:].iterrows(),k+1):
         den1 = isl1.Densità_pop
         if den<=45:
@@ -61,7 +61,7 @@ for k,(ind,isl) in enumerate(df.iterrows(),0):
             if cons1<=90:
                 cl_cons.append((ind,ind1))
 
-#esportazione
+#esportazione vincoli
 output_path = os.path.join(cartella_corrente, 'cannot_link_densita.pkl')
 with open(output_path, 'wb') as f:
     pickle.dump(cl_densi, f)

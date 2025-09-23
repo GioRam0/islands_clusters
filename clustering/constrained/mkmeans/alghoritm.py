@@ -1,13 +1,11 @@
-#importo le librerie
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.metrics import silhouette_score
-#importo algoritmi di clustering
+#importo l'algoritmo di clustering
 from active_semi_clustering.semi_supervised.pairwise_constraints import MKMeans
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -29,6 +27,7 @@ def calcolo_violazioni(labels):
             cont+=1
     return cont/len(cl)
 
+#ripeto la run diverse volte, salvo i risultati con un numero diverso ogni volta
 def funzione(i):
     shilouette = []
     violazioni = []
@@ -65,12 +64,13 @@ def funzione(i):
     plt.savefig(output_path)
     plt.close()
 
-    #esportazione
+    #esportazione dataframe
     folder_path = os.path.join(cartella_corrente, 'dataframes')
     os.makedirs(folder_path,exist_ok=True)
     output_path = os.path.join(folder_path, f'df_etichette_vari_k_run_{i}.csv')
     df.to_csv(output_path)
 
+#ripeto la run diverse volte
 for i in range(10):
     print(f'run {i+1}')
     funzione(i)

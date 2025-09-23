@@ -1,11 +1,9 @@
-#importo le librerie
 import os
 import pandas as pd
 import numpy as np
 import random
 import math
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -13,9 +11,11 @@ cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 pkl_path = os.path.join(cartella_corrente, "dataframes/df_raw_constraints.pkl")
 df = pd.read_pickle(pkl_path)
 
+#soglie relative alle classi
 soglie_den=[50,350]
 soglie_consumption=[2*(10**6), 15*(10**6), 100*(10**6)]
 
+#elementi non assegnati
 n = len(df[df['cluster']==-1])
 print(f'isole non assegnate con soglie rigide: {n}')
 
@@ -59,8 +59,10 @@ print(f'isole appartenenti a entrambe le zone cuscinetto (quattro possibili asse
 #per ogni elemento creo la lista di possibili cluster, non relativi alle singole variabili, metto l'etichetta del nome complessivo
 df['cluster_list'] = [[] for _ in range(len(df))]
 for i,isl in df.iterrows():
+    #isole assegnate
     if isl.cluster != -1:
         df.loc[i,'cluster_list'].append(isl.cluster)
+    #isole non assegnate
     if (len(isl.dens_cluster_list) == 2) and (len(isl.consumption_cluster_list) == 1):
         value = isl.dens_cluster_list[0] * 4 + isl.consumption_cluster_list[0]
         df.loc[i,'cluster_list'].append(value)
@@ -98,6 +100,7 @@ def find_groups(vincoli):
             dfs(i, current)
             groups.append(current)
     return groups
+#funzione che assegna elementi collegati se hanno un'assegnazione comune
 def assegnamento_ottimizzato(possibili_clusters, assegnato, vincoli):
     #gruppi di elementi collegati
     groups = find_groups(vincoli)
@@ -122,7 +125,6 @@ assegnamento_ottimizzato(df['cluster_list'], df['cluster'], df['must'])
 n = len(df[df['cluster'] == -1])
 print(f'elementi non assegnati dopo della propagazione sul grafo (nessun vincolo violato con questa assegnazione): {n}')
 
-#ricerca locale
 #funzione che prende in input gli assegnamenti e i vincoli e calcola le violazioni
 def compute_violations(assignments, must_link):
     violations = 0
@@ -131,6 +133,7 @@ def compute_violations(assignments, must_link):
             if assignments[i] != assignments[j]:
                 violations += 1
     return violations
+#ricerca locale
 def local_search(assignments, possible_assignments, not_assigned_indexes, must_link, max_iter=10000):
     #itero per elementi non assegnati scegliendo un'assegnazione casuale tra le possibili
     for i in not_assigned_indexes:
@@ -145,7 +148,7 @@ def local_search(assignments, possible_assignments, not_assigned_indexes, must_l
             #parametri ricerca locale, per valutare miglioramenti
             best_local = assignments[i]
             min_local_violations = best_violations
-            #itero per i possibili assegnamenti
+            #itero per i possibili assegnamenti, se ne trovo uno che migliora le violazioni lo assegno
             for g in possible_assignments[i]:
                 if g == current_group:
                     continue
@@ -158,11 +161,12 @@ def local_search(assignments, possible_assignments, not_assigned_indexes, must_l
             assignments[i] = best_local
             best_assignments = assignments.copy()
             best_violations = min_local_violations
+        #se non miglioro mi fermo
         if not improved:
             break
     return best_assignments,best_violations
 
-#ripetizione ricerca locale
+#ripetizione ricerca locale, natura casuale
 min = 100000
 for i in range(200):
     score = (local_search(list(df['cluster']), list(df['cluster_list']), list(df[df['cluster'] == -1].index), list(df['must']))[1])
@@ -176,10 +180,9 @@ def simulated_annealing(assignments, possible_assignments, not_assigned_indexes,
     #assegnazione iniziale casuale e calcolo violazioni
     for i in not_assigned_indexes:
         assignments[i] = random.choice(possible_assignments[i])
-    #valori correnti
+    #valori correnti, usati come iniziali valori ottimi
     current_assignments = assignments.copy()
     current_violations = compute_violations(current_assignments, must_link)
-    #usati come iniziali valori ottimi
     best_assignments = current_assignments.copy()
     best_violations = current_violations
     #inizializzazione temperatura
@@ -218,12 +221,13 @@ labels, score = simulated_annealing(list(df['cluster']), list(df['cluster_list']
 print(f"L'algoritmo di ricerca locale arriva a una soluzione con {score} violazioni")
 df['cluster'] = labels
 df.drop(['dens_cluster_list', 'consumption_cluster_list', 'must', 'cluster_list'], axis=1, inplace=True)
+
 #esportazione
 output_folder = os.path.join(cartella_corrente, 'dataframes')
 output_path = os.path.join(output_folder, 'df_raw_first_step.csv')
 df.to_csv(output_path, index=False, encoding='utf-8')
 
-#importo il dataframe normalizzato
+#importo il dataframe normalizzato, applico i cluster ed esporto
 csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys\df_norm.csv")
 df = pd.read_csv(csv_path)
 df['cluster'] = labels

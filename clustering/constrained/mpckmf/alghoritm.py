@@ -1,15 +1,13 @@
-#importo le librerie
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.metrics import silhouette_score
 import sys
-#importo algoritmi di clustering
+#importo l'algoritmo di clustering
 from active_semi_clustering.semi_supervised.pairwise_constraints import MPCKMeansMF
 sys.setrecursionlimit(2000)
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -23,7 +21,9 @@ colonne_includere=[col for col in df.columns if col not in colonne_escludere]
 pkl_path = os.path.join(cartella_corrente, '..', '0-constraints', 'cannot_link.pkl')
 cl = pickle.load(open(pkl_path, 'rb'))
 
+#pesi violazioni da iterare
 weights = [0.5,1,2,3]
+#lista da riempire con liste contenenti il numero di vincoli violati nei diversi tentativi
 violazioni = []
 
 #funzione che prende in input le labels dei cluster e calcola quanti vincoli sono stati violati
@@ -44,11 +44,13 @@ for w in weights:
         score_mpckmf = silhouette_score(df[colonne_includere], mpckmf.labels_)
         shilouette.append(score_mpckmf)
         df[f'cluster_label_mpckmf_{n_clust}_{w}']=mpckmf.labels_
+        #aggiorno la lista di liste
         violazione = calcolo_violazioni(mpckmf.labels_)
         if w==0.5:
             violazioni.append([violazione])
         else:
             violazioni[n_clust-5].append(violazione)
+    #grafico silouhette
     plt.figure(figsize=(12, 10))
     plt.plot(range(5,16), shilouette, marker='o')
     plt.title(f'Elbow Method for Optimal K, w={w}')
@@ -59,6 +61,7 @@ for w in weights:
     plt.savefig(output_path)
     plt.close()
 
+#grafici violazioni
 for n in range(len(violazioni)):
     plt.figure(figsize=(12, 10))
     plt.plot(weights, violazioni[n], marker='o')
@@ -70,6 +73,6 @@ for n in range(len(violazioni)):
     plt.savefig(output_path)
     plt.close()
 
-#esportazione
+#esportazione dataframe
 output_path = os.path.join(cartella_corrente, 'df_etichette_vari_k_w.csv')
 df.to_csv(output_path)

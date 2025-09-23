@@ -1,14 +1,12 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
 import json
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo il dataframe
+#importo il dataframe con i risultati
 pkl_path = os.path.join(cartella_corrente, "results/clustering_results.pkl")
 df = pd.read_pickle(pkl_path)
 
@@ -39,11 +37,13 @@ best_calinski = df_clean.loc[df_clean.groupby('config_key')['calinski_harabasz_s
 best_davies = df_clean.loc[df_clean.groupby('config_key')['davies_bouldin_score'].idxmin()]
 
 #individuo le combinazioni che performano meglio nelle varie metriche
-a=1
+#le quattro combinazioni sono riferite a tutte e tre le metriche o a una delle tre coppie formabili
 common_keys=set()
 common_keys1=set()
 common_keys2=set()
 common_keys3=set()
+#a ogni iterazione considero i primi a elementi, è un contatore
+a=1
 while True:
     top_silhouette = best_silhouette.sort_values(by='silhouette_score', ascending=False).head(a)
     top_calinski = best_calinski.sort_values(by='calinski_harabasz_score', ascending=False).head(a)
@@ -83,17 +83,17 @@ df_common1 = df_clean[df_clean['config_key'].isin(common_keys1)]
 df_common2 = df_clean[df_clean['config_key'].isin(common_keys2)]
 df_common3 = df_clean[df_clean['config_key'].isin(common_keys3)]
 
+#se presenti più combinazioni ne scelgo una sola
 if len(df_common)>1:
-    print('ok')
     df_common = df_common.loc[df['silhouette_score'].idxmax()]
 if len(df_common1)>1:
     df_common1 = df_common1[df_common1['silhouette_score'] == df_common1['silhouette_score'].max()]
 if len(df_common2)>1:
     df_common2 = df_common2[df_common2['silhouette_score'] == df_common2['silhouette_score'].max()]
 if len(df_common3)>1:
-    print('ncjsbchdvbhcdh')
     df_common3 = df_common3[df_common3['calinski_harabasz_score'] == df_common3['silhouette_score'].max()]
 
+#evito di esportare una stessa combinazione più di una volta
 df_common.to_pickle(os.path.join(cartella_corrente, "results/best_configs.pkl"))
 if df_common1.iloc[0]['config_key'] != df_common.iloc[0]['config_key']:
     df_common1.to_pickle(os.path.join(cartella_corrente, "results/best_configs1.pkl"))

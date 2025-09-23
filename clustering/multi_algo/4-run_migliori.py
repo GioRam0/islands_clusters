@@ -1,4 +1,3 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -8,17 +7,16 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import xlsxwriter
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo il dataframe
 csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/df_norm.csv")
 df = pd.read_csv(csv_path)
 
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'consumption_etichetta', 'Wind_class', 'NO_res']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]
 
+#importo le combinazioni algoritmi iperparametri
 pkl_path = os.path.join(cartella_corrente, 'results/best_configs.pkl')
 method1 = pd.read_pickle(pkl_path)[['algorithm', 'options', 'n_clusters', 'random_state']].iloc[0]
 pkl_path = os.path.join(cartella_corrente, 'results/best_configs1.pkl')
@@ -102,12 +100,11 @@ for col in colonne_clusters:
             metodi_non_validi.append(col)
             break
 
-#esporto i risultati dei metodi validi
+#analisi dei risultati dei metodi validi
 colonne_clusters = [col for col in colonne_clusters if col not in metodi_non_validi]
-
 #funzione che prende in input il dataframe cui deve essere applicato, il metodo di clustering, il nome della cartella output e la lista di colonne del dataframe contenente i dati
 def export(dataframe, method, name, columns):
-    #proiezione in due dimensioni
+    #proiezione in due dimensioni ed esportazione del grafico
     pca = PCA(n_components=2)
     X_pca = pca.fit_transform(dataframe[columns].values)
     dataframe['PCA1'] = X_pca[:, 0]
@@ -127,7 +124,7 @@ def export(dataframe, method, name, columns):
     plt.savefig(output_path)
     plt.close()
 
-    #excel con statistiche dei singoli cluster
+    #excel con statistiche dei singoli cluster, ogni foglio è riferito a una feature
     output_xlsx = os.path.join(output_folder, f'statistics_{method}.xlsx')
     with pd.ExcelWriter(output_xlsx, engine='xlsxwriter') as writer:
         for feature in columns:
@@ -167,15 +164,18 @@ def export(dataframe, method, name, columns):
             plt.savefig(boxplot_path)
             plt.close()
 
+#applico la funzione ai diversi metodi per i vari dataframe
 for method in colonne_clusters:
     output_folder = os.path.join(cartella_corrente, 'results/best', method)
     os.makedirs(output_folder, exist_ok=True)
     export(df, method, 'normalized', colonne_includere)
     csv_out_path = os.path.join(output_folder, 'normalized', 'df.csv')
     df[colonne_includere+colonne_escludere+[method]].to_csv(csv_out_path, index=False, encoding='utf-8')
+    #ripeto per dati raw e dimension_reduction
     csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/df_raw.csv")
     df1 = pd.read_csv(csv_path)
     colonne = [col for col in df1.columns if col not in colonne_escludere]
+    #importo la suddivisione in cluster
     df1[method] = df[method]
     export(df1, method, 'raw', colonne)
     csv_out_path = os.path.join(output_folder, 'raw', 'df.csv')

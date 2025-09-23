@@ -1,24 +1,22 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 csv_path=os.path.join(cartella_corrente, '../first_step/dataframes', 'df_norm_first_step.csv')
 df = pd.read_csv(csv_path)
 
-#colonne numeriche per cui non ha senso realizzare i KDE-plots
+#colonne per cui realizzare i KDE-plots, suddivise quelle con molti valori pari a zero
 colonne_da_includere = ['solar_pow', 'solar_seas_ind', 'eolico', 'eolico_std', 'offshore', 'evi', 'geothermal_potential', 'hydro', 'superficie_res']
 colonne_zeri = ['offshore', 'hydro', 'geothermal_potential']
 
+#folder esportazione
 output_folder = os.path.join(cartella_corrente, "kdeplots_cluster")
 os.makedirs(output_folder, exist_ok=True)
 
-#definisco una funzione che crea ed esporta i kdeplot
+#definisco una funzione che crea ed esporta i kdeplot per i vari cluster
 def create_kdeplot(dataframe, number):
     cluster_output_folder = os.path.join(output_folder, f"cluster_{number}")
     os.makedirs(cluster_output_folder, exist_ok=True)
@@ -26,6 +24,7 @@ def create_kdeplot(dataframe, number):
     os.makedirs(output_folder1, exist_ok=True)
     output_folder2 = os.path.join(cluster_output_folder, "no_zeri")
     os.makedirs(output_folder2, exist_ok=True)
+    #itero per le colonne
     for col in colonne_da_includere:
         df_cluster = dataframe[dataframe['cluster'] == number]
         output_path = os.path.join(output_folder1, f"{col}_kdeplot.png")

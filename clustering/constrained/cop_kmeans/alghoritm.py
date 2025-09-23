@@ -1,13 +1,11 @@
-#importo le librerie
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
 import pickle
 from sklearn.metrics import silhouette_score
-#importo algoritmi di clustering
+#importo l'algoritmo di clustering
 from active_semi_clustering.semi_supervised.pairwise_constraints import COPKMeans
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
@@ -16,18 +14,20 @@ csv_path = os.path.join(cartella_progetto, "exploratory_data_analisys/df_norm.cs
 df = pd.read_csv(csv_path)
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'consumption_etichetta', 'Wind_class', 'NO_res']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]
-
 #importo la lista di vincoli
 pkl_path = os.path.join(cartella_corrente, '..', '0-constraints', 'cannot_link.pkl')
 cl = pickle.load(open(pkl_path, 'rb'))
 
+#liste con i silouhette e i numeri di cluster per cui raggiunge la soluzione
 shilouette = []
 clust_list = []
+#itero per numeri diversi di cluster
 for n_clust in range(5,26):
     copk = COPKMeans(n_clusters=n_clust)
     try:
         copk.fit(df[colonne_includere].values, cl=cl)
         score_copk = silhouette_score(df[colonne_includere], copk.labels_)
+        #aggiorno liste e dataframe
         shilouette.append(score_copk)
         df[f'cluster_label_copk_{n_clust}']=copk.labels_
         clust_list.append(n_clust)

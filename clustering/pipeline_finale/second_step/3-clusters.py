@@ -1,12 +1,9 @@
-#importo le librerie
 import os
 import pandas as pd
 from sklearn.cluster import KMeans
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 csv_path = os.path.join(cartella_corrente, '../first_step/dataframes/df_norm_first_step.csv')
 df = pd.read_csv(csv_path)
 #aggiungo le colonne per i clusters finali
@@ -17,7 +14,7 @@ colonne = [['solar_pow', 'eolico', 'superficie_res', 'solar_seas_ind', 'eolico_s
            ['solar_pow', 'eolico', 'superficie_res', 'solar_seas_ind', 'eolico_std', 'offshore', 'evi', 'hydro'],
            ['solar_pow', 'eolico', 'superficie_res', 'solar_seas_ind', 'eolico_std', 'offshore', 'evi']
 ]
-#iperparametri del kmeans per i diversi cluster
+#iperparametri del kmeans per i diversi cluster (numero di cluster e indice delle colonne da prendere)
 iperparam = {
     0 : [3, 0],
     1 : [3, 0],
@@ -32,7 +29,8 @@ iperparam = {
     10 : [2, 1],
     11 : [2, 0]
 }
-#itero per i vari clusters
+
+#itero per i vari clusters del primo step
 for clust, iper in iperparam.items():
     print(f'cluster {clust}')
     df1 = df[df['cluster']==clust].copy()
@@ -47,13 +45,13 @@ for clust, iper in iperparam.items():
 #creo una colonna con un id univoco dei cluster finali
 df["cluster_id"] = df["cluster"].astype(str) + "." + df["cluster_finali"].astype(str)
 
-#esportazione
+#esportazione dataframe
 output_folder = os.path.join(cartella_corrente, 'results/dataframes')
 os.makedirs(output_folder, exist_ok=True)
 output_path = os.path.join(output_folder, 'df_norm_final.csv')
 df.to_csv(output_path, index=False, encoding='utf-8')
 
-#importo il dataframe raw, aggiungo la colonna clusters_finali
+#importo il dataframe raw, aggiungo la colonna clusters_finali ed esporto
 csv_path = os.path.join(cartella_corrente, '../first_step/dataframes', 'df_raw_first_step.csv')
 df1 = pd.read_csv(csv_path)
 df1['cluster_finali'] = df['cluster_finali']

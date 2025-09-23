@@ -1,4 +1,3 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -6,7 +5,6 @@ from sklearn.cluster import KMeans, AgglomerativeClustering, DBSCAN, HDBSCAN, Me
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
@@ -17,7 +15,7 @@ df = pd.read_csv(csv_path)
 colonne_escludere=['ALL_Uniq', 'Name_USGSO', 'Densità_pop_etichetta', 'Solar_etichetta', 'consumption_etichetta', 'Wind_class', 'NO_res']
 colonne_includere=[col for col in df.columns if col not in colonne_escludere]
 
-# Dizionario degli algoritmi di clustering disponibili
+#dizionario degli algoritmi di clustering disponibili
 algorithms = {
     'KMeans': KMeans,
     'AgglomerativeClustering': AgglomerativeClustering,
@@ -32,18 +30,20 @@ algorithms = {
     'BisectingKMeans': BisectingKMeans
 }
 
-# Dizionario delle metriche di valutazione clustering
+#dizionario delle metriche di valutazione clustering
 evaluation_metrics = {
     'silhouette_score': silhouette_score,
     'calinski_harabasz_score': calinski_harabasz_score,
     'davies_bouldin_score': davies_bouldin_score
 }
 
-#tento con questi numeri di clusters
+#numeri di cluster da provare
 n_clust=[5,10,20,30,40]
 
+#dataframe in cui salvare i risultati
 results = pd.DataFrame(columns=["algorithm", "n_clusters", "option", "silhouette_score", "calinski_harabasz_score", "davies_bouldin_score"])
 
+#funzione che prende in input i risultati di un algoritmo e gli iperparametri, calcola le metriche e salva i risultati
 def results_creation(name,n,labels,option=None):
     if n<200:
         scores = []
@@ -54,6 +54,7 @@ def results_creation(name,n,labels,option=None):
             except Exception as e:
                 scores.append(None)
         results.loc[len(results)] = [name, n, option, scores[0], scores[1], scores[2]]
+
 #itero per gli algoritmi
 for name, algo in algorithms.items():
     print(f"Running {name}...")
@@ -107,7 +108,6 @@ for name, algo in algorithms.items():
                 n=max(labels+1)
                 results_creation(name, n, labels, method)
         elif name == 'AffinityPropagation':
-            #non capisco perche senza opzioni ritorna 126 clusters con multipliers pari a 1 too many
             multipliers = [0.3, 0.5, 1, 2, 3, 5]
             model = algo()
             labels = model.fit_predict(X)
@@ -125,7 +125,7 @@ for name, algo in algorithms.items():
             n=max(labels+1)
             results_creation(name, n, labels)
 
-# Ordina i risultati per ciascuna metrica e mostra i primi 5 algoritmi per ciascuna
+#ordina i risultati per ciascuna metrica e mostra i primi 5 algoritmi per ciascuna
 for metric in ["silhouette_score", "calinski_harabasz_score"]:
     print(f"\nTop 5 algorithms by {metric}:")
     print(results.sort_values(by=metric, ascending=False)[["algorithm", "n_clusters", "option", metric]].head(5))

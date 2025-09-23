@@ -1,4 +1,3 @@
-#importo le librerie
 import os
 import pandas as pd
 import numpy as np
@@ -6,7 +5,6 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from matplotlib.colors import ListedColormap
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe normalizzato
@@ -72,7 +70,7 @@ for clust in range(clust_first):
             l = len(df2[df2['Wind_class'] < 3])
             file.write(f'Isole nel sottocluster con Wind_class < 3 : {l}\n')
             file.write('\n')
-        #calcolo la varianza spiegata dal clustering e aggiunta sul .txt
+        #calcolo la varianza spiegata dal clustering e la aggiungo sul .txt
         X = df1[colonne]
         grand_mean = X.mean()
         SST = ((X - grand_mean) ** 2).to_numpy().sum()
@@ -92,11 +90,13 @@ def box(dataframe, folder_name):
     boxplot_folder1 = os.path.join(boxplot_folder, folder_name)
     os.makedirs(boxplot_folder1, exist_ok=True)
     clust_first = dataframe['cluster'].max()+1
+    #itero per i cluster del primo step
     for clust in range(clust_first):
         df1 = dataframe[dataframe['cluster']==clust].copy()
         clust_second = df1['cluster_finali'].max()+1
         boxplot_folder2 = os.path.join(boxplot_folder1, f'cluster_{clust}')
         os.makedirs(boxplot_folder2, exist_ok=True)
+        #itero per le feature
         for feature in colonne:
             plt.figure(figsize=(8, 6))
             data = [df1[df1['cluster_finali'] == cluster_label][feature] for cluster_label in range(clust_second)]
@@ -118,7 +118,7 @@ def stat(dataframe, folder_name):
     clust_first = dataframe['cluster'].max()+1
     for clust in range(clust_first):
         df1 = dataframe[dataframe['cluster']==clust].copy()
-        #excel con statistiche dei singoli cluster
+        #excel con statistiche dei singoli cluster, ogni foglio è riferito a una feature
         output_xlsx = os.path.join(stat_folder1, f'statistics_cluster_{clust}.xlsx')
         with pd.ExcelWriter(output_xlsx, engine='xlsxwriter') as writer:
             for feature in colonne:
