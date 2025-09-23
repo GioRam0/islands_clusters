@@ -49,9 +49,6 @@ for cl in range(n_clust_first):
     subset = subset.set_index('cluster_finali')[colonne1]
     plt.figure(figsize=(10, 6))
     sns.heatmap(subset, vmin=0, vmax=1, cmap="viridis", cbar=True)
-    plt.title(f"Heatmap medie normalizzate - Cluster padre {cl}")
-    plt.ylabel("Feature")
-    plt.xlabel("Cluster finali")
     plt.tight_layout()
     # esportazione
     output_path = os.path.join(cartella_corrente, 'results/heatmap/second_step')

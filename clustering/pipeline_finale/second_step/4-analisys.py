@@ -101,9 +101,6 @@ def box(dataframe, folder_name):
             plt.figure(figsize=(8, 6))
             data = [df1[df1['cluster_finali'] == cluster_label][feature] for cluster_label in range(clust_second)]
             plt.boxplot(data, vert=True, patch_artist=True)
-            plt.xlabel('Cluster')
-            plt.ylabel(feature)
-            plt.title(f'{feature} distribution for cluster {clust}')
             plt.xticks(ticks=range(1, clust_second+1), labels=[f'Cluster {label}' for label in range(clust_second)])
             plt.tight_layout()
             boxplot_path = os.path.join(boxplot_folder2, f'{feature}_boxplot.png')
@@ -169,8 +166,8 @@ def pca(dataframe, folder_name):
         scatter = plt.scatter(df1['PCA1'], df1['PCA2'], c=df1['cluster_finali'], cmap=cmap, alpha=0.7)
         plt.xlabel('PCA1')
         plt.ylabel('PCA2')
-        plt.title(f'Sub-Clusters in cluster {clust} on PCA projection')
-        plt.colorbar(scatter, label='Cluster')
+        cbar_ticks = np.arange(clust_second) + 0.5
+        plt.colorbar(scatter, ticks=cbar_ticks, label='Cluster')
         plt.tight_layout()
         output_path = os.path.join(pca_folder1, f'plot_cluster_{clust}.png')
         plt.savefig(output_path)
