@@ -166,8 +166,10 @@ def pca(dataframe, folder_name):
         scatter = plt.scatter(df1['PCA1'], df1['PCA2'], c=df1['cluster_finali'], cmap=cmap, alpha=0.7)
         plt.xlabel('PCA1')
         plt.ylabel('PCA2')
-        cbar_ticks = np.arange(clust_second) + 0.5
-        plt.colorbar(scatter, ticks=cbar_ticks, label='Cluster')
+        cbar_ticks = np.linspace((clust_second-1)/(2*clust_second), (clust_second-1)-((clust_second-1)/(2*clust_second)), clust_second)
+        cbar = plt.colorbar(scatter, label='Cluster')
+        cbar.set_ticks(cbar_ticks)
+        cbar.set_ticklabels(range(clust_second))
         plt.tight_layout()
         output_path = os.path.join(pca_folder1, f'plot_cluster_{clust}.png')
         plt.savefig(output_path)
