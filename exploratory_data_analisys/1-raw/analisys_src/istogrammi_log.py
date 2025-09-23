@@ -1,10 +1,8 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe
@@ -33,7 +31,7 @@ for col in df[colonne_code].select_dtypes(include='number').columns:
     plt.savefig(output_path)
     plt.close()
 
-#per gdp_pro_capite, consumptions, densita popolazione ed eolico faccio l'isogramma con colori diversi in base all'etichetta
+#per consumptions, densita popolazione ed eolico faccio l'isogramma con colori diversi in base all'etichetta
 #dizionario con le etichette possibili e i colori che voglio loro associare nell'istogramma
 labels={'S': 'green', 'M':'yellow', 'L': 'blue'}
 output_folder1 = os.path.join(output_folder, "logaritmi")
@@ -43,12 +41,10 @@ plt.figure(figsize=(10, 15))
 df_log=df[['Densità_pop','Densità_pop_etichetta']]
 df_log=df_log[df_log['Densità_pop'] != 0]
 df_log['Densità_pop']=np.log(df_log['Densità_pop'])
-#imposto la larghezza delle varie colonne
+#imposto la larghezza delle varie colonne e creo una lista di intervalli
 bin_width=(df_log['Densità_pop'].max()-df_log['Densità_pop'].min())/60
-#creo una lista con gli intervalli delle varie colonne
 min_val=df_log['Densità_pop'].min()
 max_val=df_log['Densità_pop'].max()
-#definisco valori minimi e massimi per comprendere massimo e minimo
 start_bin=np.floor(min_val / bin_width) * bin_width
 end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
 common_bins=np.arange(start_bin, end_bin, bin_width)
@@ -72,12 +68,9 @@ plt.figure(figsize=(10, 15))
 df_log=df[['eolico','Wind_class']]
 df_log=df_log[df_log['eolico'] != 0]
 df_log['eolico']=np.log(df_log['eolico'])
-#imposto la larghezza delle varie colonne
 bin_width=(df_log['eolico'].max()-df_log['eolico'].min())/60
-#creo una lista con gli intervalli delle varie colonne
 min_val=df_log['eolico'].min()
 max_val=df_log['eolico'].max()
-#definisco valori minimi e massimi per comprendere massimo e minimo
 start_bin=np.floor(min_val / bin_width) * bin_width
 end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
 common_bins=np.arange(start_bin, end_bin, bin_width)
@@ -100,16 +93,12 @@ plt.figure(figsize=(10, 15))
 df_log=df[['consumption','consumption_etichetta']]
 df_log=df_log[df_log['consumption'] != 0]
 df_log['consumption']=np.log(df_log['consumption'])
-#imposto la larghezza delle varie colonne
 bin_width=(df_log['consumption'].max()-df_log['consumption'].min())/60
-#creo una lista con gli intervalli delle varie colonne
 min_val=df_log['consumption'].min()
 max_val=df_log['consumption'].max()
-#definisco valori minimi e massimi per comprendere massimo e minimo
 start_bin=np.floor(min_val / bin_width) * bin_width
 end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
 common_bins=np.arange(start_bin, end_bin, bin_width)
-#aggiungo le parti relative alle diverse etichette con colori diversi
 for label in labels:
     data = df_log[df_log['consumption_etichetta'] == label]['consumption']
     if len(data)>0:

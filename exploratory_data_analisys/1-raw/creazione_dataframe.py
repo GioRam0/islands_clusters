@@ -1,9 +1,8 @@
-#importo le librerie
 import geopandas as gp
 import numpy as np
 import pickle
 import os
-# cartella in cui si trova lo script
+
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
@@ -159,7 +158,7 @@ df=df.dropna()
 print(f"le isole con dati completi sono {len(df)}")
 print(' ')
 
-#elimino le isole con valori gdp e consumption (le stesse 2 non consistenti, se non dovessero essere già state eliminate in quanto contenenti nan su altre colonne)
+#elimino le isole con valori gdp e consumption non validi (sono due, le stesse per entrambe le variabili, se non dovessero essere già state eliminate in quanto contenenti nan su altre colonne)
 indici_da_eliminare = df[df['gdp_2019_nodata'] == 1].index
 df = df.drop(indici_da_eliminare)
 indici_da_eliminare = df[df['consumption'] == 1].index

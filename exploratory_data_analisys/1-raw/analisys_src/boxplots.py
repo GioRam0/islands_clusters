@@ -1,13 +1,10 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_raw.csv')
 df = pd.read_csv(csv_path)

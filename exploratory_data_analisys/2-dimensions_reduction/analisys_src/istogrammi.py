@@ -1,23 +1,18 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import numpy as np
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_dim_reduction.csv')
 df = pd.read_csv(csv_path)
-#colonne numeriche per cui non serve fare gli istogrammi
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
-#colonne con etichetta e relativa colonna etichetta per cui costruisco istogrammi in modo diverso, suddivido in base al numero di etochette
+#colonne con etichetta e relativa colonna etichetta per cui costruisco istogrammi in modo diverso
 colonne_con_etichetta={"Densità_pop":"Densità_pop_etichetta","solar_pow":"Solar_etichetta"}
-colonne_con_etichetta2={"eolico":"Wind_class"}
-colonne_no_etichetta=[col for col in colonne_da_includere if (col not in colonne_con_etichetta and col not in colonne_con_etichetta2)]
+colonne_no_etichetta=[col for col in colonne_da_includere if (col not in colonne_con_etichetta and col != "eolico")]
 
 #creo ed esporto gli istogrammi
 ris_folder = os.path.join(cartella_corrente, "..", "results")
@@ -55,25 +50,23 @@ for col in df[colonne_no_etichetta].select_dtypes(include='number').columns:
 
 #dizionario con le etichette possibili e i colori che voglio loro associare nell'istogramma
 labels={'XS': 'red', 'S': 'green', 'M':'yellow', 'L': 'blue'}
-for col in colonne_con_etichetta:
-    #etichetta associata alla colonna
-    colonna_etichetta=colonne_con_etichetta[col]
+for col,etichetta in colonne_con_etichetta.items():
+    #path esportazione
     output_folder1 = os.path.join(output_folder, "normali")
     os.makedirs(output_folder1, exist_ok=True)
     output_path = os.path.join(output_folder1, f"{col}_istogramma.png")
     plt.figure(figsize=(10, 15))
     #imposto la larghezza delle varie colonne
     bin_width=(df[col].max()-df[col].min())/60
-    #creo una lista con gli intervalli delle varie colonne
+    #creo una lista con gli intervalli delle varie colonne, fissano la larghezza delle colonne
     min_val=df[col].min()
     max_val=df[col].max()
-    #definisco valori minimi e massimi per comprendere massimo e minimo
     start_bin=np.floor(min_val / bin_width) * bin_width
     end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
     common_bins=np.arange(start_bin, end_bin, bin_width)
     #aggiungo le parti relative alle diverse etichette con colori diversi
     for label in labels:
-        data = df[df[colonna_etichetta] == label][col]
+        data = df[df[etichetta] == label][col]
         if len(data)>0:
             plt.hist(data, bins=common_bins, color=labels[label], label=label, edgecolor='black')
     plt.title(f'Istogramma di {col}')
@@ -89,7 +82,7 @@ for col in colonne_con_etichetta:
         df_senza_zeri = df[df[col] != 0]
         plt.figure(figsize=(10, 15))
         for label in labels:
-            data = df_senza_zeri[df_senza_zeri[colonna_etichetta] == label][col]
+            data = df_senza_zeri[df_senza_zeri[etichetta] == label][col]
             if len(data)>0:
                 plt.hist(data, bins=common_bins, color=labels[label], label=label, edgecolor='black')
         plt.title(f'Istogramma di {col} (escludendo gli zeri)')
@@ -102,50 +95,27 @@ for col in colonne_con_etichetta:
         plt.savefig(output_path)
         plt.close()
 
-#ripeto per la colonna eolico e le etichette windclass e gdp_procapite e relative etichette
+#ripeto per la colonna eolico e le etichette windclass
 #lista con i colori associati alle varie classi
 colors=['gray','yellow','orange','red','green','blue','violet']
-for col in colonne_con_etichetta2:
-    #etichetta associata alla colonna
-    colonna_etichetta=colonne_con_etichetta2[col]
-    output_folder1 = os.path.join(output_folder, "normali")
-    os.makedirs(output_folder1, exist_ok=True)
-    output_path = os.path.join(output_folder1, f"{col}_istogramma.png")
-    plt.figure(figsize=(10, 15))
-    #imposto la larghezza delle varie colonne
-    bin_width=(df[col].max()-df[col].min())/60
-    #creo una lista con gli intervalli delle varie colonne
-    min_val=df[col].min()
-    max_val=df[col].max()
-    #definisco valori minimi e massimi per comprendere massimo e minimo
-    start_bin=np.floor(min_val / bin_width) * bin_width
-    end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
-    common_bins=np.arange(start_bin, end_bin, bin_width)
-    for i in range(1,8):
-        data = df[(df[colonna_etichetta] == i)][col]
-        if len(data)>0:
-            plt.hist(data, bins=common_bins, color=colors[i-1], label=i, edgecolor='black')
-    plt.title(f'Istogramma di {col}')
-    plt.xlabel(f"{col}")
-    plt.ylabel('Frequenza')
-    plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
-    #faccio un nuovo istogramma per le colonne con molti zeri
-    conteggio_zeri = (df[col] == 0).sum()
-    percentuale_zeri = conteggio_zeri / len(df)
-    if percentuale_zeri>0.5:
-        df_senza_zeri = df[df[col] != 0]
-        plt.figure(figsize=(10, 15))
-        for i in range(1,8):
-            data = df_senza_zeri[df_senza_zeri[colonna_etichetta] == i][f'{col}']
-            plt.hist(data, bins=common_bins, color=colors[label], label=i, edgecolor='black')
-        plt.title(f'Istogramma di {col} (escludendo gli zeri)')
-        plt.xlabel(f'{col}')
-        plt.ylabel('Frequenza')
-        plt.tight_layout()
-        output_folder1 = os.path.join(output_folder, "no_zeri")
-        os.makedirs(output_folder1, exist_ok=True)
-        output_path = os.path.join(output_folder1, f"{col}_istogramma.png")
-        plt.savefig(output_path)
-        plt.close()
+output_folder1 = os.path.join(output_folder, "normali")
+os.makedirs(output_folder1, exist_ok=True)
+output_path = os.path.join(output_folder1, f"eolico_istogramma.png")
+plt.figure(figsize=(10, 15))
+#creo una lista con degli intervalli, fissano la larghezza delle colonne
+bin_width=(df["eolico"].max()-df["eolico"].min())/60
+min_val=df["eolico"].min()
+max_val=df["eolico"].max()
+start_bin=np.floor(min_val / bin_width) * bin_width
+end_bin=np.ceil(max_val / bin_width) * bin_width + bin_width
+common_bins=np.arange(start_bin, end_bin, bin_width)
+for i in range(1,8):
+    data = df[(df["Wind_class"] == i)]["eolico"]
+    if len(data)>0:
+        plt.hist(data, bins=common_bins, color=colors[i-1], label=i, edgecolor='black')
+plt.title(f'Istogramma di eolico')
+plt.xlabel(f"eolico")
+plt.ylabel('Frequenza')
+plt.tight_layout()
+plt.savefig(output_path)
+plt.close()

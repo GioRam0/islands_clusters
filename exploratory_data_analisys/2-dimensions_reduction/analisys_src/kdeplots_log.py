@@ -1,18 +1,14 @@
-#importo le librerie
 import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_dim_reduction.csv')
 df = pd.read_csv(csv_path)
-#colonne con distribuzioni a coda
 colonne_code=['superficie_res', 'Densità_pop', 'offshore', 'geothermal_potential', 'gdp_cons_pop_urban_merged', 'hydro', 'solar_seas_ind']
 
 #creo ed esporto i kdeplots

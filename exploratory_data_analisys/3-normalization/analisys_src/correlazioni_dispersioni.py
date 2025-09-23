@@ -1,22 +1,15 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_norm.csv')
 df = pd.read_csv(csv_path)
-#colonne numeriche per cui non serve calcolare statistiche
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
-
-#dataframe con statistiche descrittive delle varie colonne
-descr=df[colonne_da_includere].select_dtypes(include='number').describe()
 
 #creo ed esporto mappa di correlazione ed heatmap
 ris_folder = os.path.join(cartella_corrente, "..", "results")

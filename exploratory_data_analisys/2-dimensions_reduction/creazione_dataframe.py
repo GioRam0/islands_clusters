@@ -1,11 +1,9 @@
-#importo le librerie
 import pandas as pd
 import pickle
 import os
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
 #importo il dataframe

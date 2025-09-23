@@ -1,4 +1,3 @@
-#importo le librerie
 import numpy as np
 import os
 import pandas as pd
@@ -6,13 +5,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import scipy.stats as stats
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_dim_reduction.csv')
 df = pd.read_csv(csv_path)
+#path esportazione
 ris_folder = os.path.join(cartella_corrente, "..", "results")
 os.makedirs(ris_folder, exist_ok=True)
 output_folder = os.path.join(ris_folder, f"qq_plot_distri_coda")
@@ -42,6 +40,7 @@ for col in colonne:
         plt.title(f'Q-Q Plot: {name}')
         plt.xlabel('Quantili teorici')
         plt.ylabel('Quantili campionari')
+    #esportazione
     plt.tight_layout()
     output_path=os.path.join(output_folder, f"qq1_{col}.png")
     plt.savefig(output_path)

@@ -1,4 +1,3 @@
-#importo le librerie
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
@@ -6,19 +5,13 @@ import seaborn as sns
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 
-#importo il dataframe
 df_folder = os.path.join(cartella_corrente, "..", "..")
 csv_path=os.path.join(df_folder, 'df_norm.csv')
 df = pd.read_csv(csv_path)
-#colonne numeriche per cui non serve calcolare statistiche
 colonne_da_escludere = ['ALL_Uniq', 'Wind_class', 'NO_res']
 colonne_da_includere = [col for col in df.columns if col not in colonne_da_escludere]
-
-#dataframe con statistiche descrittive delle varie colonne
-descr=df[colonne_da_includere].select_dtypes(include='number').describe()
 
 #seleziono le features da me ritenute principali e calcolo l'importanza delle altre
 target_features=['superficie_res', 'solar_pow', 'eolico', 'gdp_cons_pop_urban_merged']
