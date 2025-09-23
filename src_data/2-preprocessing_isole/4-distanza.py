@@ -1,4 +1,3 @@
-#importo le librerie
 import geopandas as gp
 import os
 from pyproj import CRS, Transformer
@@ -7,11 +6,9 @@ from shapely.ops import transform
 from rtree import index
 from shapely import box
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto= os.path.join(cartella_corrente, "..", "..")
 
-#importo i files gpkg delle isole di interesse
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_popolazione", "isole_arro4.gpkg")
 gdf = gp.read_file(percorso_file)
 
@@ -34,7 +31,7 @@ def buffer_isl(multi):
     multi_4326=transform(project_to_wgs84, buffer_utm)
     return multi_4326
 
-#itero per le isole e creo i buffers
+#itero per le isole
 print(f'{len(gdf)} isole totali')
 for k,(i,isl) in enumerate(gdf.iterrows(), 1):
     if k%100==0 or k==len(gdf):
@@ -69,7 +66,6 @@ for k,(i,cont) in enumerate(gdf1.iterrows(),1):
         geom = gdf.loc[cand].geometry
         rect = box(geom.bounds[0], geom.bounds[1], geom.bounds[2], geom.bounds[3])
         #prima controllo che il rettangolo contenente l'isola intersechi il continente, operazione piu semplice
-        #se non si intersecano non controllo nemmeno l'interszione della geometria vera e propria
         if rect.intersects(cont.geometry):
             #se intersecano elimino l'isola dal geodataframe e dall'indice
             if geom.intersects(cont.geometry):
@@ -82,9 +78,7 @@ print(f'isole rimanenti dopo il filtro: {len(gdf)}')
 #importo le isole escluse per dimensioni eccessive e ripeto il filtro
 percorso_file = os.path.join(cartella_progetto, "data/isole_escluse", "isole_grandi.gpkg")
 gdf1 = gp.read_file(percorso_file)
-#itero per queste isole
 print(f'itero per le {len(gdf1)} isole escluse in quanto troppo grandi')
-#contatore isole escluse
 j=0
 for k,(i,isl) in enumerate(gdf1.iterrows(), 1):
     if k%5==0 or k==len(gdf1):
@@ -102,9 +96,7 @@ print(f'isole rimanenti dopo il filtro: {len(gdf)}')
 #importo le isole escluse per popolazione eccessiva e ripeto il filtro
 percorso_file = os.path.join(cartella_progetto, "data/isole_escluse", "isole_popolate.gpkg")
 gdf1 = gp.read_file(percorso_file)
-#itero per queste isole
 print(f'itero per le {len(gdf1)} isole escluse in quanto troppo popolate')
-#contatore isole escluse
 j=0
 for k,(i,isl) in enumerate(gdf1.iterrows(), 1):
     if k%10==0 or k==len(gdf1):
@@ -132,35 +124,29 @@ codici=list(gdf.ALL_Uniq)
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_popolazione", "isole.gpkg")
 gdf = gp.read_file(percorso_file)
 print(f'lunghezza file originale: {len(gdf)}')
-#elimino le isole se le ho eliminate in precedenza
 for i,isl in gdf.iterrows():
     if isl.ALL_Uniq not in codici:
         gdf=gdf.drop(i)
 print(f'lunghezza file dopo il filtro: {len(gdf)}')
-#esportazione gpkg
 percorso_out = os.path.join(cartella_progetto, "data/isole_filtrate/finali/isole.gpkg")
 gdf.to_file(percorso_out, driver="GPKG")
 
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_popolazione", "isole_arro3.gpkg")
 gdf = gp.read_file(percorso_file)
 print(f'lunghezza file originale: {len(gdf)}')
-#elimino le isole se le ho eliminate in precedenza
 for i,isl in gdf.iterrows():
     if isl.ALL_Uniq not in codici:
         gdf=gdf.drop(i)
 print(f'lunghezza file dopo il filtro: {len(gdf)}')
-#esportazione gpkg
 percorso_out = os.path.join(cartella_progetto, "data/isole_filtrate/finali/isole_arro3.gpkg")
 gdf.to_file(percorso_out, driver="GPKG")
 
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_popolazione", "isole_arro2.gpkg")
 gdf = gp.read_file(percorso_file)
 print(f'lunghezza file originale: {len(gdf)}')
-#elimino le isole se le ho eliminate in precedenza
 for i,isl in gdf.iterrows():
     if isl.ALL_Uniq not in codici:
         gdf=gdf.drop(i)
 print(f'lunghezza file dopo il filtro: {len(gdf)}')
-#esportazione gpkg
 percorso_out = os.path.join(cartella_progetto, "data/isole_filtrate/finali/isole_arro2.gpkg")
 gdf.to_file(percorso_out, driver="GPKG")

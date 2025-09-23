@@ -4,7 +4,6 @@ MAX_SUPERFICIE = 100000
 MIN_POPOLAZIONE = 200
 MAX_POPOLAZIONE = 1000000
 
-#aggiungere file placche continentali
 FILES = {
     "1lKAvoPMYCid4AtNq3ZRzxef-TdSoJTKX" : "isole_4326.gpkg",
     "1ayojeFO69awJuZsB7oRrAwd5DpLrNEgI" : "continents.gpkg",

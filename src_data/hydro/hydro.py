@@ -1,14 +1,11 @@
-#importo le librerie
 import geopandas as gp
 import os
 from rtree import index
 import pickle
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo le isole
 percorso_isl = os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole.gpkg")
 gdfisl = gp.read_file(percorso_isl)
 

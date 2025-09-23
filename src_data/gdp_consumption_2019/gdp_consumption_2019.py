@@ -1,4 +1,3 @@
-#importo le librerie
 import rasterio
 import rasterio.mask
 from shapely.geometry import box, mapping
@@ -7,7 +6,6 @@ import geopandas as gp
 import pickle
 import os
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
@@ -18,7 +16,6 @@ src = rasterio.open(percorso_file)
 #bordi del file
 bounds = box(*src.bounds)
 
-#importo dati isole
 percorso_file=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole.gpkg")
 df = gp.read_file(percorso_file)
 
@@ -32,7 +29,7 @@ def richiesta(multi):
         out_image, _ = rasterio.mask.mask(src, [mapping(multi)], crop=True, all_touched=True)
         no_data_value = src.nodata
         valid_pixels = out_image[(out_image != no_data_value) & (out_image != 0)]
-        #se non ci sono pixel validi esco dal try con un errore
+        #se non ci sono pixel validi sollevo un errore
         if valid_pixels.size == 0:
             raise ValueError("No valid pixels found within the geometry.")
         somma = np.sum(valid_pixels)

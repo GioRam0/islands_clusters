@@ -1,24 +1,19 @@
-#nel caso si bloccasse con errore su eccessivo payload è sufficiente farlo ripartire
-#importo librerie
 import geopandas as gp
 import ee
 import pickle
 import os
 import sys
 from shapely import MultiPolygon, Polygon
+import datetime
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro3.gpkg")
 gdf = gp.read_file(isl_path)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo la variabile project
 import config
 proj = config.proj
 ee.Initialize(project=proj)
@@ -29,7 +24,6 @@ urban_collection=ee.ImageCollection("JRC/GHSL/P2023A/GHS_SMOD_V2-0")
 sorted_collection = urban_collection.sort('system:time_start', False)
 last_image = sorted_collection.first()
 timestamp_ms = last_image.get('system:time_start').getInfo()
-import datetime
 last_date = datetime.datetime.fromtimestamp(timestamp_ms/1000.0)
 print(f"data dell'ultima immagine: {last_date}")
 #prima data disponibile
@@ -45,7 +39,7 @@ urban_image=ee.Image(sorted_collection.first())
 #valori dei pixel urbani
 urban_values = [30, 23, 22]
 
-#se gia presenti (effettuata una precedente run ma interrotta) importo i dati precedentemente scaricati per non ricominciare
+#se gia presenti importo i dati
 output_folder = os.path.join(cartella_progetto, "data/dati_finali/urban")
 os.makedirs(output_folder, exist_ok=True)
 output_path = os.path.join(output_folder, "urban_area.pkl")
@@ -67,7 +61,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
     if k%100 == 0:
         print(f'{k} isole analizzate')
         print(isl.IslandArea)
-    #esportazione periodica per non dover riiniziare da capo in caso di interruzione
+    #esportazione periodica
     if k % 10 == 0:
         output_path=os.path.join(output_folder, "urban_area.pkl")
         with open(output_path, "wb") as f:
@@ -109,10 +103,11 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
         urban_geometry=urban_geometry.intersection(ee_geometry)
         #calcolo l'area urbana da questa figura
         urban_area = urban_geometry.area().getInfo()
-        #faccio il rapporto e lo rendo percentuale
-        urban_relative=(urban_area/area0)*100
-        #la trasformo in km2
+        #trasformo in km2
         urban_area=(urban_area/1000000)
+        #valore percentuale
+        urban_relative=(urban_area/area0)*100
+        
         urban[codice]=urban_area
         urban_rel[codice]=urban_relative
 

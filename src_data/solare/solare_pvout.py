@@ -1,4 +1,3 @@
-#importo le librerie
 import rasterio
 import rasterio.mask
 from shapely.geometry import box, mapping
@@ -7,7 +6,6 @@ import geopandas as gp
 import pickle
 import os
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
@@ -29,7 +27,6 @@ minx=bounds.exterior.coords[2][0]
 maxy=bounds.exterior.coords[1][1]
 miny=bounds.exterior.coords[0][1]
 
-#importo dati isole
 percorso_file=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole.gpkg")
 gdf = gp.read_file(percorso_file)
 

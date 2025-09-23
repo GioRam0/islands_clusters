@@ -1,4 +1,3 @@
-#importo le librerie
 import requests
 import os
 import sys
@@ -10,7 +9,6 @@ import ee
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
 #importo le variabili config
@@ -25,7 +23,7 @@ project=config.proj
 ee.Authenticate()
 ee.Initialize(project=project)
 
-#caricamento della lista dei files già scaricati
+#caricamento della lista dei files già scaricati, se presente
 file_pkl=os.path.join(cartella_progetto, "files", "downloaded_files.pkl")
 if os.path.exists(file_pkl):
     try:
@@ -66,6 +64,7 @@ def download_file(file_id, file_name):
         response.raise_for_status()
         #nel caso il file è troppo grande occorre avviare il download da un bottone che comparirebbe se si fosse aperta la pagina di warning
         if "Virus scan warning" in response.text:
+            #web scraping
             soup = BeautifulSoup(response.text, 'html.parser')
             download_form = soup.find('form', {'id': 'download-form'})
             if download_form:
@@ -82,6 +81,7 @@ def download_file(file_id, file_name):
                 for chunk in download_response.iter_content(chunk_size=8192):
                     f.write(chunk)
             print(f"File scaricato con successo come: {file_name}")
+        #download normale in assenza di problemi
         else:
             with open(file_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):
@@ -89,9 +89,10 @@ def download_file(file_id, file_name):
             print(f"File scaricato con successo come: {file_name}")
         #aggiungo il file al dizionario dei files scaricati
         downloaded_files.append(file_id)
-        #aggiorno gli elementi scaricati
+        #aggiorno il pkl contenente il dizionario
         with open(file_pkl, "wb") as f:
             pickle.dump(downloaded_files, f)
+    #in caso di errori
     except requests.exceptions.RequestException as e:
         print(f"Errore durante il download: {e}")
     except Exception as e:

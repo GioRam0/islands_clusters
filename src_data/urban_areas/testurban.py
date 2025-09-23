@@ -1,4 +1,3 @@
-#importo librerie
 import geopandas as gp
 import ee
 import os
@@ -6,22 +5,19 @@ import sys
 import geemap
 from shapely import Polygon
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro3.gpkg")
 gdf = gp.read_file(isl_path)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo la variabile project
 import config
 proj = config.proj
 ee.Initialize(project=proj)
 
+#cartella esportazione mappe interattive
 output_folder = os.path.join(cartella_progetto, "data/dati_finali/urban/visualizzazione")
 os.makedirs(output_folder, exist_ok=True)
 

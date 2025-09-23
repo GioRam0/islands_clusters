@@ -1,4 +1,3 @@
-#importo le libreria
 from shapely.geometry import box, mapping
 import numpy as np
 import geopandas as gp
@@ -29,7 +28,7 @@ for k,(index_isl, isola) in enumerate(dfisl.iterrows(), 1):
         print(f'{k} isole svolte')
     multi=isola.geometry
     codice=isola.ALL_Uniq
-    #geometria con buffer presa dall'altro dataframe
+    #geometria con buffer
     buffer=dfbuf[dfbuf['ALL_Uniq'] == codice].iloc[0]['geometry']
     for index_geo, punto_geo in dfgeo.iterrows(): #itero i punti geotermici
         punto=punto_geo.geometry
@@ -38,7 +37,7 @@ for k,(index_isl, isola) in enumerate(dfisl.iterrows(), 1):
             #la potenza del sito si trova in una colonna denominata q ed è una stringa con la virgola come separatore decimale
             #sostituisco la virgola con un punto e trasformo la stringa in un float
             a=float(punto_geo.q.replace(",", "."))
-            #se il punto è stato già associato a un'altra isola perché contenuto nel suo buffer elimino questa associazione. Il punto appartiene all'isola che lo contiene durettamente
+            #se il punto è stato già associato a un'altra isola perché contenuto nel suo buffer elimino questa associazione. Il punto appartiene all'isola che lo contiene direttamente
             if index_geo in geotherm1:
                 isola2=dfisl.loc[geotherm1[index_geo]]
                 geotherm[isola2.ALL_Uniq]-=a

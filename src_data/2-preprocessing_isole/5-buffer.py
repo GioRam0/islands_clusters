@@ -1,15 +1,12 @@
-#importo librerie
 import geopandas as gp
 from shapely.ops import transform
 import os
 from pyproj import CRS, Transformer
 import utm
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto= os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole.gpkg")
 gdf = gp.read_file(isl_path)
 

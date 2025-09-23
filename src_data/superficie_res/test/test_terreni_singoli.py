@@ -1,4 +1,3 @@
-#importo librerie
 import geopandas as gp
 import ee
 import os
@@ -6,19 +5,15 @@ import sys
 import numpy as np
 from shapely import Polygon
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro3.gpkg")
 gdf = gp.read_file(isl_path)
 gdf=gdf.sort_values(by='IslandArea', ascending=True)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo la variabile project
 import config
 proj = config.proj
 ee.Initialize(project=proj)
@@ -39,7 +34,6 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
     if (k-1)%10==0:
         print(f'{k-1} indice')
         print(f'{isl.IslandArea} area df')
-        #geometeria dell'isola, conversione in ee.geometry e calcolo dell'area
         if isl.IslandArea>10000:
             geometria=isl.geometry.simplify(tolerance=0.005, preserve_topology=True)
         elif isl.IslandArea>5000:

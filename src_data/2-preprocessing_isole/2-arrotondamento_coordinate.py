@@ -1,14 +1,11 @@
-#importo le librerie
 import geopandas as gp
 import os
 from shapely.geometry import MultiPolygon, Polygon
 from collections import OrderedDict
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-# percorso completo per il file .gpkg
 percorso_file = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_superficie", "isole.gpkg")
 gdf = gp.read_file(percorso_file)
 
@@ -17,13 +14,13 @@ def arrotonda(poligono, cifra):
     vertici_arrotondati=[(round(x, cifra), round(y, cifra)) for x, y in poligono.exterior.coords]
     return(Polygon(vertici_arrotondati))
 #funzione che elimina elementi duplicati dalla lista dei vertici di un poligono
-#se in questo modo rimangono solo due punti restituisce 0 poichè non si può costruire un poligono con due vertici
 def rimuovi(poligono):
-    #trasforma la sequenza di vertici del poligono in un dizionario dove i vertici sono le chiavi e poi li trasforma in una lista
+    #trasforma la sequenza in un dizionario dove i vertici sono le chiavi, poi li trasforma in una lista
     #in questo processo vengono eliminati i duplicati
     vertici_uniti=list(OrderedDict.fromkeys(poligono.exterior.coords))
     if (len(vertici_uniti)>2):
         return Polygon(vertici_uniti)
+    #se rimangono solo due punti restituisce 0, non si può costruire un poligono con due vertici
     else:
         return 0
 #funzione che unisce le due precedenti
@@ -39,7 +36,7 @@ for k,(i,isl) in enumerate(gdf.iterrows(), 0):
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]
-    #itero per i poligoni che compongono il multipoligono e li aggiungo alla lista
+    #itero la funzione per i poligoni che compongono il multipoligono e li aggiungo alla lista
     for h in range(len(multi_originale.geoms)):
         poligono=poligono_semplificato(multi_originale.geoms[h], 4)
         if poligono!=0:
@@ -57,12 +54,10 @@ for k,(i,isl) in enumerate(gdf.iterrows(), 0):
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]
-    #itero per i poligoni che compongono il multipoligono e li aggiungo alla lista
     for h in range(len(multi_originale.geoms)):
         poligono=poligono_semplificato(multi_originale.geoms[h], 3)
         if poligono!=0:
             poligoni.append(poligono)
-    #imposto la geometria dell'isola come il multipoligono creato dalla lista di poligoni appena generata
     gdf.loc[i,'geometry']=MultiPolygon(poligoni)
 #esportazione gpkg
 percorso_out = os.path.join(cartella_progetto, "data/isole_filtrate/filtro_superficie/isole_arro3.gpkg")
@@ -74,12 +69,10 @@ for k,(i,isl) in enumerate(gdf.iterrows(), 0):
         print(f'{k} isole svolte')
     multi_originale=isl.geometry
     poligoni=[]
-    #itero per i poligoni che compongono il multipoligono e li aggiungo alla lista
     for h in range(len(multi_originale.geoms)):
         poligono=poligono_semplificato(multi_originale.geoms[h], 2)
         if poligono!=0:
             poligoni.append(poligono)
-    #imposto la geometria dell'isola come il multipoligono creato dalla lista di poligoni appena generata
     gdf.loc[i,'geometry']=MultiPolygon(poligoni)
 
 #esportazione gpkg

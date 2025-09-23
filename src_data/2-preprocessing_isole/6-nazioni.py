@@ -1,19 +1,15 @@
-#importo librerie
 import geopandas as gp
 import ee
 import os
 import sys
 import pickle
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro3.gpkg")
 gdf = gp.read_file(isl_path)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
 #importo la variabile project
@@ -31,7 +27,8 @@ output_path = os.path.join(output_folder, "nazioni.pkl")
 if os.path.exists(output_path):
     with open(output_path, 'rb') as file:
         countries = pickle.load(file)
-#se non presenti inizializzo i dizionari
+#se non presenti inizializzo il dizionario
+#le chiavi sono i codici delle isole, i valori le nazioni associate
 else:
     countries={}
     #isole controllate manualmente per intersezioni non riconosciute
@@ -131,7 +128,6 @@ while True:
         print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
-    #esportazione
     output_path=os.path.join(output_folder, "nazioni.pkl")
     with open(output_path, "wb") as f:
         pickle.dump(countries, f)
@@ -152,7 +148,6 @@ while True:
     print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
-    #esportazione
     output_path=os.path.join(output_folder, "nazioni.pkl")
     with open(output_path, "wb") as f:
         pickle.dump(countries, f)
@@ -173,7 +168,6 @@ while True:
     print(f'{b} isole svolte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
-    #esportazione
     output_path=os.path.join(output_folder, "nazioni.pkl")
     with open(output_path, "wb") as f:
         pickle.dump(countries, f)
@@ -194,7 +188,6 @@ while True:
     print(f'{b} isole fatte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
-    #esportazione
     output_path=os.path.join(output_folder, "nazioni.pkl")
     with open(output_path, "wb") as f:
         pickle.dump(countries, f)
@@ -220,7 +213,6 @@ while True:
     print(f'{b} isole fatte')
     gd=gdf1.iloc[a:b]
     get_gdf_dict(gd)
-    #esportazione
     output_path=os.path.join(output_folder, "nazioni.pkl")
     with open(output_path, "wb") as f:
         pickle.dump(countries, f)

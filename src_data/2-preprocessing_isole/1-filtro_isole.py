@@ -1,9 +1,7 @@
-#importo le librerie
 import geopandas as gp
 import os
 import sys
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto= os.path.join(cartella_corrente, "..", "..")
 
@@ -12,10 +10,9 @@ percorso_file = os.path.join(cartella_progetto, "files", "isole_4326.gpkg")
 gdf = gp.read_file(percorso_file)
 print(f'lunghezza file: {len(gdf)}')
 
-# percorso file config
+#importo le variabili config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo le variabili config
 import config
 min_surface = config.MIN_SUPERFICIE
 max_surface = config.MAX_SUPERFICIE

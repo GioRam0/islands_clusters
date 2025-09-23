@@ -1,4 +1,3 @@
-#importo librerie
 import numpy as np
 import geopandas as gp
 import ee
@@ -7,23 +6,19 @@ import os
 import sys
 from shapely import MultiPolygon, Polygon
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro4.gpkg")
 gdf = gp.read_file(isl_path)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo la variabile project
 import config
 proj = config.proj
 ee.Initialize(project=proj)
 
-#scelgo il dataset e seleziono diversi anni per ridurre la varianza
+#scelgo il dataset e le variabili rilevanti
 dataset=ee.ImageCollection("ECMWF/ERA5_LAND/DAILY_AGGR")
 dataset=dataset.select(['u_component_of_wind_10m','v_component_of_wind_10m'])
 dataset1=ee.ImageCollection("ECMWF/ERA5/DAILY")
@@ -62,7 +57,7 @@ def dev_std(collection):
     for i in range(1,13):
         #seleziono solo le immagini di un mese e calcolo la potenza media
         collection_month=collection.filter(ee.Filter.calendarRange(i, i, 'month'))
-        #calcolo la media di wind_power per i vari giorni e li listo
+        #calcolo la media di wind_power per i vari giorni e le listo
         power_means_month=collection_month.map(mean_power)
         mean_list = power_means_month.aggregate_array("mean_power").getInfo()
         power_list.append(np.mean(mean_list))
@@ -70,7 +65,7 @@ def dev_std(collection):
     deviazione_standard=np.std(power_list)
     return deviazione_standard
 
-#se gia presenti (effettuata una precedente run ma interrotta) importo i dati precedentemente scaricati per non ricominciare
+#se gia presenti importo i dati
 output_folder = os.path.join(cartella_progetto, "data/dati_finali/eolico")
 os.makedirs(output_folder, exist_ok=True)
 output_path = os.path.join(output_folder, "eolico.pkl")
@@ -83,7 +78,7 @@ if os.path.exists(output_path):
     output_path = os.path.join(output_folder, "eolico_std.pkl")
     with open(output_path ,  'rb') as file:
         std = pickle.load(file)
-#se non presenti inizializzo i dizionari
+#se non presenti inizializzo
 else:
     eolico={}
     eolico_nodata={}
@@ -96,7 +91,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
     if k%100==0 or k==len(gdf):
         print(f'{k} isole svolte')
     if k % 10 == 0:
-        #esportazione periodica per non dover riiniziare da capo in caso di interruzione
+        #esportazione periodica
         output_path=os.path.join(output_folder, "eolico.pkl")
         with open(output_path, "wb") as f:
             pickle.dump(eolico, f)
@@ -137,12 +132,10 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
             eolico[codice]=np.mean(mean_list)
             eolico_nodata[codice]=0
             std[codice]=(dev_std(power_means))/(np.mean(mean_list))
-        #se l'isola non è coperta in era5-land provo con era5
+        #se l'isola non è coperta in era5-land provo la stessa cosa con era5
         else:
-            #clippo le immagini per il poligono e aggiungo banda wind_power
             collection=dataset1.filterBounds(multip_geo)
             power_collection=collection.map(wind_power)
-            #calcolo la media del wind_power tra i vari pixel e li listo
             power_means=power_collection.map(mean_power)
             mean_list = power_means.aggregate_array("mean_power").getInfo()
             if len(mean_list)>0:

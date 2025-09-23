@@ -1,4 +1,3 @@
-#importo librerie
 import geopandas as gp
 import numpy as np
 import os
@@ -10,9 +9,9 @@ from affine import Affine
 import rasterio
 from rasterio.features import rasterize
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto= os.path.join(cartella_corrente, "..", "..")
+
 #importo le isole con buffer
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_buffer.gpkg")
 gdf = gp.read_file(isl_path)
@@ -71,6 +70,7 @@ offshore={elemento: 0 for elemento in list(gdf.ALL_Uniq)}
 #definisco la funzione contenente tutto da applicare ai vari files .shp, la stringa rappresenta il nome del file
 def funzione(stringa):
     print(f'analizzo il file: {stringa}')
+    #importazione shapefile
     path= os.path.join(cartella_progetto, "files\offshore", stringa)
     gdf1=gp.read_file(path)
     gdf1=gdf1[(gdf1['InstallCap']>0.001)]
@@ -129,7 +129,7 @@ def funzione(stringa):
         #itero per le shapes che potrebbero intersecare l'isola
         for h in zone_candidate:
             shape=gdf1.loc[h]
-            #applico un buffer 0 nel caso la geometria risultasse invalida
+            #applico un buffer 0, rende valide geometrie invalide
             geom_shape=shape.geometry.buffer(0)
             if multi.intersects(geom_shape):
                 a=False
@@ -138,7 +138,7 @@ def funzione(stringa):
                     #traduzione nome nazione se necessaria
                     if country in traduttore_nomi_nazioni:
                         country=traduttore_nomi_nazioni[country]
-                    #due files hanno le colonne con titolo diverso
+                    #due file hanno le colonne con titolo diverso
                     if stringa == r"na\FloatingFoundation.shp" or stringa == "sa\FloatingFoundation.shp":
                         if country == shape.TERRITORY1 or country == shape.SOVEREIGN1:
                             a=True
@@ -163,7 +163,7 @@ def funzione(stringa):
         indici_isole=shape.isole_associate
         #calcolo l'area della shape offshore
         shape_ripro,crs=riproietta_poligono(shape.geometry)
-        #applico un buffer 0 nel caso la geometria risultasse invalida
+        #applico un buffer 0
         shape_ripro=shape_ripro.buffer(0)
         area_shape=calcola_area_poligono(shape_ripro)
         #calcolo il poligono unione delle isole associate alla shape e calcolo la sua intersezione con la shape
@@ -171,7 +171,7 @@ def funzione(stringa):
         if len(indici_isole)>1:
             for h in range(1,len(indici_isole)):
                 unione_isole=unione_isole.union(riproietta_poligono(gdf.loc[indici_isole[h],'geometry'],crs)[0])
-        #applico un buffer 0 nel caso la geometria risultasse invalida
+        #applico un buffer 0
         unione_isole=unione_isole.buffer(0)
         #calcolo la sua intersezione con la shape e l'area dell'intersezione
         unione_isole=unione_isole.intersection(shape_ripro)
@@ -219,7 +219,6 @@ def funzione(stringa):
                     counts += mask
             #creo un nuovo raster con valori pari all'inverso del counts
             #un valore 1/3 indica che quel pixel deve essere ripartito tra 3 isole
-            #cosi riesco  ripartire le intersezioni
             result = np.zeros_like(counts, dtype=np.float32)
             mask = counts > 0
             result[mask] = 1.0 / counts[mask]

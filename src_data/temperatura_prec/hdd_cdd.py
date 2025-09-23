@@ -1,4 +1,3 @@
-#importo librerie
 import numpy as np
 import geopandas as gp
 import ee
@@ -6,19 +5,16 @@ import os
 import sys
 import pickle
 from shapely import MultiPolygon, Polygon
+import datetime
 
-# cartella in cui si trova lo script
 cartella_corrente = os.path.dirname(os.path.abspath(__file__))
 cartella_progetto = os.path.join(cartella_corrente, "..", "..")
 
-#importo coordinate isole
 isl_path=os.path.join(cartella_progetto, "data/isole_filtrate/finali", "isole_arro3.gpkg")
 gdf = gp.read_file(isl_path)
 
-# percorso file config
 percorso_config = os.path.join(cartella_corrente, "..", "config.py")
 sys.path.append(os.path.dirname(percorso_config))
-#importo la variabile project
 import config
 proj = config.proj
 ee.Initialize(project=proj)
@@ -28,7 +24,6 @@ dataset = ee.ImageCollection("ECMWF/ERA5/DAILY")
 sorted_collection = dataset.sort('system:time_start', False)
 last_image = sorted_collection.first()
 timestamp_ms = last_image.get('system:time_start').getInfo()
-import datetime
 last_date = datetime.datetime.fromtimestamp(timestamp_ms/1000.0)
 print(f"data dell'ultima immagine:{last_date}")
 dataset=dataset.filterDate("2016-06-01", "2020-05-31")
@@ -42,7 +37,7 @@ def mean_temp(image):
     )
     return image.set("mean_temp", stats.get("mean_2m_air_temperature"), "date", image.date().format())
 
-#se gia presenti (effettuata una precedente run ma interrotta) importo i dati precedentemente scaricati per non ricominciare
+#se gia presenti importo i dati
 output_folder = os.path.join(cartella_progetto, "data/dati_finali/metereologici")
 os.makedirs(output_folder, exist_ok=True)
 output_path = os.path.join(output_folder, "hdd.pkl")
@@ -71,7 +66,7 @@ for k, (i, isl) in enumerate(gdf.iterrows(), 1):
     if k % 100 == 0 or k==len(gdf):
         print(f'{k} isole analizzate')
     if k % 10 == 0:
-        #esportazione periodica per non dover riiniziare da capo in caso di interruzione
+        #esportazione periodica
         output_path=os.path.join(output_folder, "hdd.pkl")
         with open(output_path, "wb") as f:
             pickle.dump(hdd, f)
