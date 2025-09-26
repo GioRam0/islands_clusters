@@ -15,21 +15,32 @@ In qualunque cartella siano presenti cartelle o script numerati significa che i 
 In questa cartella sono presenti gli script per definire le isole oggetto dello studio e raccogliere i dati necessari.
 Il primo script è necessario per scaricare i file necessari agli script successivi.
 Le isole sono raccolte e filtrate in base a criteri di dimensioni e distanza dalla terraferma e sono calcolati dei proxy relativi alle seguenti caratteristiche:
+
 -popolazione.tif
+
 -potenziale solare e sua variabilità durante l'anno
+
 -potenziale eolico onshore e offshore e sua variabilità durante l'anno
+
 -superficie urbana
+
 -elevazione massima
+
 -temperatura media, precipitazioni, heating days, cooling days
+
 -GDP e consumi elettrici del 2019
+
 -EVI
+
 -potenziale geotermico
+
 -potenziale idroelettrico
+
 -stima della superficie agibile per la realizzazione di impianti a energia rinnovabile (RES)
 
 # Cartella exploratory_data_analisys
 
-In questa cartella sono presenti gli script per l'esplorazione dei dati e le operazioni di normalizzazione propedeutiche al processo di clustering. Le cartelle '1-raw', '2-dimensions_reduction' e '3-normalized' dovrebbero essere eseguite in ordine sequenziale e dopo la cartella src_data, ma sono stati già caricati i dataframe creati nei diversi step rendendo possibile l'esecuzione in ordine casuale degli script. Sono stati caricati anche tutti i grafici realizzati, consultabili senza eseguire gli script.
+In questa cartella sono presenti gli script per l'esplorazione dei dati e le operazioni di normalizzazione propedeutiche al processo di clustering. Le cartelle '1-raw', '2-dimensions_reduction' e '3-normalized' dovrebbero essere eseguite in ordine sequenziale e dopo la cartella 'src_data'. Poiché sono stati già caricati i dataframe creati nei diversi step è possibile l'esecuzione in ordine casuale degli script. Sono stati caricati anche tutti i grafici realizzati, consultabili senza eseguire gli script.
 
 # Cartella clustering
 
