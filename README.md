@@ -1,8 +1,11 @@
 Il seguente progetto ha l'obiettivo diun clustering delle isole del mondo sulla base di variabili  natura socioeconomica e risorse naturali. L'obiettivo del progetto è quello di suddividere le isole in cluster basati sulle caratteristiche per i percorsi di transizione energetica. Le isole degli stessi clusters avranno, presumibilmente, caratteristiche simili e, in linea di massima, dovranno seguire strategie simili nel processo di transizione.
 
 Il progetto è organizzato in tre cartelle principali:
+
 -src_data
+
 -exploratory_data_analisys
+
 -clustering
 
 In qualunque cartella siano presenti cartelle o script numerati significa che i rogrammi devono essere eseguiti in ordine sequenziale in quanto i risultati degli script precedenti sono necessari per l'esecuzione di quelli successivi.
