@@ -45,6 +45,9 @@ In questa cartella sono presenti gli script per l'esplorazione dei dati e le ope
 # Cartella clustering
 
 In questa cartella sono presenti gli script di esecuzione di tre metodologie di clustering separate e di un'analisi dei risultati mediante la realizzazione di grafici e tabelle riassuntive. Anche in questo caso sono stati caricati anche tutti i grafici realizzati, consultabili senza eseguire gli script.
+
 La cartella 'multi_algo' tenta diversi algortimi tradizionali selezionando i migiori in base a diverse metriche di valutazione. I risultati non sono ritenuti soddisfacenti.
+
 La cartella 'constrained' tenta diversi algoritmi di clustering vincolato. Anche in questo caso i risultati non sono ritenuti soddisfacenti. Alcuni algoritmi non hanno raggiunto una soluzione a causa dell'elevato carico computazionale.
+
 La cartella 'pipeline_finale' propone un approccio in due step suddividendo le variabili di interesse tra le due fasi vusto il loro numero elevato.
